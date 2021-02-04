@@ -58,6 +58,7 @@
               <lib-text-box [ValidationMessages]="validationMassages.ProbationDetailForm.ProbationName"
                             [FormInput]="ProbationDetailForm.get('ProbationName')"
                             [Configuration]="{PlaceHolder:'Enter Probation Name'}"
+                            (keypress)="keyPress($event)"
                             >
               </lib-text-box>
               <span class="text-danger" *ngIf="ProbationDetailForm.controls['ProbationName'].hasError('required') 

@@ -1,11 +1,14 @@
+import { PatternValidator } from '@angular/forms';
 import { ValidationType } from 'src/Application/Types/Constants';
 
 
 export class ValidationMessage {
+
   public static data = {
     ProbationDetailForm: {
       ProbationName: {
-        [ValidationType.required]: "Probation Name Required."   
+        [ValidationType.required]: "Probation Name Required."
+        
       },
       Period: {
         [ValidationType.required]: "Period Required."

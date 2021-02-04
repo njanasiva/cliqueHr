@@ -56,10 +56,11 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
   public orgPlaceHolder: string = 'Entity/Org Unit/Department';
   public filter = new UiMultiselectData();
 
+  alphaRegex = "/[a-zA-Z0-9]/";
   public ConfirmationConfig: UiDataTableConfig = {
     Columns: [
       { fieldId: 'ProbationId', fieldName: '', columnClass: 'width40' },
-      { fieldId: 'ProbationName', fieldName: 'Probation Name', columnClass: 'text-nowrap width100' },
+      { fieldId: 'ProbationName', fieldName: 'Probation Name', columnClass: 'text-nowrap width100'  },
       { fieldId: 'Probationperiod', fieldName: 'Probation Period', columnClass: 'text-nowrap width60' },
       { fieldId: 'AssessmentRequired', fieldName: 'Assessment Required(Y/N)', columnClass: 'text-nowrap width100' },
       { fieldId: 'WorkGroup', fieldName: 'WorkGroup', columnClass: 'text-nowrap width100' }
@@ -430,7 +431,7 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
     this.clearDropdowns();
     if (isNullOrUndefined(this.ProbationDetailForm)) {
       this.ProbationDetailForm = this.fb.group({
-        ProbationName: ['', [Validators.required]],
+        ProbationName: ['', [Validators.required,Validators.pattern(this.alphaRegex)]],
         ProbationPeriod: ['', [Validators.required]],
         AllowExtension: ['', [Validators.required]],
         ConfirmationDay: ['', [Validators.required]],
@@ -448,6 +449,15 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
         break;
       default:
         break;
+    }
+  }
+
+  keyPress(event){
+    console.log(event, "click");
+    const key = event.keyCode;
+    console.log(key);
+    if (key >= 15 && key <= 64) {
+      event.preventDefault();
     }
   }
 
