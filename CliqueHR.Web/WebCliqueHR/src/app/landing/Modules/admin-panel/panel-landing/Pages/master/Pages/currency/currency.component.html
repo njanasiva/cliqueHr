@@ -1,0 +1,82 @@
+<div class="tab-pane fade show active" id="currency" role="tabpanel" aria-labelledby="currency-tab">
+    <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+        <div class="col-11">
+            <h4 class="mb-0">Currency Details</h4>
+        </div>
+        <div class="col-1 text-right">
+            <div class="btn-more ml-auto shadow btn-custom" (click)="OpenCurrencyPopup(true, null)"
+                data-tooltip="tooltip" data-placement="top" title="Add Currency">
+                <i class="icon icon-plus-symbol h3 mb-0"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-12 table-responsive mb-3">
+            <lib-ui-data-table [Configuration]="CurrencyConfig">
+                <ng-template let-data>
+                    <tr>
+                        <td class="text-nowrap">
+                            <div class="btn-more d-inline-block shadow btn-blue" (click)="OpenCurrencyPopup(false, data.data)" data-tooltip="tooltip" 
+                                data-placement="top" title="Edit Currency">
+                                <i class="icon icon-edit h3 mb-0"></i>
+                            </div>
+                        </td>
+                        <td class="text-nowrap">{{data.data.CurrencyCode}}</td>
+                        <td class="text-right">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" disabled name="gender" id="d3" class="custom-control-input" 
+                                    value="male" [checked] = "data.data.IsDefault">
+                                <label class="custom-control-label h5 pl-2" for="d3"></label>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </lib-ui-data-table>
+        </div>
+    </div>
+    <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addCurrency" tabindex="-1" 
+        role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content border-0">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalCenterTitle">{{ isAddMode ? 'Add Currency' : 'Edit Currency'}}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="icon icon-wrong"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row form-fields">
+                        <div class="col-md-12 mb-3">
+                            <label class="h6 mb-1">
+                                Currency
+                            </label>
+                            <lib-drop-down [FormInput]="CurrencyForm.get('CurrencyId')" [Configuration]='{}'>
+                                <ng-template let-selectedvalue #options>
+                                    <option *ngFor="let currency of CurrencyList"[selected]="selectedvalue == currency.Id" [value]="currency.Id">{{currency.CurrencyDesc}}</option>
+                                </ng-template>
+                            </lib-drop-down>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" [formControl]="CurrencyForm.get('IsDefault')" name="gender" id="dc" class="custom-control-input" 
+                                    value="male">
+                                <label class="custom-control-label h5 pl-2" for="dc">Default Currency</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-inline-block mr-5">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="gender" id="ccdnu" class="custom-control-input" 
+                                [formControl]="CurrencyForm.get('IsDoNotUse')">
+                            <label class="custom-control-label h5 pl-2" for="ccdnu">Do Not Use</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
+                    <button type="button" (click)="CurrencyOp()" class="btn btn-custom px-4 py-2">{{isAddMode ? 'Add' : 'Edit'}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

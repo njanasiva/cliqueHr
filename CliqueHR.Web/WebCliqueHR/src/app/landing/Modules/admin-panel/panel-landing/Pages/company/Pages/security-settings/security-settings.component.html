@@ -1,0 +1,70 @@
+<div class="tab-pane fade show active" id="securitySettings" role="tabpanel" aria-labelledby="securitySettings-tab">
+    <div class="form-row align-items-center pt-3">
+        <div class="col-sm-2">
+            <label class="h6 mb-1">Password Expiry</label>
+        </div>
+        <div class="col-sm-1 text-right">
+            <label class="h6 mb-1 text-muted">Every</label>
+        </div>
+        <div class="col-sm-1">
+            <lib-text-box [FormInput]="securitySettingForm.get('PasswordExpiryIndays')" [ValidationMessages]="validationMessageData.PasswordExpiryIndays" [Configuration]="{isNumeric:true}">
+                <ng-template let-validation>
+                    <div class="error-message">{{validation}}</div>
+                </ng-template>
+            </lib-text-box>
+        </div>
+        <div class="col-sm-2">
+            <label class="h6 mb-1 text-muted">Day(s)</label>
+        </div>
+    </div>
+    <div class="form-row align-items-center pt-3">
+        <div class="col-sm-3">
+            <label class="h6 mb-1">Session timeout</label>
+        </div>
+        <div class="col-sm-1">
+            <lib-text-box [FormInput]="securitySettingForm.get('SessionTimeOutInMins')" [ValidationMessages]="validationMessageData.SessionTimeOutInMins" [Configuration]="{isNumeric:true}">
+                <ng-template let-validation>
+                    <div class="error-message">{{validation}}</div>
+                </ng-template>
+            </lib-text-box>
+        </div>
+        <div class="col-sm-4">
+            <label class="h6 mb-1 text-muted">minutes of inactivity</label>
+        </div>
+    </div>
+    <div class="form-row align-items-top pt-3">
+        <div class="col-sm-3">
+            <label class="h6 mb-1">Hide Mobile number from Employee Directory</label>
+        </div>
+        <div class="col-sm-2">
+            <div class="custom-control custom-checkbox">
+                <input type="radio" [formControl]="securitySettingForm.get('HideMobileNumberFromEd')" name="HideMobile" id="all" class="custom-control-input" value="all" >
+                <label class="custom-control-label h5 pl-2" for="all">All</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="custom-control custom-checkbox">
+                <input type="radio" [formControl]="securitySettingForm.get('HideMobileNumberFromEd')" name="HideMobile" id="male" class="custom-control-input" value="male">
+                <label class="custom-control-label h5 pl-2" for="male">Male</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="custom-control custom-checkbox">
+                <input type="radio" [formControl]="securitySettingForm.get('HideMobileNumberFromEd')" name="HideMobile" id="female" class="custom-control-input" value="female">
+                <label class="custom-control-label h5 pl-2" for="female">Female</label>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="custom-control custom-checkbox">
+                <input type="radio" [formControl]="securitySettingForm.get('HideMobileNumberFromEd')" name="HideMobile" id="peers" class="custom-control-input" value="peers">
+                <label class="custom-control-label h5 pl-2" for="peers">Show only to Peers/Team members</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-row align-items-end mt-3 pt-3 border-top">
+        <div class="col-12 text-right">
+            <button class="btn btn-outline-custom py-2 px-4 mr-2">cancel</button>
+            <button (click)="AddUpdateSecuritySettings()" class="btn btn-custom py-2 px-4">Save</button>
+        </div>
+    </div>
+</div>

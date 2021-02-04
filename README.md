@@ -1,2 +1,0 @@
-# cliqueHr
-daily_updation
