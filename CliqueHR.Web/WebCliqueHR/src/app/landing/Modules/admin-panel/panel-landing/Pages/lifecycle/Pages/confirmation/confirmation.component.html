@@ -24,15 +24,9 @@
             </td>
             <td class="text-nowrap"> {{data.data.ProbationName}}</td>
             <td class="text-nowrap"> {{data.data.ProbationPeriod}}</td>
+            <td class="text-nowrap"> {{data.data.ConfirmationDay}}</td>
             <td class="text-nowrap"> {{data.data.AssessmentRequired === true ? 'Yes' : 'No' }}</td>
             <td class="text-nowrap"> {{data.data.PublishTo}}</td>
-            <!--<td class="text-right">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" disabled name="gender" id="d3" class="custom-control-input"
-                       value="male" [checked]="data.data.IsDefault">
-                <label class="custom-control-label h5 pl-2" for="d3"></label>
-              </div>
-            </td>-->
           </tr>
         </ng-template>
       </lib-ui-data-table>
@@ -75,7 +69,8 @@
                   <!-- <input class="form-control" type="text" value="" placeholder="Date"> -->
                   <lib-text-box [FormInput]="ProbationDetailForm.get('ProbationPeriod')"
                                 [ValidationMessages]="validationMassages.ProbationDetailForm.ProbationPeriod"
-                                [Configuration]="{PlaceHolder:'Enter Day(s)'}">
+                                [Configuration]="{PlaceHolder:'Enter Day(s)'}"
+                                (keypress)="keyPressNumbers($event)" >
                   </lib-text-box>
                 </div>
                 <div class="col-7">
@@ -115,7 +110,7 @@
               </label>
               <div class="form-row align-items-center">
                 <div class="col-4">
-                  <input class="form-control" type="text" value="" placeholder="">
+                  <input class="form-control" type="text" value="" placeholder="" (keypress)="keyPressNumbers($event)" maxlength="3" >
                 </div>
                 <div class="col-8">
                   <label class="h5 mb-0">Times</label>
@@ -128,7 +123,7 @@
               </label>
               <div class="form-row align-items-center">
                 <div class="col-4">
-                  <input class="form-control" type="text" value="" placeholder="">
+                  <input class="form-control" type="text" value="" placeholder="" (keypress)="keyPressNumbers($event)" maxlength="3">
                 </div>
                 <div class="col-8">
                   <label class="h5 mb-0">Day(s)</label>
@@ -141,7 +136,7 @@
               </label>
               <div class="form-row align-items-center">
                 <div class="col-2">
-                  <input class="form-control" type="text" value="" placeholder="">
+                  <input class="form-control" type="text" value=""  (keypress)="keyPressNumbers($event)" maxlength="3">
                 </div>
                 <div class="col-10">
                   <label class="h5 mb-0">Day(s)</label>
@@ -157,7 +152,8 @@
                   <!--<input class="form-control" type="text" value="" placeholder="">-->
                   <lib-text-box [FormInput]="ProbationDetailForm.get('ConfirmationDay')"
                                 [ValidationMessages]="validationMassages.ProbationDetailForm.ConfirmationDay"
-                                [Configuration]="{PlaceHolder:'Enter Confirmation trigger days'}">
+                                [Configuration]="{PlaceHolder:'Enter Confirmation trigger days'}"
+                                (keypress)="keyPressNumbers($event)">
                   </lib-text-box>
                   <ng-template let-validation>
                     <div class="error-message">{{validation}}</div>
@@ -194,7 +190,7 @@
             <div class="col-12">
               <div class="form-row align-items-end mb-3 pb-3 border-bottom">
                 <div class="col-11">
-                  <h4 class="mb-0">Publish To</h4>
+                  <h4 class="mb-0" ng-hide="myVar">Publish To</h4>
                 </div>
                 <div class="col-1 text-right">
                   <div class="btn-more ml-auto shadow btn-custom" data-toggle="collapse" href="#attributeFilter"
@@ -300,7 +296,7 @@
         <div class="modal-footer">
           <div class="d-inline-block mr-5">
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" name="donotuse" id="pdnu" class="custom-control-input" value="false">
+              <input type="checkbox"  name="donotuse" id="pdnu" class="custom-control-input" value="false">
               <!--<input type="checkbox" name="donotuse" id="pdnu" [(ngModel)]="donotUse" class="custom-control-input" value="false">-->
               <label class="custom-control-label h5 pl-2" for="pdnu">Do Not Use</label>
             </div>

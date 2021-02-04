@@ -272,7 +272,7 @@
   </div>
 
   <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addNoticePeriod"
-       tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+       tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="margin-left: -35%;">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content border-0">
         <div class="modal-header">
@@ -283,13 +283,13 @@
         </div>
         <div class="modal-body">
           <div class="form-row form-fields">
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-2">
               <label class="h6 mb-1">
                 Notice Period Name
               </label>
               <!--<input class="form-control"  type="text" value="" placeholder="Enter Probation Name">-->
               <lib-text-box [FormInput]="NoticePeriodDetailForm.get('NoticePeriodName')"
-                            [Configuration]="{PlaceHolder:'Enter Notice Period Name'}">
+                            [Configuration]="{PlaceHolder:'Enter Name'}" (keypress)="keyPress($event)">
               </lib-text-box>
             </div>
             <div class="col-md-4 mb-3">
@@ -297,13 +297,13 @@
                 During Probation
               </label>
               <div class="form-row align-items-center">
-                <div class="col-6">
+                <div class="col-8">
                   <!--<input class="form-control" type="text" value="" placeholder="Period">-->
                   <lib-text-box [FormInput]="NoticePeriodDetailForm.get('NoticePeriodDays')"
-                                [Configuration]="{PlaceHolder:'Enter Notice Period Days'}">
+                                [Configuration]="{PlaceHolder:'Enter Day(s)'} "(keypress)="keyPressNumbers($event)">
                   </lib-text-box>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                   <label class="h5 mb-0">Day(s)</label>
                 </div>
               </div>
@@ -313,14 +313,14 @@
                 After Confirmation
               </label>
               <div class="form-row align-items-center">
-                <div class="col-6">
+                <div class="col-8">
                   <!--<input class="form-control" type="text" value="" placeholder="Period">-->
                   <lib-text-box [FormInput]="NoticePeriodDetailForm.get('ConfirmationDays')"
-                                [Configuration]="{PlaceHolder:'Enter Confirmation Days'}">
+                                [Configuration]="{PlaceHolder:'Enter Day(s)'}" (keypress)="keyPressNumbers($event)">
                   </lib-text-box>
 
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                   <label class="h5 mb-0">Day(s)</label>
                 </div>
               </div>

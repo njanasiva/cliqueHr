@@ -62,7 +62,8 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
       { fieldId: 'ProbationId', fieldName: '', columnClass: 'width40' },
       { fieldId: 'ProbationName', fieldName: 'Probation Name', columnClass: 'text-nowrap width100'  },
       { fieldId: 'Probationperiod', fieldName: 'Probation Period', columnClass: 'text-nowrap width60' },
-      { fieldId: 'AssessmentRequired', fieldName: 'Assessment Required(Y/N)', columnClass: 'text-nowrap width100' },
+      { fieldId: ' Confirmation days', fieldName: 'Confirmation days', columnClass: 'text-nowrap width100' },
+      { fieldId: ' AssessmentRequired', fieldName: 'AssessmentRequired', columnClass: 'text-nowrap width100' },
       { fieldId: 'WorkGroup', fieldName: 'WorkGroup', columnClass: 'text-nowrap width100' }
     ],
     Pagination: true,
@@ -261,7 +262,6 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
   }
 
   public OnProbationDetailsOp() {
-    debugger;
     this.ShowLoader();
     try
     {
@@ -281,9 +281,11 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
         this.ProbationDetailForm.value.Department = this.getSelectedValues("Department");
         // this.ProbationDetailForm.value.IsDoNotUse = this.donotUse;
         if (this.assessmentformid == 0) {
+          console.log(this.assessmentformid,"this.assessmentformid ==0 " )
           this.ProbationDetailForm.value.AssessmentRequired = false;
         }
         else {
+          console.log(this.assessmentformid,"this.assessmentformid ==else " )
           this.ProbationDetailForm.value.AssessmentRequired = true;
         }
         probationtype = this.LifeCycleService.AddModifyProbation(this.ProbationDetailForm.value);
@@ -314,6 +316,7 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
     }
     catch(error){
       this.HideLoader();
+      this.uiSweetAlertService.ShowAlert(error.message);
       console.log(error);
     }
   }
@@ -431,7 +434,7 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
     this.clearDropdowns();
     if (isNullOrUndefined(this.ProbationDetailForm)) {
       this.ProbationDetailForm = this.fb.group({
-        ProbationName: ['', [Validators.required,Validators.pattern(this.alphaRegex)]],
+        ProbationName: ['', [Validators.required,Validators.max]],
         ProbationPeriod: ['', [Validators.required]],
         AllowExtension: ['', [Validators.required]],
         ConfirmationDay: ['', [Validators.required]],
@@ -452,6 +455,15 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
     }
   }
 
+  keyup(event){
+    console.log(event, "");
+    const key = event.keyCode;
+
+
+
+  }
+
+
   keyPress(event){
     console.log(event, "click");
     const key = event.keyCode;
@@ -460,7 +472,18 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
       event.preventDefault();
     }
   }
-
+  keyPressNumbers(event) {
+    console.log(event, "click");
+    const key = event.keyCode;
+    console.log(key, "length");
+    // Only Numbers 0-9
+    if ((key < 48 || key > 57)) {
+      event.preventDefault();
+      return false;
+    } else {
+      return true;
+    }
+  }
   clearDropdowns() {
     this.centreTypeSelectedValues = '';
     this.regionSelectedValues = '';

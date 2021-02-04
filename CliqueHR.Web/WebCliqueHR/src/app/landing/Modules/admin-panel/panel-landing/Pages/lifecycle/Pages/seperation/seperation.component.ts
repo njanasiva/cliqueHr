@@ -350,6 +350,26 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
   onSelectAll(items: Array<UiMultiselectData>, data: string) {
     //this.updateText(data,"");
   }
+  keyPress(event){
+    console.log(event, "click");
+    const key = event.keyCode;
+    console.log(key);
+    if (key >= 15 && key <= 64) {
+      event.preventDefault();
+    }
+  }
+  keyPressNumbers(event) {
+    console.log(event, "click");
+    const key = event.keyCode;
+    console.log(key, "length");
+    // Only Numbers 0-9
+    if ((key < 48 || key > 57)) {
+      event.preventDefault();
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   private NoticePeriodNameDetailList(startRow: number, endRow: number, sort?: SortType, searchText?: string) {
     let paginationModel: any = {
@@ -461,6 +481,7 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
   }
 
   public OnSeparationReasonOp() {
+    alert("hi")
     this.ShowLoader();
     let separationreasontype: Observable<any>;
     if (this.isAddMode) {
@@ -476,6 +497,9 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
           (data: any) => {
             // this.HideLoader();
             // this.HandleCourseTypeResp(data);
+            this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
+        // this.uiSweetAlertService.ShowMultipleMessageAlert(this.validationMessage);
+
           },
           (error) => {
             this.HideLoader();
@@ -499,11 +523,15 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     }
     separationtasktype.subscribe(
       (data: any) => {
+        debugger;
         this.CloseModelPopup('#addSeparationTasks');
         this.GetSeperationTaskList(1, this.SeperationTasksConfig.PaginationPageSize, { fieldId: 'SeparationTaskId', direction: 'asc' }).subscribe(
           (data: any) => {
             // this.HideLoader();
             // this.HandleCourseTypeResp(data);
+            this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
+        // this.uiSweetAlertService.ShowMultipleMessageAlert(this.validationMessage);
+
           },
           (error) => {
             this.HideLoader();
