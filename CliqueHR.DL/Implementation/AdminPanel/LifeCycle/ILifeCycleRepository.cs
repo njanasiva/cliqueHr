@@ -34,7 +34,6 @@ namespace CliqueHR.DL
         PaginationData<ExitInterview> ExitInterviewList(string DBName, ExitInterview model);
         DataSet LifeCycleSetting(string DBName, LifeCycleSetting model);
         PaginationData<LifeCycleSetting> AddModifyApprovalPath(string DBName, LifeCycleSetting model);
-
         PaginationData<LifeCycleWorkFlow> GetWorkFlowList(string DbName, ListModel model);
         DataSet GetLifeCycleWorkFlowLevel(string DbName, int Id);
         string SaveWorkFlowLevel(string DbName, WorkFlowLevelDetails model);

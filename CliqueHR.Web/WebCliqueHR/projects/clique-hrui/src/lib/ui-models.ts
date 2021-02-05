@@ -25,7 +25,10 @@ export interface UiDatepicker extends UiConfig {
 export interface UiMultiselect extends UiConfig {
     Placeholder?: string;
 }
-
+export interface UiDropdownTemplate extends UiConfig {
+    Placeholder?: string;
+    HideSearch: boolean;
+}
 export class UiMultiSelectOutPut {
     selectedItem: UiMultiselectData;
     selectedValues: string;
@@ -38,7 +41,18 @@ export class UiMultiselectData {
     isDisabled:boolean;
     isCheckBoxSelected:boolean;
 }
-
+export interface UiLazySingleSelect extends UiSingleselect {
+    pageNo: number;
+}
+export interface UiLazyLoadingData{
+    Total: number;
+    Data:Array<any>;
+}
+export interface UiLazyLoadingRequest{
+    StartIndex: number;
+    EndIndex: number;
+    SerchText?: string;
+}
 export class UiMultiSelectOptions{
     OptionType:string;
     Data: Array<UiMultiselectData>;

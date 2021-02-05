@@ -7,41 +7,45 @@
   <div class="form-row">
     <div class="col-md-6 mb-3">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" id="c1" class="custom-control-input">
+        <input type="checkbox" [(ngModel)]="InitiatePIP" id="c1" class="custom-control-input">
         <label class="custom-control-label h5 pl-2" for="c1">Allow Manager to initiate PIP at Confirmation</label>
       </div>
     </div>
     <div class="col-md-6 mb-3">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" id="c2" class="custom-control-input">
-        <label class="custom-control-label h5 pl-2" for="c2">Allow Manaer to recommend Salary hike at Confirmation</label>
+        <input type="checkbox" id="c2" [(ngModel)]="RecommendSalaryHike" class="custom-control-input">
+        <label class="custom-control-label h5 pl-2" for="c2">Allow Manager to recommend Salary hike at Confirmation</label>
       </div>
     </div>
     <div class="col-md-6 mb-3">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" id="c3" class="custom-control-input">
+        <input type="checkbox" id="c3" [(ngModel)]="EnablePEP"  class="custom-control-input">
         <label class="custom-control-label h5 pl-2" for="c3">Enable Performance Enhancement Plan (PEP)</label>
       </div>
     </div>
     <div class="col-md-6 mb-3">
-      <div class="custom-control custom-checkbox" data-toggle="collapse" href="#autoTrigger">
-        <input type="checkbox" id="c4" class="custom-control-input">
+      <div class="custom-control custom-checkbox" data-toggle="collapse">
+        <input type="checkbox" id="c4" [(ngModel)]="AutoTriggerPEP" (change)="showDiv($event.target)" class="custom-control-input">
         <label class="custom-control-label h5 pl-2" for="c4">Auto-trigger PEP to Manager after employee joins</label>
       </div>
-      <div class="form-row align-items-center mt-2 collapse" id="autoTrigger">
+      <div class="form-row align-items-center mt-2" *ngIf="AutoTriggerPEP">
         <div class="col-2">
-          <input class="form-control" type="text" value="" placeholder="">
+          <input class="form-control" [(ngModel)]="AutoTriggerPEPDay" (change)="autoTriggerPEPDayChanged()" type="number" placeholder="" min="0" maxlength="3">
         </div>
         <div class="col-10">
           <label class="h5 mb-0">Day(s) from DOJ of employee</label>
         </div>
+        <span class="text-danger"
+                *ngIf="Error">
+                Day(s) from DOJ of employee is required
+        </span>
       </div>
     </div>
   </div>
   <div class="form-row">
     <div class="col-md-6 mb-3"></div>
     <div class="col-md-6 mb-3">
-      <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Save</button>
+      <button type="button" (click)="OnSettingSave();" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Save</button>
       </div>
     </div>
   </div>

@@ -13,7 +13,7 @@ namespace CliqueHR.BL
 
         #region Probation
 
-        void AddModifyProbationDetail(Probation model, UserContextModel objUser);
+        ApplicationResponse AddModifyProbationDetail(Probation model, UserContextModel objUser);
         PaginationData<Probation> GetProbationDetailList(UserContextModel objUser, ListModel paginationModel);
         ConfirmationMasterModel GetMastersList(UserContextModel objUser, ListModel paginationModel);
         DataSet GetMovementReasonsField(UserContextModel objUser, ListModel paginationModel);
@@ -35,11 +35,13 @@ namespace CliqueHR.BL
         DataSet LifeCycleSetting(UserContextModel objUser, LifeCycleSetting lifeCycleSetting);
 
         PaginationData<LifeCycleSetting> AddModifyApprovalPath(UserContextModel objUser, LifeCycleSetting lifeCycleSetting);
+
         PaginationData<LifeCycleWorkFlow> GetWorkFlowList(UserContextModel objUser, ListModel model);
+
         DataSet GetLifeCycleWorkFlowLevel(string DbName, int Id);
+
         string SaveWorkFlowLevel(string DbName, WorkFlowLevelDetails model);
         string SaveSeparationAndUserDefinedData(string DbName, SeparationData model);
-
         #endregion
     }
 }

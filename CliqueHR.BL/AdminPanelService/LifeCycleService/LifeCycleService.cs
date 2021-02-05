@@ -32,7 +32,7 @@ namespace CliqueHR.BL
 
         #region Probation
 
-        public void AddModifyProbationDetail(Probation model, UserContextModel objUser)
+        public ApplicationResponse AddModifyProbationDetail(Probation model, UserContextModel objUser)
         {
             try
             {
@@ -42,14 +42,8 @@ namespace CliqueHR.BL
                 {
                     throw new ValidationException(validationResponse);
                 }
-                //   model.CreatedBy = objUser.UserID;
                 var data = _lifeCycleRepository.AddModifyProbationDetail(model, objUser.CompanyCode);
-                // if (data.Code == 0)
-                //{
-                responseValidation.Messages.Add(new ValidationMessage { Message = data.Message, Property = Convert.ToString(data.Code) });
-                throw new ValidationException(responseValidation);
-                // }
-
+                return data;
             }
             catch (Exception ex)
             {
@@ -345,8 +339,6 @@ namespace CliqueHR.BL
                 throw helper.GetException();
             }
         }
-
-
 
         public PaginationData<LifeCycleWorkFlow> GetWorkFlowList(UserContextModel objUser, ListModel model)
         {

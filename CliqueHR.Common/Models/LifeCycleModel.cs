@@ -13,7 +13,6 @@ namespace CliqueHR.Common.Models
 
     public class Probation
     {
-
         public int UserId { get; set; }
         public string ProbationName { get; set; }
         public int ProbationPeriod { get; set; }
@@ -46,7 +45,6 @@ namespace CliqueHR.Common.Models
 
 
     }
-
     public class ProbationValidation : AbstractValidator<Probation>
     {
         public static readonly string ValidateAll_key = "ValidateAll_key";
@@ -91,15 +89,8 @@ namespace CliqueHR.Common.Models
             return message;
         }
     }
-
-
-
     public class LifeCycleMovement
     {
-        public int StartRow { get; set; }
-        public int EndRow { get; set; }
-        public SortType Sort { get; set; }
-        public string SearchText { get; set; }
         public int UserId { get; set; }
         public string MovementReason { get; set; }
         public bool AllowManagerInitiate { get; set; }
@@ -113,10 +104,12 @@ namespace CliqueHR.Common.Models
         public int NoofData { get; set; }
         public string MovementField { get; set; }
         public int Total { get; set; }
-
+        public int StartRow { get; set; }
+        public int EndRow { get; set; }
+        public string SearchText { get; set; }
+        public bool AllowRoleHolder { get; set; }
+        public bool AllowManager { get; set; }
     }
-
-
     public class NoticePeriod
     {
         public int UserId { get; set; }
@@ -139,15 +132,8 @@ namespace CliqueHR.Common.Models
         public int NoticePeriodDetail { get; set; }
 
     }
-
     public class NoticePeriodDetail
     {
-
-
-        public int StartRow { get; set; }
-        public int EndRow { get; set; }
-        public SortType Sort { get; set; }
-        public string SearchText { get; set; }
         public int UserId { get; set; }
         public int Start { get; set; }
         public int NoofData { get; set; }
@@ -170,14 +156,12 @@ namespace CliqueHR.Common.Models
         public string PublishTo { get; set; }
         public int Success { get; set; }
         public int Total { get; set; }
-    }
-
-    public class LFSeparationReason
-    {
         public int StartRow { get; set; }
         public int EndRow { get; set; }
-        public SortType Sort { get; set; }
         public string SearchText { get; set; }
+    }
+    public class LFSeparationReason
+    {
         public int UserId { get; set; }
         public string SeparationReason { get; set; }
         public string SeparationTypeName { get; set; }
@@ -189,15 +173,12 @@ namespace CliqueHR.Common.Models
         public int NoofData { get; set; }
         public int Success { get; set; }
         public int Total { get; set; }
-    }
-
-
-    public class LFSeparationTask
-    {
         public int StartRow { get; set; }
         public int EndRow { get; set; }
-        public SortType Sort { get; set; }
         public string SearchText { get; set; }
+    }
+    public class LFSeparationTask
+    {
         public int UserId { get; set; }
         public int SeparationTypeId { get; set; }
         public int TaskOwnerId { get; set; }
@@ -221,54 +202,80 @@ namespace CliqueHR.Common.Models
         public string Position { get; set; }
         public string CostCentre { get; set; }
         public string Grade { get; set; }
-        public string Designation { get; set; }
-        public string EmployeeGroup { get; set; }
         public Boolean IsDoNotUse { get; set; }
         public int Start { get; set; }
         public int NoofData { get; set; }
         public int FieldTypeId { get; set; }
         public int Success { get; set; }
         public int Total { get; set; }
+
         public string SeparationTypeName { get; set; }
         public string TaskOwnerName { get; set; }
         public string EscalateLevel { get; set; }
+
         public string DayTypeName { get; set; }
         public string InterviewTypeName { get; set; }
         public string WorkGroup { get; set; }
         public int InitiateTypeId { get; set; }
+        public int StartRow { get; set; }
+        public int EndRow { get; set; }
+        public string SearchText { get; set; }
 
     }
-
-    public class Separation
+    public class Separationbase
     {
         public int UserId { get; set; }
         public int SeparationDaysUpto { get; set; }
         public int RelievingDateTypeId { get; set; }
         public int ApproveManagerType { get; set; }
-        public int AutomaticallytriggerAbscondingWorkflow { get; set; }
-        public int ContinuousAbsenteeismDay { get; set; }
-        public int IncludeRelievingDateType { get; set; }
         public int AutomaticallyTriggerRetirementWorkflow { get; set; }
         public int RetirementAge { get; set; }
         public int IsDoNotUse { get; set; }
         public int RetirementDays { get; set; }
-        public string UserDefinedField { get; set; }
-
-        public int ActionTypeId { get; set; }
         public int SeparationId { get; set; }
+        public int AutomaticallytriggerAbscondingWorkflow { get; set; }
+        public int ContinuousAbsenteeismDay { get; set; }
+        public int IncludeRelievingDateType { get; set; }
+        public int ActionTypeId { get; set; }
+        public string UserDefinedField { get; set; }
+    }
+
+    public class Separation : Separationbase
+    {
         public string FieldName { get; set; }
         public int FieldTypeId { get; set; }
         public int FieldValueId { get; set; }
         public bool IsMandatory { get; set; }
     }
 
+    public class SeparationData
+    {
+        public int SeparationDaysUpto { get; set; }
+        public bool AllowUpTo { get; set; }
+        public int RelievingDateTypeId { get; set; }
+        public bool AllowManagerResignOnBehalf { get; set; }
+        public bool EditExitDate { get; set; }
+        public bool EditRecoveryDates { get; set; }
+        public bool RaiseTermination { get; set; }
+        public bool AutomaticallyTriggerRetirementWorkflow { get; set; }
+        public int RetirementDays { get; set; }
+        public int RetirementAge { get; set; }
+        public string UserDefinedField { get; set; }
+        public List<SeparationUserDefinedData> UserDefinedData { get; set; }
+    }
+
+    public class SeparationUserDefinedData
+    {
+        public string FieldName { get; set; }
+        public int? FieldType { get; set; }
+        public int? FieldValueId { get; set; }
+        public bool IsMandatory { get; set; }
+        public bool IsActive { get; set; }
+        public string FieldValue { get; set; }
+    }
 
     public class ExitInterview
     {
-        public int StartRow { get; set; }
-        public int EndRow { get; set; }
-        public SortType Sort { get; set; }
-        public string SearchText { get; set; }
         public int UserId { get; set; }
         public string Entity { get; set; }
         public string OrgUnit { get; set; }
@@ -299,17 +306,13 @@ namespace CliqueHR.Common.Models
         public string WorkGroup { get; set; }
         public string Form { get; set; }
         public int Success { get; set; }
-
-
-    }
-
-    public class LifeCycleSetting
-    {
-
         public int StartRow { get; set; }
         public int EndRow { get; set; }
-        public SortType Sort { get; set; }
         public string SearchText { get; set; }
+
+    }
+    public class LifeCycleSetting
+    {
         public int UserId { get; set; }
         public Boolean InitiatePIP { get; set; }
         public Boolean RecommendSalaryHike { get; set; }
@@ -334,57 +337,6 @@ namespace CliqueHR.Common.Models
 
     }
 
-    public class WorkFlowLevelDetails
-    {
-        public string ApprovalPathName { get; set; }
-        public string ApprovalPathTypeId { get; set; }
-        public bool? IsDoNotUse { get; set; }
-        public int LifeCycleWorkFlowId { get; set; }
-        public int NumberOfLevels { get; set; }
-        public string ApproverList { get; set; }
-        public string ApprovalReasonsId { get; set; }
-        public List<WorkFlowLevel> WorkFlowLevelData { get; set; }
-    }
-    public class LifeCycleWorkFlowLevel
-    {
-        public string ApproverId { get; set; }
-        public int Followup { get; set; }
-        public int Escalateto { get; set; }
-        public int EscalateAfter { get; set; }
-    }
-
-    public class WorkFlowLevel
-    {
-        public int ApproverId { get; set; }
-        public int Followup { get; set; }
-        public int Escalateto { get; set; }
-        public int EscalateAfter { get; set; }
-        public int LifeCycleWorkFlowId { get; set; }
-    }
-    public class SeparationData
-    {
-        public int SeparationDaysUpto { get; set; }
-        public bool AllowUpTo { get; set; }
-        public int RelievingDateTypeId { get; set; }
-        public bool AllowManagerResignOnBehalf { get; set; }
-        public bool EditExitDate { get; set; }
-        public bool EditRecoveryDates { get; set; }
-        public bool RaiseTermination { get; set; }
-        public bool AutomaticallyTriggerRetirementWorkflow { get; set; }
-        public int RetirementDays { get; set; }
-        public int RetirementAge { get; set; }
-        public string UserDefinedField { get; set; }
-        public List<SeparationUserDefinedData> UserDefinedData { get; set; }
-    }
-    public class SeparationUserDefinedData
-    {
-        public string FieldName { get; set; }
-        public int? FieldType { get; set; }
-        public int? FieldValueId { get; set; }
-        public bool IsMandatory { get; set; }
-        public bool IsActive { get; set; }
-        public string FieldValue { get; set; }
-    }
     public class LifeCycleWorkFlow
     {
         public int Total { get; set; }
@@ -409,5 +361,34 @@ namespace CliqueHR.Common.Models
                 return workGrps;
             }
         }
+    }
+
+    public class LifeCycleWorkFlowLevel
+    {
+        public string ApproverId { get; set; }
+        public int Followup { get; set; }
+        public int Escalateto { get; set; }
+        public int EscalateAfter { get; set; }
+    }
+
+    public class WorkFlowLevel
+    {
+        public int ApproverId { get; set; }
+        public int Followup { get; set; }
+        public int Escalateto { get; set; }
+        public int EscalateAfter { get; set; }
+        public int LifeCycleWorkFlowId { get; set; }
+    }
+
+    public class WorkFlowLevelDetails
+    {
+        public string ApprovalPathName { get; set; }
+        public string ApprovalPathTypeId { get; set; }
+        public bool? IsDoNotUse { get; set; }
+        public int LifeCycleWorkFlowId { get; set; }
+        public int NumberOfLevels { get; set; }
+        public string ApproverList { get; set; }
+        public string ApprovalReasonsId { get; set; }
+        public List<WorkFlowLevel> WorkFlowLevelData { get; set; }
     }
 }

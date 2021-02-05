@@ -4,8 +4,7 @@
       <h4 class="mb-0">Movement Reasons</h4>
     </div>
     <div class="col-1 text-right">
-      <div class="btn-more ml-auto shadow btn-custom" data-toggle="modal" (click)="OnOpenPopup(0,'Add')" data-target="#addReason"
-           data-tooltip="tooltip" data-placement="top" title="Add Reason">
+      <div class="btn-more ml-auto shadow btn-custom" data-toggle="modal" (click)="OnOpenPopup(0,'Add')" data-tooltip="tooltip" data-placement="top" title="Add Reason">
         <i class="icon icon-plus-symbol h3 mb-0"></i>
       </div>
     </div>
@@ -57,7 +56,6 @@
                 <label class="custom-control-label h5 pl-2" for="initiate">Allow Manager to initiate movement</label>
               </div>
             </div>
-
             <div class="col-md-12 mb-3">
               <label class="h6 mb-1">
                 Allow enabling of Relocation Expense
@@ -65,14 +63,14 @@
               <div class="form-row align-items-center mt-2">
                 <div class="col-4">
                   <div class="custom-control custom-checkbox">
-                    <input type="checkbox" id="manager" class="custom-control-input"
+                    <input type="checkbox" [(ngModel)]="AllowManager" id="manager" class="custom-control-input"
                            value="male" checked="">
                     <label class="custom-control-label h5 pl-2" for="manager">Manager</label>
                   </div>
                 </div>
                 <div class="col-8">
                   <div class="custom-control custom-checkbox">
-                    <input type="checkbox" id="rholder" class="custom-control-input"
+                    <input type="checkbox" [(ngModel)]="AllowRoleHolder"  id="rholder" class="custom-control-input"
                            value="male" checked="">
                     <label class="custom-control-label h5 pl-2" for="rholder">Role holder</label>
                   </div>
@@ -86,12 +84,6 @@
                 <div class="col-11">
                   <h4 class="mb-0">Editable Fields</h4>
                 </div>
-                <!-- <div class="col-1 text-right">
-                    <div class="btn-more ml-auto shadow btn-custom" data-toggle="collapse" href="#attributeFilter"
-                        role="button" aria-expanded="false" aria-controls="attributeFilter" data-tooltip="tooltip" title="Attribute Filter">
-                        <i class="icon icon-down h3 mb-0"></i>
-                    </div>
-                </div> -->
               </div>
             </div>
             <div class="col-md-12">
@@ -102,7 +94,7 @@
                       <td>Entity</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkentity" class="custom-control-input" id="d6">
+                          <input type="checkbox" [(ngModel)]="Entity" class="custom-control-input" id="d6">
                           <label class="custom-control-label" for="d6"></label>
                         </div>
                       </td>
@@ -111,7 +103,7 @@
                       <td>Org Unit</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkorgunit" class="custom-control-input" id="d7">
+                          <input type="checkbox" [(ngModel)]="OrgUnit" class="custom-control-input" id="d7">
                           <label class="custom-control-label" for="d7"></label>
                         </div>
                       </td>
@@ -120,7 +112,7 @@
                       <td>Department</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkdepatment" class="custom-control-input" id="d8">
+                          <input type="checkbox" [(ngModel)]="Department" class="custom-control-input" id="d8">
                           <label class="custom-control-label" for="d8"></label>
                         </div>
                       </td>
@@ -129,7 +121,7 @@
                       <td>Primary Location</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkprimilocation" class="custom-control-input" id="d9">
+                          <input type="checkbox" [(ngModel)]="PrimaryLocation" class="custom-control-input" id="d9">
                           <label class="custom-control-label" for="d9"></label>
                         </div>
                       </td>
@@ -138,7 +130,7 @@
                       <td>Secondary Location</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkseclocation" class="custom-control-input" id="secd9">
+                          <input type="checkbox" [(ngModel)]="SecondaryLocation" class="custom-control-input" id="secd9">
                           <label class="custom-control-label" for="secd9"></label>
                         </div>
                       </td>
@@ -147,7 +139,7 @@
                       <td>Designation</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkdesignation" class="custom-control-input" id="d10">
+                          <input type="checkbox" [(ngModel)]="Designation" class="custom-control-input" id="d10">
                           <label class="custom-control-label" for="d10"></label>
                         </div>
                       </td>
@@ -156,7 +148,7 @@
                       <td>Position</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkposition" class="custom-control-input" id="d11">
+                          <input type="checkbox" [(ngModel)]="Position" class="custom-control-input" id="d11">
                           <label class="custom-control-label" for="d11"></label>
                         </div>
                       </td>
@@ -169,7 +161,7 @@
                       <td>Grade</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkgrade" class="custom-control-input" id="d12">
+                          <input type="checkbox" [(ngModel)]="Grade" class="custom-control-input" id="d12">
                           <label class="custom-control-label" for="d12"></label>
                         </div>
                       </td>
@@ -178,7 +170,7 @@
                       <td>Reporting Manager</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkrepmanager" class="custom-control-input" id="d13">
+                          <input type="checkbox" [(ngModel)]="ReportingManager" class="custom-control-input" id="d13">
                           <label class="custom-control-label" for="d13"></label>
                         </div>
                       </td>
@@ -187,7 +179,7 @@
                       <td>Primary Cost Centre</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkprimicostcentre" class="custom-control-input" id="d14">
+                          <input type="checkbox" [(ngModel)]="PrimaryCostCentre" class="custom-control-input" id="d14">
                           <label class="custom-control-label" for="d14"></label>
                         </div>
                       </td>
@@ -196,7 +188,7 @@
                       <td>Secondary Cost Centre</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkseccostcentre" class="custom-control-input" id="secd14">
+                          <input type="checkbox" [(ngModel)]="SecondaryCostCentre" class="custom-control-input" id="secd14">
                           <label class="custom-control-label" for="secd14"></label>
                         </div>
                       </td>
@@ -205,7 +197,7 @@
                       <td>Functional Manager</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkfuncmanger" class="custom-control-input" id="d15">
+                          <input type="checkbox" [(ngModel)]="FunctionalManager" class="custom-control-input" id="d15">
                           <label class="custom-control-label" for="d15"></label>
                         </div>
                       </td>
@@ -214,7 +206,7 @@
                       <td>Dotted Line Manager</td>
                       <td>
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" [(ngModel)]="chkdottedline" class="custom-control-input" id="d16">
+                          <input type="checkbox" [(ngModel)]="DottedLineManager" class="custom-control-input" id="d16">
                           <label class="custom-control-label" for="d16"></label>
                         </div>
                       </td>
@@ -228,8 +220,8 @@
         <div class="modal-footer">
           <div class="d-inline-block mr-5">
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" name="donotuse" id="pdnu" class="custom-control-input" value="false">
-              <label class="custom-control-label h5 pl-2" for="rednu">Do Not Use</label>
+              <input type="checkbox" name="gender" [(ngModel)]="donotUse" id="eidnu" class="custom-control-input" value="false">
+              <label class="custom-control-label h5 pl-2" for="eidnu">Do Not Use</label>
             </div>
           </div>
           <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>

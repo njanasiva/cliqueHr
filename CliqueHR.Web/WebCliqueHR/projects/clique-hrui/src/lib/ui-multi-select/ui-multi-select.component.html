@@ -30,12 +30,12 @@
             <div>
                 <ul class="lazyContainer">
                     <li class="pure-checkbox">
-                        <input aria-labelledby="option" type="checkbox" value="-1" [(ngModel)]="masterSelected" (change)="checkUncheckAll()"><label>Select All</label>
+                        <input aria-labelledby="option" type="checkbox" value="-1" [checked]="masterSelectedAll" (change)="checkUncheckAll($event.target)"><label>Select All</label>
                     </li>
                 </ul>
                 <ul class="lazyContainer" style="overflow: scroll; height: 120px !important;">
                     <li *ngFor="let item of _dropdownContainter | uiFilter:filter"  class="pure-checkbox" >
-                        <input aria-labelledby="option" type="checkbox" [(ngModel)]="item.isCheckBoxSelected" (ngModelChange)="modelChanged(item)" value="{{ item.Value }}"><label>{{ item.Text }}</label>
+                        <input aria-labelledby="option" type="checkbox" (change)="modelChanged(item,$event.target)"  [checked]="isSelected(item)"  value="{{ item.Value }}"><label>{{ item.Text }}</label>
                     </li>
                 </ul>
             </div>

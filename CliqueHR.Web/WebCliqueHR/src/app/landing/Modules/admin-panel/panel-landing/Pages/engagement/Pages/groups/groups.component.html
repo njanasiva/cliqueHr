@@ -4,7 +4,7 @@
       <h4 class="mb-0">Group Details</h4>
     </div>
     <div class="col-1 text-right">
-      <div class="btn-more ml-auto shadow btn-custom" data-toggle="modal" data-target="#addGroup"
+      <div class="btn-more ml-auto shadow btn-custom" data-toggle="modal" (click)="OnOpenPopup(0,'Add')"
            data-tooltip="tooltip" data-placement="top" title="Create Group">
         <i class="icon icon-plus-symbol h3 mb-0"></i>
       </div>
@@ -15,7 +15,16 @@
       <lib-ui-data-table [Configuration]="GroupsConfig">
         <ng-template let-data>
           <tr>
-            <td class="text-nowrap">{{data.data.GroupsId}}</td>
+            <td class="text-nowrap">
+              <div class="btn-more d-inline-block shadow btn-blue" (click)="OnOpenPopup(data.index,'Edit')"
+                   data-tooltip="tooltip" data-placement="top" title="Edit Groups">
+                <i class="icon icon-edit h3 mb-0"></i>
+              </div>
+            </td>
+            <td class="text-nowrap"> {{data.data.GroupName}}</td>
+            <td class="text-nowrap"> 
+            </td>
+            <td class="text-nowrap"> {{data.data.WorkGroup}}</td>
           </tr>
         </ng-template>
       </lib-ui-data-table>
@@ -26,7 +35,7 @@
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content border-0">
         <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalCenterTitle">Create Group</h4>
+          <h4 class="modal-title" id="exampleModalCenterTitle">{{popupHeading}}</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <i class="icon icon-wrong"></i>
           </button>
@@ -37,75 +46,81 @@
               <label class="h6 mb-1">
                 Group Name
               </label>
-              <input class="form-control" type="text" value="" placeholder="Enter Group Name">
+              <lib-text-box [FormInput]="GroupsForm.get('GroupName')"
+                            [Configuration]="{PlaceHolder:'Enter Group Name'}">
+              </lib-text-box>
+              <!--<input class="form-control" type="text" value="" placeholder="Enter Group Name">-->
             </div>
             <div class="col-md-6 mb-3">
-              <label class="h6 mb-1">
-                Group Moderators
-              </label>
-              <select class="form-control multiple-select" multiple="multiple">
-                <option value="1">Devid Warner</option>
-                <option value="2">Smith Marker</option>
-                <option value="2">Kevin Martin</option>
-                <option value="2">Drew Cooperr</option>
-              </select>
+              <label class="h6 mb-1">Group Moderators</label>
+              <lib-ui-multi-select id="groupModeratorsMultiSelect"
+                                   [data]="groupModerators"
+                                   (onSelect)="onItemSelect($event,'groupModerators')"
+                                   [selectedValues]="groupModeratorsSelectedValues"
+                                   (onSelectAll)="onSelectAll($event,'groupModerators')"
+                                   [PlaceHolderText]="groupModeratorsPlaceHolderText">
+              </lib-ui-multi-select>
             </div>
             <div class="col-md-6 mb-3">
-              <label class="h6 mb-1">
-                Employee Group
-              </label>
-              <select class="form-control multiple-select" multiple="multiple">
-                <option value="marketing">Employee Group - 1</option>
-                <option value="sales">Employee Group - 2</option>
-                <option value="dev">Employee Group - 3</option>
-                <option value="hr">Employee Group - 4</option>
-              </select>
+              <label class="h6 mb-1">Employee Group</label>
+              <lib-ui-multi-select id="employeegroupMultiSelect"
+                                   [data]="employeegroup"
+                                   (onSelect)="onItemSelect($event,'employeegroup')"
+                                   [selectedValues]="employeeGroupSelectedValues"
+                                   (onSelectAll)="onSelectAll($event,'employeegroup')"
+                                   [PlaceHolderText]="employeeGroupPlaceHolderText">
+              </lib-ui-multi-select>
             </div>
             <div class="col-md-6 mb-3">
               <label class="h6 mb-1">Entity</label>
-              <select class="form-control multiple-select" multiple="multiple">
-                <option value="mg">Entity - 1</option>
-                <option value="smg">Entity - 2</option>
-                <option value="sdv">Entity - 3</option>
-              </select>
+              <lib-ui-multi-select id="entityMultiSelect"
+                                   [data]="entity"
+                                   (onSelect)="onItemSelect($event,'entity')"
+                                   (onSelectAll)="onSelectAll($event,'entity')"
+                                   [selectedValues]="entitySelectedValues"
+                                   [PlaceHolderText]="entityPlaceHolderText">
+              </lib-ui-multi-select>
             </div>
             <div class="col-md-6 mb-3">
               <label class="h6 mb-1">Org Unit</label>
-              <select class="form-control multiple-select" multiple="multiple">
-                <option value="u1">Unit - 1</option>
-                <option value="u2">Unit - 2</option>
-                <option value="u3">Unit - 3</option>
-                <option value="u4">Unit - 4</option>
-              </select>
+
+              <lib-ui-multi-select id="orgunitMultiSelect"
+                                   [data]="orgunit"
+                                   (onSelect)="onItemSelect($event,'orgunit')"
+                                   (onSelectAll)="onSelectAll($event,'orgunit')"
+                                   [selectedValues]="orgunitSelectedValues"
+                                   [PlaceHolderText]="orgunitPlaceHolderText">
+              </lib-ui-multi-select>
             </div>
             <div class="col-md-6 mb-3">
               <label class="h6 mb-1">Department</label>
-              <select class="form-control multiple-select" multiple="multiple">
-                <option value="marketing">Marketing</option>
-                <option value="sales">Sales</option>
-                <option value="dev">Development</option>
-                <option value="hr">HR</option>
-              </select>
+              <lib-ui-multi-select id="departmentMultiSelect"
+                                   [data]="department"
+                                   (onSelect)="onItemSelect($event,'department')"
+                                   (onSelectAll)="onSelectAll($event,'department')"
+                                   [selectedValues]="departmentSelectedValues"
+                                   [PlaceHolderText]="departmentPlaceHolderText">
+              </lib-ui-multi-select>
             </div>
             <div class="col-md-6 mb-3">
               <label class="h6 mb-1">Location</label>
-              <select class="form-control multiple-select" multiple="multiple">
-                <option value="mumbai">Mumbai</option>
-                <option value="ban">Bangalore</option>
-                <option value="delhi">Delhi</option>
-                <option value="surat">Surat</option>
-              </select>
+              <lib-ui-multi-select id="locationMultiSelect"
+                                   [data]="location"
+                                   (onSelect)="onItemSelect($event,'location')"
+                                   (onSelectAll)="onSelectAll($event,'location')"
+                                   [selectedValues]="locationSelectedValues"
+                                   [PlaceHolderText]="locationPlaceHolderText">
+              </lib-ui-multi-select>
             </div>
             <div class="col-md-6 mb-3">
-              <label class="h6 mb-1">
-                Employee Search
-              </label>
-              <select class="form-control multiple-select" multiple="multiple">
-                <option value="1">Devid Warner</option>
-                <option value="2">Smith Marker</option>
-                <option value="2">Kevin Martin</option>
-                <option value="2">Drew Cooperr</option>
-              </select>
+              <label class="h6 mb-1">Employee Search</label>
+              <lib-ui-multi-select id="employeeSearchMultiSelect"
+                                   [data]="employeesearch"
+                                   (onSelect)="onItemSelect($event,'employeesearch')"
+                                   (onSelectAll)="onSelectAll($event,'employeesearch')"
+                                   [selectedValues]="employeesearchSelectedValues"
+                                   [PlaceHolderText]="employeesearchPlaceHolderText">
+              </lib-ui-multi-select>
             </div>
             <div class="col-md-12 mb-3">
               <label class="h6 mb-1">
@@ -114,7 +129,7 @@
               <div class="form-row align-items-center">
                 <div class="col-3">
                   <div class="custom-file custom-file-btn btn btn-custom">
-                    <input type="file" class="custom-file-input">
+                    <input type="file" class="custom-file-input" id="customFile" (change)="handleFileInput($event.target.files)">
                     <span class="mb-0" for="customFile">Upload</span>
                   </div>
                 </div>
@@ -147,9 +162,8 @@
                     <tr>
                       <td style="width: 50px;">
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" name="gender" id="au01" class="custom-control-input"
-                                 value="male" checked="">
-                          <label class="custom-control-label h5 pl-2" for="au01"></label>
+                          <input type="checkbox" id="poststatus_id" class="custom-control-input" [(ngModel)]="PostStatus">
+                          <label class="custom-control-label" for="poststatus_id"></label>
                         </div>
                       </td>
                       <td>Post Status</td>
@@ -157,9 +171,8 @@
                     <tr>
                       <td style="width: 50px;">
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" name="gender" id="au02" class="custom-control-input"
-                                 value="male" checked="">
-                          <label class="custom-control-label h5 pl-2" for="au02"></label>
+                          <input type="checkbox" id="postpoll_id" [(ngModel)]="PostPoll" class="custom-control-input">
+                          <label class="custom-control-label" for="postpoll_id"></label>
                         </div>
                       </td>
                       <td>Post Poll</td>
@@ -167,9 +180,8 @@
                     <tr>
                       <td style="width: 50px;">
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" name="gender" id="au03" class="custom-control-input"
-                                 value="male" checked="">
-                          <label class="custom-control-label h5 pl-2" for="au03"></label>
+                          <input type="checkbox" id="postevent_id" class="custom-control-input" [(ngModel)]="PostEvent">
+                          <label class="custom-control-label" for="postevent_id"></label>
                         </div>
                       </td>
                       <td>Post Event</td>
@@ -177,9 +189,8 @@
                     <tr>
                       <td style="width: 50px;">
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" name="gender" id="au04" class="custom-control-input"
-                                 value="male" checked="">
-                          <label class="custom-control-label h5 pl-2" for="au04"></label>
+                          <input type="checkbox" id="appreqstatuspost_id" class="custom-control-input" [(ngModel)]="ApprovalReqforStatus">
+                          <label class="custom-control-label" for="appreqstatuspost_id"></label>
                         </div>
                       </td>
                       <td>Approval required for Status Post</td>
@@ -187,9 +198,8 @@
                     <tr>
                       <td style="width: 50px;">
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" name="gender" id="au05" class="custom-control-input"
-                                 value="male" checked="">
-                          <label class="custom-control-label h5 pl-2" for="au05"></label>
+                          <input type="checkbox" id="appreqstatuspoll_id" class="custom-control-input" [(ngModel)]="ApprovalReqforPoll">
+                          <label class="custom-control-label" for="appreqstatuspoll_id"></label>
                         </div>
                       </td>
                       <td>Approval required for Poll Post</td>
@@ -197,9 +207,8 @@
                     <tr>
                       <td style="width: 50px;">
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" name="gender" id="au06" class="custom-control-input"
-                                 value="male" checked="">
-                          <label class="custom-control-label h5 pl-2" for="au06"></label>
+                          <input type="checkbox" id="appreqstatusevent_id" class="custom-control-input" [(ngModel)]="ApprovalReqforEvent">
+                          <label class="custom-control-label" for="appreqstatusevent_id"></label>
                         </div>
                       </td>
                       <td>Approval required for Event Post</td>
@@ -213,13 +222,14 @@
         <div class="modal-footer">
           <div class="d-inline-block mr-5">
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" name="gender" id="cgdnu" class="custom-control-input"
-                     value="male" checked="">
+              <input type="checkbox" [(ngModel)]="donotUse" id="cgdnu" class="custom-control-input">
               <label class="custom-control-label h5 pl-2" for="cgdnu">Do Not Use</label>
             </div>
           </div>
           <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-custom px-4 py-2">Create</button>
+          <button type="button" (click)="OnGroupSave();" class="btn btn-custom px-4 py-2">
+            {{isAddMode? 'Add' : 'Edit'}}
+          </button>
         </div>
       </div>
     </div>

@@ -9,9 +9,11 @@ import { LifeCycleService } from 'src/app/landing/Modules/admin-panel/admin-pane
 import { Components } from 'src/Application/Types/Constants';
 import { isNullOrUndefined } from 'util';
 import { forkJoin, Observable, of } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UiSweetAlertService } from 'projects/clique-hrui/src/public-api';
 import { ValidationBuilder } from 'src/Application/Utilitis/ApplicationUtility';
+import { style } from '@angular/animations';
 
 
 @Component({
@@ -36,6 +38,7 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
   public costCentre = new Array<UiMultiselectData>();
   public grade = new Array<UiMultiselectData>();
   public assessmentForm = new Array<UiMultiselectData>();
+  public orgEntityData = new Array<any>();
   public orgEntityDepartment = new Array<UiMultiSelectOptions>();
   public selectedOrgEntityDepartment = new Array<UiMultiSelectOptions>();
 
@@ -43,6 +46,7 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
   public isAddMode: boolean = true;
   public showForm: boolean = false;
   public showDiv: boolean = false;
+  public isAssessmentRequiredError: boolean = false;
   public centreTypeSelectedValues: string = '';
   public regionSelectedValues: string = '';
   public locationSelectedValues: string = '';
@@ -50,20 +54,17 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
   public positionSelectedValues: string = '';
   public costCentreSelectedValues: string = '';
   public gradeSelectedValues: string = '';
-  public assessmentformid: number = 0;
   public assessmentRequired: boolean = false;
-  public donotUse: boolean = false;
   public orgPlaceHolder: string = 'Entity/Org Unit/Department';
   public filter = new UiMultiselectData();
 
-  alphaRegex = "/[a-zA-Z0-9]/";
   public ConfirmationConfig: UiDataTableConfig = {
     Columns: [
       { fieldId: 'ProbationId', fieldName: '', columnClass: 'width40' },
-      { fieldId: 'ProbationName', fieldName: 'Probation Name', columnClass: 'text-nowrap width100'  },
+      { fieldId: 'ProbationName', fieldName: 'Probation Name', columnClass: 'text-nowrap width100' },
       { fieldId: 'Probationperiod', fieldName: 'Probation Period', columnClass: 'text-nowrap width60' },
       { fieldId: ' Confirmation days', fieldName: 'Confirmation days', columnClass: 'text-nowrap width100' },
-      { fieldId: ' AssessmentRequired', fieldName: 'AssessmentRequired', columnClass: 'text-nowrap width100' },
+      { fieldId: 'AssessmentRequired', fieldName: 'Assessment Required(Y/N)', columnClass: 'text-nowrap width100' },
       { fieldId: 'WorkGroup', fieldName: 'WorkGroup', columnClass: 'text-nowrap width100' }
     ],
     Pagination: true,
@@ -94,32 +95,42 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
   }
 
   ngAfterViewInit(): void {
-    this.SubjectDestroy.push(
-      this.uiDataTableComponent.toArray()[0].fetchObs.subscribe(x => {
-        this.ProbationDetailList(x.StartRow, x.EndRow, x.Sort, x.searchText).subscribe(
-          (data: any) => {
-            this.ProbationDetailsResp(data);
-            this.HideLoader();
-          },
-          (error) => {
-            this.HideLoader();
-            console.log(error);
-          });
-      })
-    );
-    this.LoadMultiSelectDropdownList();
+    this.LoadGrid();
+    this.clearDropdowns();
+  }
 
-    forkJoin([
-      this.ProbationDetailList(1, this.ConfirmationConfig.PaginationPageSize, { fieldId: 'ProbationId', direction: 'asc' }),
-    ]).subscribe(
-      (data: any) => {
-        this.HideLoader();
-        this.ProbationDetailsResp(data[0]);
-      },
-      (error) => {
-        this.HideLoader();
-        console.log(error);
-      });
+  LoadGrid() {
+    try {
+      this.LoadMultiSelectDropdownList();
+      this.SubjectDestroy.push(
+        this.uiDataTableComponent.toArray()[0].fetchObs.subscribe(x => {
+          this.ShowLoader();
+          this.ProbationDetailList(x.StartRow, x.EndRow, x.Sort, x.searchText).subscribe(
+            (data: any) => {
+              this.ProbationDetailsResp(data);
+              this.HideLoader();
+            },
+            (error) => {
+              this.HideLoader();
+              console.log(error);
+            });
+        })
+      );
+      forkJoin([
+        this.ProbationDetailList(1, this.ConfirmationConfig.PaginationPageSize, { fieldId: 'ProbationId', direction: 'asc' }),
+      ]).subscribe(
+        (data: any) => {
+          this.HideLoader();
+          this.ProbationDetailsResp(data[0]);
+        },
+        (error) => {
+          this.HideLoader();
+          console.log(error);
+        });
+
+    } catch (error) {
+      this.HideLoader();
+    }
   }
 
   private LoadMultiSelectDropdownList() {
@@ -153,19 +164,13 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
           if (data.AssessmentForm) {
             this.assessmentForm = data.AssessmentForm;
           }
-          let _orgData = new Array<UiMultiSelectOptions>();
-          let _entity = this.LoadAccordionDropdown(data.Entity, "entity", "Entity Group");
-          let _department = this.LoadAccordionDropdown(data.Department, "department", "Department");
-          let _orgUnit = this.LoadAccordionDropdown(data.OrgUnit, "orgUnit", "Org Unit");
-          _orgData.push(_entity);
-          _orgData.push(_orgUnit);
-          _orgData.push(_department);
-          this.orgEntityDepartment = _orgData;
+          if(data.EntityOrgDepTreeData){
+            this.orgEntityData = data.EntityOrgDepTreeData;
+          }
+
         }
-        this.HideLoader();
       },
       (error) => {
-        this.HideLoader();
         console.log(error);
       }
     );
@@ -193,9 +198,38 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
 
   ShowFormData(event) {
     this.showForm = event.checked;
-
+    this.ProbationDetailForm.get('AssessmentFormId').setValue(0);
   }
 
+  onOptionsSelected(event) {
+    const value = event.target.value;
+    if (value == 0) {
+      this.isAssessmentRequiredError = true;
+    }
+    else {
+      this.isAssessmentRequiredError = false;
+    }
+  }
+  keyPress(event){
+    console.log(event, "click");
+    const key = event.keyCode;
+    console.log(key);
+    if (key >= 15 && key <= 64) {
+      event.preventDefault();
+    }
+  }
+  keyPressNumbers(event) {
+    console.log(event, "click");
+    const key = event.keyCode;
+    console.log(key, "length");
+    // Only Numbers 0-9
+    if ((key < 48 || key > 57)) {
+      event.preventDefault();
+      return false;
+    } else {
+      return true;
+    }
+  }
   updateText(data: string, item: string) {
     if (data == "centre") {
       this.centreTypeSelectedValues = item;
@@ -221,7 +255,6 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
   }
 
   onSelectAll(items: Array<UiMultiselectData>, data: string) {
-    //this.updateText(data,"");
   }
 
 
@@ -252,20 +285,23 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
     }
   }
 
-  private validateData(){
+  private validateData() {
     let isValid = true;
-    if(this.ProbationDetailForm.invalid){
-       isValid = false;
-       this.triggerValidation(this.ProbationDetailForm);
+    if (this.ProbationDetailForm.invalid) {
+      isValid = false;
+      this.triggerValidation(this.ProbationDetailForm);
+    }
+    if (this.showForm && (this.ProbationDetailForm.value.AssessmentFormId == 0 || this.ProbationDetailForm.value.AssessmentFormId == null)) {
+      this.isAssessmentRequiredError = true;
+      isValid = false;
     }
     return isValid;
   }
 
   public OnProbationDetailsOp() {
-    this.ShowLoader();
-    try
-    {
+    try {
       if (this.validateData()) {
+        this.ShowLoader();
         let probationtype: Observable<any>;
         this.ProbationDetailForm.value.Action = this.isAddMode == true ? 1 : 2;
         this.ProbationDetailForm.value.CentreType = this.centreTypeSelectedValues;
@@ -275,48 +311,32 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
         this.ProbationDetailForm.value.Position = this.positionSelectedValues;
         this.ProbationDetailForm.value.CostCentre = this.costCentreSelectedValues;
         this.ProbationDetailForm.value.Grade = this.gradeSelectedValues;
-        this.ProbationDetailForm.value.AssessmentFormId = this.assessmentformid;
         this.ProbationDetailForm.value.OrgUnit = this.getSelectedValues("Org Unit");
         this.ProbationDetailForm.value.Entity = this.getSelectedValues("Entity Group");
         this.ProbationDetailForm.value.Department = this.getSelectedValues("Department");
-        // this.ProbationDetailForm.value.IsDoNotUse = this.donotUse;
-        if (this.assessmentformid == 0) {
-          console.log(this.assessmentformid,"this.assessmentformid ==0 " )
-          this.ProbationDetailForm.value.AssessmentRequired = false;
-        }
-        else {
-          console.log(this.assessmentformid,"this.assessmentformid ==else " )
-          this.ProbationDetailForm.value.AssessmentRequired = true;
-        }
-        probationtype = this.LifeCycleService.AddModifyProbation(this.ProbationDetailForm.value);
 
+        probationtype = this.LifeCycleService.AddModifyProbation(this.ProbationDetailForm.value);
+        // console.log(probationtype,"probationtype");
         probationtype.subscribe(
           (data: any) => {
-            this.ProbationDetailList(1, this.ConfirmationConfig.PaginationPageSize, { fieldId: 'ProbationDetailId', direction: 'asc' }).subscribe(
-              (data: any) => {
-                this.HideLoader();
-                this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
-              },
-              (error) => {
-                this.HideLoader();
-              }
-            )
+            this.OnClosePopup("#addProbationPopUp");
+            this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
+            this.LoadGrid();
           },
           (error) => {
             if (error.message != "") {
-              this.uiSweetAlertService.ShowAlert(error.message);
+            this.uiSweetAlertService.ShowAlert('probation already exists');
             }
             this.HideLoader();
           })
-        this.OnClosePopup("#addProbationPopUp");
+
       }
       else {
         this.HideLoader();
       }
     }
-    catch(error){
+    catch (error) {
       this.HideLoader();
-      this.uiSweetAlertService.ShowAlert(error.message);
       console.log(error);
     }
   }
@@ -364,14 +384,19 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
       if (!orgData) {
         orgData = '';
       }
+      this.orgEntityDepartment.forEach(item => {
+        item.Data.forEach(items => {
+          items.isCheckBoxSelected = false;
+        });
+      });
+      this.selectedOrgEntityDepartment = Object.assign([], this.orgEntityDepartment);
       this.showForm = item.AssessmentRequired;
-      this.donotUse = item.IsDoNotUse;
-      this.assessmentformid = item.AssessmentFormId;
-      this.assessmentRequired = item.AssessmentRequired;
       this.setSelectedValues(entityData, 'Entity Group');
       this.setSelectedValues(orgData, 'Org Unit');
       this.setSelectedValues(departmentData, 'Department');
-      this.selectedOrgEntityDepartment = this.orgEntityDepartment;
+      this.ProbationDetailForm.get("AllowExtension").setValue(item.AllowExtension);
+      this.showDiv = item.AllowExtension;
+      this.orgEntityDepartment = Object.assign([], this.selectedOrgEntityDepartment);
       this.ProbationDetailForm.patchValue(this.ProbationDetailArrayList[index]);
     }
   }
@@ -390,43 +415,28 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
   }
 
   private setSelectedValues(data: string, option: string) {
-    if (data && data != '') {
-      let arrayData = data.split(',');
-      this.orgEntityDepartment.forEach(item => {
-        if (item.OptionType == option) {
-          item.Data.forEach(items => {
-            arrayData.forEach(a => {
-              let intValue = parseInt(a);
-              if (intValue == items.Value) {
-                items.isCheckBoxSelected = true;
-              }
-              else {
-                items.isCheckBoxSelected = false;
-              }
-            })
+    let arrayData = data.split(',');
+    this.selectedOrgEntityDepartment.forEach(items => {
+      if (items.OptionType == option) {
+        items.Data.forEach(item => {
+          arrayData.forEach(a => {
+            let intValue = parseInt(a);
+            if (intValue == item.Value) {
+              item.isCheckBoxSelected = true;
+            }
           });
-        }
-      });
-    }
-    else {
-      this.orgEntityDepartment.forEach(item => {
-        if (item.OptionType == option) {
-          item.Data.forEach(items => {
-            items.isCheckBoxSelected = false;
-          });
-        }
-      });
-    }
-
+        });
+      }
+    });
   }
 
-  handleChange(e){
-   if(e == 'Y'){
-     this.showDiv = true;
-   }
-   else{
-     this.showDiv = false;
-   }
+  handleChange(e) {
+    if (e == 'Y') {
+      this.showDiv = true;
+    }
+    else {
+      this.showDiv = false;
+    }
   }
 
   private CreateProbationDetail() {
@@ -434,14 +444,19 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
     this.clearDropdowns();
     if (isNullOrUndefined(this.ProbationDetailForm)) {
       this.ProbationDetailForm = this.fb.group({
-        ProbationName: ['', [Validators.required,Validators.max]],
+        ProbationName: ['', [Validators.required]],
         ProbationPeriod: ['', [Validators.required]],
-        AllowExtension: ['', [Validators.required]],
         ConfirmationDay: ['', [Validators.required]],
-        AssessmentFormId: [''],
+        AssessmentFormId: 0,
+        AllowExtension: false,
+        ExtendProbationDay: 0,
+        IncrementExtensionDay: 0,
+        NumberExtensionsAllowed: 0,
+        IsDoNotUse: false,
+        AssessmentRequired: false,
         ProbationDetailId: ['']
       });
-    }    
+    }
   }
 
   private SetupPopupData(popupId: string, index: any, isAddMode: boolean) {
@@ -455,36 +470,9 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
     }
   }
 
-  keyup(event){
-    console.log(event, "");
-    const key = event.keyCode;
-
-
-
-  }
-
-
-  keyPress(event){
-    console.log(event, "click");
-    const key = event.keyCode;
-    console.log(key);
-    if (key >= 15 && key <= 64) {
-      event.preventDefault();
-    }
-  }
-  keyPressNumbers(event) {
-    console.log(event, "click");
-    const key = event.keyCode;
-    console.log(key, "length");
-    // Only Numbers 0-9
-    if ((key < 48 || key > 57)) {
-      event.preventDefault();
-      return false;
-    } else {
-      return true;
-    }
-  }
   clearDropdowns() {
+    this.showDiv = false;
+    this.showForm = false;
     this.centreTypeSelectedValues = '';
     this.regionSelectedValues = '';
     this.locationSelectedValues = '';
@@ -492,6 +480,11 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
     this.positionSelectedValues = '';
     this.costCentreSelectedValues = '';
     this.gradeSelectedValues = '';
+    this.orgEntityDepartment.forEach(item => {
+      item.Data.forEach(items => {
+        items.isCheckBoxSelected = false;
+      })
+    })
   }
 
   public OnOpenPopup(index: any, popupType: string) {

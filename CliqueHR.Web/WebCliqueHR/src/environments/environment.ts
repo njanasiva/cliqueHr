@@ -3,9 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true,
+  production: false,
+  // api_baseurl: 'http://localhost:59281/'
   api_baseurl: 'https://cliquehrapi.azurewebsites.net/'
-  // api_baseurl:'http://localhost:59281/'
 };
 
 /*

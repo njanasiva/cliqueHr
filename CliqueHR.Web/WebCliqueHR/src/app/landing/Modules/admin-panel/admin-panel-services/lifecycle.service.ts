@@ -31,7 +31,7 @@ export class LifeCycleService {
   }
   public GetSeparationTask(model: WebInterface.PaginationModel) {
     return this.httpClient.post(environment.api_baseurl + "api/LifeCycle/GetSeparationTask", model);
-  }  
+  }
   public AddModifySeparationTaskDetails(model: WebInterface.PaginationModel) {
     return this.httpClient.post(environment.api_baseurl + "api/LifeCycle/AddModifySeparationTask", model);
   }
@@ -44,6 +44,9 @@ export class LifeCycleService {
   public GetExitInterviewList(model: WebInterface.PaginationModel) {
     return this.httpClient.post(environment.api_baseurl + "api/LifeCycle/ExitInterviewList", model);
   }
+  public AddModifyExitInterviewList(model: WebInterface.PaginationModel) {
+    return this.httpClient.post(environment.api_baseurl + "api/LifeCycle/AddModifyExitInterview", model);
+  }
   public GetLifeCycleSetting(model: WebInterface.PaginationModel) {
     return this.httpClient.post(environment.api_baseurl + "api/LifeCycle/LifeCycleSetting", model);
   }
@@ -53,6 +56,22 @@ export class LifeCycleService {
   public GETMasterForSeparationTaskList(model: WebInterface.PaginationModel) {
     return this.httpClient.post(environment.api_baseurl + "api/LifeCycle/GETMasterForSeparationTask", model);
   }
-  
-
+  public AddModifyLifeCycleSetting(model: WebInterface.PaginationModel) {
+    return this.httpClient.post(environment.api_baseurl + "api/LifeCycle/LifeCycleSetting", model);
+  }
+  public GetSeparationUserDefined(model: any) {
+    return this.httpClient.post(environment.api_baseurl + "api/LifeCycle/GetSeparation", model);
+  }
+  public GetWorkFlowList(model: WebInterface.PaginationModel) {
+    return this.httpClient.post(environment.api_baseurl + "api/LifeCycle/GetWorkFlowList", model);
+  }
+  public GetWorkFlowData(id: number) {
+    return this.httpClient.get(environment.api_baseurl + "api/LifeCycle/GetLifeCycleWorkFlowLevel?Id=" + id);
+  }
+  public SaveWorkFlow(model: any) {
+    return this.httpClient.post(environment.api_baseurl + "api/LifeCycle/SaveWorkFlow", model);
+  }
+  public SaveSeparationDetail(model: any) {
+    return this.httpClient.post(environment.api_baseurl + "api/LifeCycle/SaveSeparationDetails", model);
+  }
 }

@@ -340,8 +340,6 @@ namespace CliqueHR.Api.Controllers
             }
         }
 
-
-
         [HttpPost]
         public HttpResponseMessage GetSeparation(Separation separation)
         {
@@ -360,7 +358,6 @@ namespace CliqueHR.Api.Controllers
                 return helper.GetResponse(this);
             }
         }
-
 
         [HttpPost]
         public HttpResponseMessage AddModifyExitInterview(ExitInterview exitInterview)
@@ -400,7 +397,6 @@ namespace CliqueHR.Api.Controllers
             }
         }
 
-
         [HttpPost]
         public HttpResponseMessage LifeCycleSetting(LifeCycleSetting lifeCycleSetting)
         {
@@ -420,7 +416,6 @@ namespace CliqueHR.Api.Controllers
             }
         }
 
-
         [HttpPost]
         public HttpResponseMessage AddModifyApprovalPath(LifeCycleSetting lifeCycleSetting)
         {
@@ -439,7 +434,6 @@ namespace CliqueHR.Api.Controllers
                 return helper.GetResponse(this);
             }
         }
-
 
         [HttpPost]
         public HttpResponseMessage GetWorkFlowList(ListModel model)
@@ -535,8 +529,26 @@ namespace CliqueHR.Api.Controllers
             return null;
         }
 
-
-
+        [HttpPost]
+        public HttpResponseMessage SaveSeparationDetails(Dictionary<string, object> adicValues)
+        {
+            //SeparationData
+            try
+            {
+                string objValue = JsonConvert.SerializeObject(adicValues);
+                SeparationData lobjSeparationData = JsonConvert.DeserializeObject<SeparationData>(objValue);
+                var ObjlobjSeparationData = JsonConvert.DeserializeObject<List<SeparationUserDefinedData>>(lobjSeparationData.UserDefinedField);
+                lobjSeparationData.UserDefinedData = ObjlobjSeparationData;
+                var data = _lifeCycleService.SaveSeparationAndUserDefinedData("cliquehrsql", lobjSeparationData);
+                return this.Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            catch (Exception ex)
+            {
+                var helper = new AppPresentationException(ex);
+                return helper.GetResponse(this);
+            }
+            return null;
+        }
         #endregion
     }
 

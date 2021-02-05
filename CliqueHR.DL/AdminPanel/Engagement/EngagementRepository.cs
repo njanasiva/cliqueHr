@@ -24,8 +24,8 @@ namespace CliqueHR.DL
             {
 
                 var sqlParameterd = _dbHelper.CreateSqlParameter("UserId", model.UserId, DataType.AsInt);
-                _dbHelper.UpdateSqlParameter("Start", model.Start, DataType.AsInt, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("NoofData", model.NoofData, DataType.AsString, sqlParameterd);
+              //  _dbHelper.UpdateSqlParameter("Start", model.Start, DataType.AsInt, sqlParameterd);
+              //  _dbHelper.UpdateSqlParameter("NoofData", model.NoofData, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("GroupName", model.GroupName, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("GroupModerators", model.GroupModerators, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("EmployeeGroup", model.EmployeeGroup, DataType.AsString, sqlParameterd);
@@ -44,6 +44,9 @@ namespace CliqueHR.DL
                 _dbHelper.UpdateSqlParameter("IsDoNotUse", model.IsDoNotUse, DataType.AsBoolean, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("GroupId", model.GroupId, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("ActionId", model.ActionId, DataType.AsString, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("StartRow", model.StartRow, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("EndRow", model.EndRow, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("SearchText", model.SearchText, DataType.AsString, sqlParameterd);
 
                 if (model.Sort != null)
                 {
@@ -100,13 +103,12 @@ namespace CliqueHR.DL
             try
             {
                 var sqlParameterd = _dbHelper.CreateSqlParameter("UserId", model.UserId, DataType.AsInt);
+                _dbHelper.UpdateSqlParameter("ActionId", model.ActionId, DataType.AsInt, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("IsPostSaleVehicle", model.IsPostSaleVehicle, DataType.AsBoolean, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("IsPostSaleProperty", model.IsPostSaleProperty, DataType.AsBoolean, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("IsPostSaleHouseholdGood", model.IsPostSaleHouseholdGood, DataType.AsBoolean, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("IsPostRentalProperty", model.IsPostRentalProperty, DataType.AsBoolean, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("IsDoNotUse", model.IsDoNotUse, DataType.AsBoolean, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("ActionId", model.ActionId, DataType.AsInt, sqlParameterd);
-
                 var ds = _dbHelper.GetDataSet(DbName, "[AddUpdateMarketPlace]", sqlParameterd);
                 var paginationData = new PaginationData<Probation>();
                 //if (ds != null)
@@ -158,8 +160,10 @@ namespace CliqueHR.DL
                 var sqlParameterd = _dbHelper.CreateSqlParameter("UserId", model.UserId, DataType.AsInt);
                 _dbHelper.UpdateSqlParameter("DailyContentId ", model.DailyContentId, DataType.AsInt, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("ActionId", model.ActionId, DataType.AsInt, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("Start", model.Start, DataType.AsInt, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("NoofData", model.NoofData, DataType.AsInt, sqlParameterd);
+               // _dbHelper.UpdateSqlParameter("Start", model.Start, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("StartRow", model.StartRow, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("EndRow", model.EndRow, DataType.AsInt, sqlParameterd);
+                //_dbHelper.UpdateSqlParameter("NoofData", model.NoofData, DataType.AsInt, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("IsShuffle", model.IsShuffle, DataType.AsBoolean, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("IsDate", model.IsDate, DataType.AsBoolean, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("Recurring", model.Recurring, DataType.AsBoolean, sqlParameterd);
@@ -167,6 +171,7 @@ namespace CliqueHR.DL
                 _dbHelper.UpdateSqlParameter("OrgUnit", model.OrgUnit, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("Content", model.Content, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("Department", model.Department, DataType.AsString, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("SearchText", model.SearchText, DataType.AsString, sqlParameterd);
                 if (model.StartDate.ToString() == "1/1/0001 12:00:00 AM")
                 {
                    // _dbHelper.UpdateSqlParameter("StartDate", null, DataType.AsDataTime, sqlParameterd);

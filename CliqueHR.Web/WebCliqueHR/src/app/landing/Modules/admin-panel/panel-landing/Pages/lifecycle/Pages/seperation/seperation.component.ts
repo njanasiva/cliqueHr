@@ -9,7 +9,7 @@ import { LifeCycleService } from 'src/app/landing/Modules/admin-panel/admin-pane
 import { Components } from 'src/Application/Types/Constants';
 import { isNullOrUndefined } from 'util';
 import { forkJoin, Observable, of } from 'rxjs';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { UiSweetAlertService } from 'projects/clique-hrui/src/public-api';
 
 @Component({
@@ -21,24 +21,12 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
 
   @ViewChildren(UiDataTableComponent, { read: UiDataTableComponent })
   private uiDataTableComponent: QueryList<UiDataTableComponent>;
-
+  addForm: FormGroup;
+  rows: FormArray;
+  itemForm: FormGroup;
   public NoticePeriodDetailArrayList = new Array<any>();
   public SeperationReasonArrayList = new Array<any>();
   public SeperationTaskArrayList = new Array<any>();
-
-  //public CentrePlaceHolderText: string = "None Selected";
-  //public regionPlaceHolderText: string = "None Selected";
-  //public locationPlaceHolderText: string = "None Selected";
-  //public employeeTypePlaceHolderText: string = "None Selected";
-  //public positionPlaceHolderText: string = "None Selected";
-  //public costCentrePlaceHolderText: string = "None Selected";
-  //public gradePlaceHolderText: string = "None Selected";
-  //public entityPlaceHolderText: string = "None Selected";
-  //public orgunitPlaceHolderText: string = "None Selected";
-  //public employeegroupPlaceHolderText: string = "None Selected";
-  //public departmentPlaceHolderText: string = "None Selected";
-  //public designationPlaceHolderText: string = "None Selected";
-
   public orgunit = new Array<UiMultiselectData>();
   public centerType = new Array<UiMultiselectData>();
   public region = new Array<UiMultiselectData>();
@@ -51,8 +39,14 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
   public department = new Array<UiMultiselectData>();
   public employeegroup = new Array<UiMultiselectData>();
   public designation = new Array<UiMultiselectData>();
+  public daytype = new Array<UiMultiselectData>();
+  public interviewtype = new Array<UiMultiselectData>();
+  public taskownername = new Array<UiMultiselectData>();
+  public escaltelevel = new Array<UiMultiselectData>();
   public orgEntityDepartment = new Array<UiMultiSelectOptions>();
   public selectedOrgEntityDepartment = new Array<UiMultiSelectOptions>();
+  public separationtypename = new Array<UiMultiselectData>();
+  public isSeparationtypenameRequiredError: boolean = false;
 
   public SeparationFromList = new Array<any>();
   public TaskOwnerList = new Array<any>();
@@ -63,11 +57,12 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
   public NoticePeriodDetailForm: FormGroup;
   public SeperationReasonForm: FormGroup;
   public SeperationTaskForm: FormGroup;
+  public SeparationForm: FormGroup;
+
   public isAddMode: boolean = true;
   public popupHeading: string = '';
   public showForm: boolean = false;
   public showDiv: boolean = false;
-
   public centreTypeSelectedValues: string = '';
   public regionSelectedValues: string = '';
   public locationSelectedValues: string = '';
@@ -75,14 +70,26 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
   public positionSelectedValues: string = '';
   public costCentreSelectedValues: string = '';
   public gradeSelectedValues: string = '';
+  public entitySelectedValues: string = '';
   public donotUse: boolean = false;
   public orgPlaceHolder: string = 'Entity/Org Unit/Department';
+  public separationtypeId: number = 0;
+  public employeegroupSelectedValues: string = '';
+  public orgunitSelectedValues: string = '';
+  public departmentSelectedValues: string = '';
+  public designationSelectedValues: string = '';
+  public RelievingDateTypeId: boolean = false;
+  public ApproveManagerType: boolean = false;
+  public RetirementAge: number = 0;
+  public RetirementDays: number = 0;
+
 
   public SeperationConfig: UiDataTableConfig = {
     Columns: [
       { fieldId: 'NoticePeriodDetailId', fieldName: '', columnClass: 'width100' },
       { fieldId: 'NoticePeriodName', fieldName: 'Notice Period Name', columnClass: 'text-nowrap width100' },
       { fieldId: 'NoticePeriodDays', fieldName: 'Notice Period Days', columnClass: 'text-nowrap width100' },
+      { fieldId: 'ConfirmationDays', fieldName: 'ConfirmationDays', columnClass: 'text-nowrap width100' },
       { fieldId: 'PublishTo', fieldName: 'Publish to', columnClass: 'text-nowrap width100' }
     ],
     Pagination: true,
@@ -133,9 +140,13 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     private commonService: CommonService,
     private LifeCycleService: LifeCycleService,
     private uiSweetAlertService: UiSweetAlertService
-
   ) {
     super(Components.SeperationComponent, applicationService, changeDetection, viewContainerRef);
+    this.addForm = this.fb.group({
+      items: [null, Validators.required],
+    });
+
+    this.rows = this.fb.array([]);
   }
 
 
@@ -146,16 +157,178 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     this.CreateNoticePeriodDetail();
     this.CreateSeparationReasonDetail();
     this.CreateSeparationTasksDetail();
+    this.CreateSeparation();
+    this.addForm.addControl('rows', this.rows);
+  }
+  keyPress(event){
+    console.log(event, "click");
+    const key = event.keyCode;
+    console.log(key);
+    if (key >= 15 && key <= 64) {
+      event.preventDefault();
+    }
+  }
+  keyPressNumbers(event) {
+    console.log(event, "click");
+    const key = event.keyCode;
+    console.log(key, "length");
+    // Only Numbers 0-9
+    if ((key < 48 || key > 57)) {
+      event.preventDefault();
+      return false;
+    } else {
+      return true;
+    }
+  }
+  onRemoveRow(rowIndex: number) {
+    this.rows.removeAt(rowIndex);
+  }
+
+  createFormGroup(data: any): FormGroup {
+    let fieldData = this.loadValues(data.fieldtype);
+    let formData = this.fb.group({
+      fieldname: data.fieldname,
+      fieldtype: data.fieldtype,
+      fieldvalueid: data.fieldvalueid,
+      fieldvalue: data.fieldvalue,
+      mandatory: data.mandatory,
+      enable: data.enable,
+      fieldvalues: fieldData,
+      isTextBox: data.isTextBox == 'true' ? true : false,
+      isDropDown: data.isDropDown == 'true' ? true : false,
+      isDisabledText: data.isDisabledText == 'true' ? true : false,
+      disabledContent: data.disabledContent
+    });
+    return formData;
+  }
+
+  onAddRow() {
+    if (this.rows.length < 7) {
+      this.rows.push(this.createItemFormGroup());
+    }
+    else {
+      this.uiSweetAlertService.ShowAlert("Maximum of 6 rows can only be added!");
+    }
+  }
+
+  loadFieldValue(index, val) {
+    let value = parseInt(val);
+    let items = this.rows.value[index];
+    if (value == 1 || value == 2) {
+      items.isTextBox = false;
+      items.isDropDown = true;
+      items.isDisabledText = false;
+      items.fieldvalues = this.loadValues(value);
+    }
+    else if (value == 3 || value == 4) {
+      items.isTextBox = true;
+      items.isDropDown = false;
+      items.isDisabledText = false;
+    }
+    else if (value > 4) {
+      items.isTextBox = false;
+      items.isDropDown = false;
+      items.isDisabledText = true;
+      items.disabledContent = value == 5 ? "Date Picker" : (value == 6) ? "Upto 75 chars" : "File upload";
+    }
+    this.rows.at(index).patchValue(items);
+    console.log(index);
+    console.log(val);
+  }
+
+  createItemFormGroup(): FormGroup {
+    return this.fb.group({
+      fieldname: null,
+      fieldtype: 0,
+      fieldvalueid: 0,
+      fieldvalue: null,
+      mandatory: false,
+      enable: false,
+      fieldvalues: new Array<UiMultiselectData>(),
+      isTextBox: false,
+      isDropDown: true,
+      isDisabledText: false,
+      disabledContent: ''
+    });
+  }
+
+  loadValues(type: number) {
+    let dropDownValues = new Array<UiMultiselectData>();
+    switch (type) {
+      case 1:
+        let _data = new UiMultiselectData();
+        _data.Text = "Upto 25 character";
+        _data.Value = 1;
+        dropDownValues.push(_data);
+        _data = new UiMultiselectData();
+        _data.Text = "Email";
+        _data.Value = 2;
+        dropDownValues.push(_data);
+        break;
+      case 2:
+        let data = new UiMultiselectData();
+        data.Text = "No Limit";
+        data.Value = 1;
+        dropDownValues.push(data);
+        data = new UiMultiselectData();
+        data.Text = "1 Digit";
+        data.Value = 2;
+        dropDownValues.push(data);
+        data = new UiMultiselectData();
+        data.Text = "1 Digit";
+        data.Value = 3;
+        dropDownValues.push(data);
+        data = new UiMultiselectData();
+        data.Text = "2 Digit";
+        data.Value = 4;
+        dropDownValues.push(data);
+        data = new UiMultiselectData();
+        data.Text = "3 Digit";
+        data.Value = 5;
+        dropDownValues.push(data);
+        data = new UiMultiselectData();
+        data.Text = "4 Digit";
+        data.Value = 6;
+        dropDownValues.push(data);
+        data = new UiMultiselectData();
+        data.Text = "5 Digit";
+        data.Value = 7;
+        dropDownValues.push(data);
+        data = new UiMultiselectData();
+        data.Text = "Percentage";
+        data.Value = 8;
+        dropDownValues.push(data);
+        data = new UiMultiselectData();
+        data.Text = "Mobile";
+        data.Value = 9;
+        dropDownValues.push(data);
+        data = new UiMultiselectData();
+        data.Text = "Telephone";
+        data.Value = 10;
+        dropDownValues.push(data);
+        break;
+    }
+
+    return dropDownValues;
   }
 
   ngAfterViewInit(): void {
+    try {
+      this.LoadSeparationDetails();
+      this.LoadMultiSelectDropdownList();
+      this.LoadUserDefinedUI();
+      this.LoadGrid();
+    } catch (error) {
+      this.HideLoader();
+    }
+  }
 
+  LoadNoticePeriodDetailGrid() {
     this.SubjectDestroy.push(
       this.uiDataTableComponent.toArray()[0].fetchObs.subscribe(x => {
         this.NoticePeriodNameDetailList(x.StartRow, x.EndRow, x.Sort, x.searchText).subscribe(
           (data: any) => {
             this.NoticePeriodDetailsResp(data);
-            this.HideLoader();
           },
           (error) => {
             console.log(error);
@@ -163,33 +336,43 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
           });
       })
     );
-    this.LoadSeparationDetails();
-    this.LoadMultiSelectDropdownList();
-    // Seperation Reason
-    this.uiDataTableComponent.toArray()[1].fetchObs.subscribe(x => {
-      this.GetSeperationReasonList(x.StartRow, x.EndRow, x.Sort, x.searchText).subscribe(
-        (data: any) => {
-          this.SeperationReasonResp(data);
-          this.HideLoader();
-        },
-        (error) => {
-          console.log(error);
-          this.HideLoader();
-        });
-    });
-    // Seperation Task
-    this.uiDataTableComponent.toArray()[2].fetchObs.subscribe(x => {
-      this.GetSeperationTaskList(x.StartRow, x.EndRow, x.Sort, x.searchText).subscribe(
-        (data: any) => {
-          this.SeperationTaskResp(data);
-          this.HideLoader();
-        },
-        (error) => {
-          console.log(error);
-          this.HideLoader();
-        });
-    });
+  }
 
+  LoadSeparateReasonGrid() {
+    this.SubjectDestroy.push(
+      this.uiDataTableComponent.toArray()[1].fetchObs.subscribe(x => {
+        this.GetSeperationReasonList(x.StartRow, x.EndRow, x.Sort, x.searchText).subscribe(
+          (data: any) => {
+            this.SeperationReasonResp(data);
+          },
+          (error) => {
+            console.log(error);
+            this.HideLoader();
+          });
+      })
+    );
+  }
+
+  LoadSeparateTaskGrid() {
+    this.SubjectDestroy.push(
+      this.uiDataTableComponent.toArray()[2].fetchObs.subscribe(x => {
+        this.GetSeperationTaskList(x.StartRow, x.EndRow, x.Sort, x.searchText).subscribe(
+          (data: any) => {
+            this.SeperationTaskResp(data);
+          },
+          (error) => {
+            console.log(error);
+            this.HideLoader();
+          });
+      })
+    );
+  }
+
+  LoadGrid() {
+    this.ShowLoader();
+    this.LoadNoticePeriodDetailGrid();
+    this.LoadSeparateReasonGrid();
+    this.LoadSeparateTaskGrid();
     forkJoin([
       this.NoticePeriodNameDetailList(1, this.SeperationConfig.PaginationPageSize, { fieldId: 'NoticePeriodDetailId', direction: 'asc' }),
       this.GetSeperationReasonList(1, this.SeperationReasonConfig.PaginationPageSize, { fieldId: 'SeparationReasonId', direction: 'asc' }),
@@ -207,12 +390,69 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
       });
   }
 
+  LoadUserDefinedUI() {
+    this.LifeCycleService.GetSeparationUserDefined({ 'UserId': 1 }).subscribe(
+      (data: any) => {
+        if (data) {
+          if (data.Table) {
+            this.SeparationForm.patchValue(data.Table[0]);
+            //this.SeparationResp(data);
+          }
+          if (data.Table1) {
+            let values = data.Table1;
+            values.forEach(element => {
+              this.rows.push(this.createFormGroup(element));
+            });
+            if (this.rows.value && this.rows.value.length && this.rows.value.length > 0) {
+              //fieldvalues
+              for (let i = 0; i < this.rows.value.length; i++) {
+                this.rows.value[i].fieldvalues = this.loadValues(this.rows.value[i].fieldtype);
+                this.rows.at(i).patchValue(this.rows.value[i]);
+              }
+            }
+          }
+        }
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    )
+  }
+  private CreateSeparation() {
+    this.SeparationForm = this.fb.group({
+      RelievingDateTypeId: 1,
+      RetirementAge: 0,
+      RetirementDays: 0,
+      AllowUpTo: false,
+      SeparationDaysUpto: 0,
+      AllowManagerResignOnBehalf: false,
+      EditExitDate:false,
+      EditRecoveryDates:false,
+      RaiseTermination:false,
+      AutomaticallyTriggerRetirementWorkflow:false,
+      UserDefinedField: ''
+    });
+  }
+
+  private SeparationResp(data: any) {
+    if (data.Table) {
+      this.ApproveManagerType = data.Table[0].ApproveManagerType;
+      this.RelievingDateTypeId = data.Table[0].RelievingDateTypeId;
+      this.RetirementAge = data.Table[0].RetirementAge;
+      this.RetirementDays = data.Table[0].RetirementDays;
+    }
+    else {
+      this.ApproveManagerType = false;
+      this.RelievingDateTypeId = false;
+      this.RetirementAge = 0;
+      this.RetirementDays = 0;
+    }
+  }
 
   private LoadSeparationDetails() {
     let paginationModel: any = {
       UserId: 1
     }
-    this.ShowLoader();
     this.LifeCycleService.GETMasterForSeparationTaskList(paginationModel).subscribe(
       (data: any) => {
         if (data && data != undefined) {
@@ -233,7 +473,6 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
           }
         }
         console.log(data);
-        this.HideLoader();
       },
       (error) => {
         this.HideLoader();
@@ -243,11 +482,9 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
   }
 
   private LoadMultiSelectDropdownList() {
-    debugger;
     let paginationModel: any = {
       UserId: 1
     }
-    this.ShowLoader();
     this.LifeCycleService.GetConfirmationMasterList(paginationModel).subscribe(
       (data: any) => {
         if (data && data != undefined) {
@@ -281,6 +518,27 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
           if (data.OrgUnit) {
             this.orgunit = data.OrgUnit
           }
+          if (data.SeparationType) {
+            this.separationtypename = data.SeparationType
+          }
+          if (data.TaskOwner) {
+            this.taskownername = data.TaskOwner
+          }
+          if (data.EscalateLevel) {
+            this.escaltelevel = data.EscalateLevel
+          }
+          if (data.EmployeeGroup) {
+            this.employeegroup = data.EmployeeGroup
+          }
+          if (data.Designation) {
+            this.designation = data.Designation
+          }
+          if (data.DayType) {
+            this.daytype = data.DayType
+          }
+          if (data.InterviewType) {
+            this.interviewtype = data.InterviewType
+          }
           let _orgData = new Array<UiMultiSelectOptions>();
           let _entity = this.LoadAccordionDropdown(data.Entity, "entity", "Entity Group");
           let _department = this.LoadAccordionDropdown(data.Department, "department", "Department");
@@ -291,7 +549,6 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
           this.orgEntityDepartment = _orgData;
         }
         console.log(data);
-        this.HideLoader();
       },
       (error) => {
         this.HideLoader();
@@ -299,6 +556,7 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
       }
     );
   }
+
   LoadAccordionDropdown(data: Array<UiMultiselectData>, controlId: string, text: string) {
     let dropdownData = new UiMultiSelectOptions();
     dropdownData.ControlId = controlId;
@@ -320,7 +578,7 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
 
   ShowFormData(event) {
     this.showForm = event.checked;
-
+    this.separationtypeId = 0;
   }
 
   updateText(data: string, item: string) {
@@ -345,30 +603,25 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     else if (data == "grade") {
       this.gradeSelectedValues = item;
     }
+    else if (data == "employeegroup") {
+      this.employeegroupSelectedValues = item;
+    }
+    else if (data == "entity") {
+      this.entitySelectedValues = item;
+    }
+    else if (data == "designation") {
+      this.designationSelectedValues = item;
+    }
+    else if (data == "orgunit") {
+      this.orgunitSelectedValues = item;
+    }
+    else if (data == "department") {
+      this.departmentSelectedValues = item;
+    }
   }
 
   onSelectAll(items: Array<UiMultiselectData>, data: string) {
     //this.updateText(data,"");
-  }
-  keyPress(event){
-    console.log(event, "click");
-    const key = event.keyCode;
-    console.log(key);
-    if (key >= 15 && key <= 64) {
-      event.preventDefault();
-    }
-  }
-  keyPressNumbers(event) {
-    console.log(event, "click");
-    const key = event.keyCode;
-    console.log(key, "length");
-    // Only Numbers 0-9
-    if ((key < 48 || key > 57)) {
-      event.preventDefault();
-      return false;
-    } else {
-      return true;
-    }
   }
 
   private NoticePeriodNameDetailList(startRow: number, endRow: number, sort?: SortType, searchText?: string) {
@@ -387,17 +640,19 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
   }
 
   private NoticePeriodDetailsResp(data: any) {
+    this.HideLoader();
     if (isNullOrUndefined(data)) {
       this.NoticePeriodDetailArrayList = [];
       this.uiDataTableComponent.toArray()[0].ConstructRow([], 0);
     }
     else {
-      this.NoticePeriodNameDetailList = data.Data || [];
+      this.NoticePeriodDetailArrayList = data.Data || [];
       this.uiDataTableComponent.toArray()[0].ConstructRow(data.Data, data.Total);
     }
   }
 
   private SeperationReasonResp(data: any) {
+    this.HideLoader();
     if (isNullOrUndefined(data)) {
       this.SeperationReasonArrayList = [];
       this.uiDataTableComponent.toArray()[1].ConstructRow([], 0);
@@ -409,23 +664,27 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
   }
 
   private GetSeperationReasonList(startRow: number, endRow: number, sort?: SortType, searchText?: string) {
+    // debugger;
     let paginationModel: any = {
       UserId: 1,
       SeparationReasonId: 1,
-      ActionId: 2,
+      SeparationTypeId: 1,
+      ActionId: 1,
       StartRow: startRow,
       EndRow: endRow
     }
+    this.ShowLoader();
     return this.LifeCycleService.GetSeparationReasons(paginationModel);
   }
 
   private SeperationTaskResp(data: any) {
+    this.HideLoader();
     if (isNullOrUndefined(data)) {
       this.SeperationTaskArrayList = [];
       this.uiDataTableComponent.toArray()[2].ConstructRow([], 0);
     }
     else {
-      this.GetSeperationTaskList = data.Data || [];
+      this.SeperationTaskArrayList = data.Data || [];
       this.uiDataTableComponent.toArray()[2].ConstructRow(data.Data, data.Total);
     }
   }
@@ -440,13 +699,13 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
       EndRow: endRow,
       ActionId: 1
     }
+    this.ShowLoader();
     return this.LifeCycleService.GetSeparationTask(paginationModel);
   }
 
   //Edit Notice Period Details
 
   public OnNoticePeriodDetailsOp() {
-   
     this.ShowLoader();
     let noticeperiodtype: Observable<any>;
     this.NoticePeriodDetailForm.value.ActionId = this.isAddMode == true ? 1 : 2;
@@ -460,93 +719,73 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     this.NoticePeriodDetailForm.value.OrgUnit = this.getSelectedValues("Org Unit");
     this.NoticePeriodDetailForm.value.Entity = this.getSelectedValues("Entity Group");
     this.NoticePeriodDetailForm.value.Department = this.getSelectedValues("Department");
-   
+
     noticeperiodtype = this.LifeCycleService.AddNoticePeriodDetails(this.NoticePeriodDetailForm.value);
 
     noticeperiodtype.subscribe(
       (data: any) => {
-        this.NoticePeriodNameDetailList(1, this.SeperationConfig.PaginationPageSize, { fieldId: 'NoticePeriodDetailId', direction: 'asc' }).subscribe(
-          (data: any) => {
-          },
-          (error) => {
-            this.HideLoader();
-          })
+        this.HideLoader();
+        this.LoadGrid();
+        this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
+        this.CloseModelPopup('#addNoticePeriod');
       },
       (error) => {
         this.HideLoader();
       }
     )
-    this.CloseModelPopup('#addNoticePeriod');
-    this.HideLoader();
   }
 
   public OnSeparationReasonOp() {
-    alert("hi")
+    // debugger;
     this.ShowLoader();
     let separationreasontype: Observable<any>;
-    if (this.isAddMode) {
-      separationreasontype = this.LifeCycleService.AddModifySeparationReasonDetails(this.SeperationReasonForm.value);
-    }
-    else {
-      separationreasontype = this.LifeCycleService.AddModifySeparationReasonDetails(this.SeperationReasonForm.value);
-    }
+    this.SeperationReasonForm.value.ActionId = this.isAddMode == true ? 1 : 2;
+
+    separationreasontype = this.LifeCycleService.AddModifySeparationReasonDetails(this.SeperationReasonForm.value);
+
     separationreasontype.subscribe(
       (data: any) => {
         this.CloseModelPopup('#addSeparationReason');
-        this.GetSeperationReasonList(1, this.SeperationReasonConfig.PaginationPageSize, { fieldId: 'SeparationReasonId', direction: 'asc' }).subscribe(
-          (data: any) => {
-            // this.HideLoader();
-            // this.HandleCourseTypeResp(data);
-            this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
-        // this.uiSweetAlertService.ShowMultipleMessageAlert(this.validationMessage);
-
-          },
-          (error) => {
-            this.HideLoader();
-          })
+        this.HideLoader();
+        this.LoadGrid();
+        this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
       },
       (error) => {
         this.HideLoader();
-        //this.validationMessage = ValidationBuilder.build(error);
-        ///this.uiSweetAlertService.ShowMultipleMessageAlert(this.validationMessage);
       }
     )
+
   }
   public OnSeparationTaskOp() {
     this.ShowLoader();
     let separationtasktype: Observable<any>;
-    if (this.isAddMode) {
-      separationtasktype = this.LifeCycleService.AddModifySeparationTaskDetails(this.SeperationTaskForm.value);
-    }
-    else {
-      separationtasktype = this.LifeCycleService.AddModifySeparationTaskDetails(this.SeperationTaskForm.value);
-    }
+    this.SeperationTaskForm.value.ActionId = this.isAddMode == true ? 1 : 2;
+    this.SeperationTaskForm.value.EmployeeGroupId = this.employeegroupSelectedValues;
+    this.SeperationTaskForm.value.Entity = this.entitySelectedValues;
+    this.SeperationTaskForm.value.OrgUnit = this.orgunitSelectedValues;
+    this.SeperationTaskForm.value.Department = this.departmentSelectedValues;
+    this.SeperationTaskForm.value.DesignationTypeId = this.designationSelectedValues;
+    this.SeperationTaskForm.value.Location = this.locationSelectedValues;
+    this.SeperationTaskForm.value.EmployeeType = this.employeeTypeSelectedValues;
+    this.SeperationTaskForm.value.Grade = this.gradeSelectedValues;
+
+    separationtasktype = this.LifeCycleService.AddModifySeparationTaskDetails(this.SeperationTaskForm.value);
+
     separationtasktype.subscribe(
       (data: any) => {
-        debugger;
         this.CloseModelPopup('#addSeparationTasks');
-        this.GetSeperationTaskList(1, this.SeperationTasksConfig.PaginationPageSize, { fieldId: 'SeparationTaskId', direction: 'asc' }).subscribe(
-          (data: any) => {
-            // this.HideLoader();
-            // this.HandleCourseTypeResp(data);
-            this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
-        // this.uiSweetAlertService.ShowMultipleMessageAlert(this.validationMessage);
-
-          },
-          (error) => {
-            this.HideLoader();
-          })
+        this.HideLoader();
+        this.LoadGrid();
+        this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
       },
       (error) => {
         this.HideLoader();
-        //this.validationMessage = ValidationBuilder.build(error);
-        ///this.uiSweetAlertService.ShowMultipleMessageAlert(this.validationMessage);
       }
     )
   }
 
   private NoticePeriodDetail(isAddModel: boolean, index) {
-    debugger;
+    // debugger;
     this.CreateNoticePeriodDetail();
     if (isAddModel) {
       this.NoticePeriodDetailForm.reset();
@@ -554,7 +793,7 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     }
     else {
       this.popupHeading = "Edit Notice Period Details";
-      let item = this.NoticePeriodNameDetailList[index];
+      let item = this.NoticePeriodDetailArrayList[index];
 
       if (item && item.CentreType) {
         this.centreTypeSelectedValues = item.CentreType;
@@ -595,7 +834,7 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
       this.setSelectedValues(departmentData, 'Department');
       this.selectedOrgEntityDepartment = this.orgEntityDepartment;
 
-      this.NoticePeriodDetailForm.patchValue(this.NoticePeriodNameDetailList[index]);
+      this.NoticePeriodDetailForm.patchValue(this.NoticePeriodDetailArrayList[index]);
 
     }
   }
@@ -676,6 +915,7 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     }
     else {
       this.popupHeading = "Edit Separation Reason Details";
+      let item = this.SeperationReasonArrayList[index];
       this.SeperationReasonForm.patchValue(this.SeperationReasonArrayList[index]);
 
     }
@@ -684,57 +924,48 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     this.CreateSeparationTasksDetail();
     if (isAddModel) {
       this.SeperationTaskForm.reset();
-      this.popupHeading = "Add Separation Task Details";
+      this.popupHeading = "Add Separation Tasks";
     }
     else {
-      this.popupHeading = "Edit Separation Task Details";
+      this.popupHeading = "Edit Separation Tasks";
 
-      let item = this.GetSeperationTaskList[index];
-      //if (item && item.EmployeeGroup) {
-      //  this.employeegroup = this.LoadDropdownData(this.employeegroup, item.EmployeeGroup);
-      //  this.updateText('employeegroup');
-      //}
-      //if (item && item.Entity) {
-      //  this.entity = this.LoadDropdownData(this.entity, item.Entity);
-      //  this.updateText('entity');
-      //}
-      //if (item && item.OrgUnit) {
-      //  this.orgunit = this.LoadDropdownData(this.orgunit, item.OrgUnit);
-      //  this.updateText('orgunit');
-      //}
-      //if (item && item.Department) {
-      //  this.department = this.LoadDropdownData(this.department, item.Department);
-      //  this.updateText('Department');
-      //}
-      //if (item && item.Designation) {
-      //  this.designation = this.LoadDropdownData(this.designation, item.Designation);
-      //  this.updateText('designation');
-      //}
-      //if (item && item.Location) {
-      //  this.location = this.LoadDropdownData(this.location, item.Location);
-      //  this.updateText('location');
-      //}
-      //if (item && item.EmployeeType) {
-      //  this.employeeType = this.LoadDropdownData(this.employeeType, item.EmployeeType);
-      //  this.updateText('employeeType');
-      //}
-      //if (item && item.Grade) {
-      //  this.grade = this.LoadDropdownData(this.grade, item.Grade);
-      //  this.updateText('grade');
-      //}
-      this.SeperationTaskForm.patchValue(this.GetSeperationTaskList[index]);
+      let item = this.SeperationTaskArrayList[index];
+      if (item && item.EmployeeGroup) {
+        this.employeegroupSelectedValues = item.EmployeeGroup
+      }
+      if (item && item.Entity) {
+        this.entitySelectedValues = item.Entity
+      }
+      if (item && item.OrgUnit) {
+        this.orgunitSelectedValues = item.OrgUnit
+      }
+      if (item && item.Department) {
+        this.departmentSelectedValues = item.Department
+      }
+      if (item && item.Designation) {
+        this.designationSelectedValues = item.Designation
+      }
+      if (item && item.Location) {
+        this.locationSelectedValues = item.Location;
+      }
+      if (item && item.EmployeeType) {
+        this.employeeTypeSelectedValues = item.EmployeeType
+      }
+      if (item && item.Grade) {
+        this.gradeSelectedValues = item.Grade
+      }
+      this.SeperationTaskForm.patchValue(this.SeperationTaskArrayList[index]);
     }
   }
 
   private CreateNoticePeriodDetail() {
-   
     if (isNullOrUndefined(this.NoticePeriodDetailForm)) {
       this.NoticePeriodDetailForm = this.fb.group({
         NoticePeriodName: ['', [Validators.required]],
         NoticePeriodDays: ['', [Validators.required]],
         ConfirmationDays: [''],
         NoticePeriodDetailId: [''],
-        //IsDoNotUse: [false],
+        IsDoNotUse: [false],
         Id: []
       });
     }
@@ -743,6 +974,9 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     if (isNullOrUndefined(this.SeperationReasonForm)) {
       this.SeperationReasonForm = this.fb.group({
         SeparationReason: ['', [Validators.required]],
+        SeparationTypeId: 0,
+        SeparationReasonId: 0,
+        SeparationTypeName: [''],
         IsDoNotUse: [false],
         Id: []
       });
@@ -755,6 +989,21 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
         InitiateTaskDays: ['', [Validators.required]],
         EscalatePostDay: ['', [Validators.required]],
         IsDoNotUse: [false],
+        SeparationTaskId: 0,
+        DayTypeId: 0,
+        SeparationTypeId: 0,
+        SeparationTypeName: '',
+        TaskOwnerName: '',
+        EscalateLevel: '',
+        DayTypeName: '',
+        InterviewTypeName: '',
+        TaskOwnerId: 0,
+        EscalateLevelId: 0,
+        InterviewTypeId: 0,
+        EscalateDayTypeId: 0,
+        EscalateTypeId: 0,
+        EmployeeGroup: '',
+        DesignationType: '',
         Id: []
       });
     }
@@ -777,18 +1026,24 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
         break;
     }
   }
-  public OnOpenPopup(index: any, popupType: string) {
-    //this.SetupPopupData("#addNoticePeriod", index, false);
-    //this.OpenModelPopup("#addNoticePeriod");
-    //console.log(index);
 
-   // this.CreateProbationDetail();
+  private clearNoticePeriodDetails() {
+    this.orgEntityDepartment.forEach(item => {
+      item.Data.forEach(items => {
+        items.isCheckBoxSelected = false;
+      });
+    });
+    this.centreTypeSelectedValues = "";
+  }
+
+  public OnOpenPopup(index: any, popupType: string) {
     if (popupType == "Add") {
       this.NoticePeriodDetailForm.reset();
       this.isAddMode = true;
       this.popupHeading = "Add Notice Period Details";
     }
     else if (popupType == "Edit") {
+      this.clearNoticePeriodDetails()
       this.isAddMode = false;
       this.SetupPopupData("#addNoticePeriod", index, false);
     }
@@ -800,89 +1055,97 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     if (popupType == "Add") {
       this.SeperationReasonForm.reset();
       this.isAddMode = true;
-      this.popupHeading = "Add Notice Period Details";
+      this.SeperationReasonForm.get('SeparationTypeId').setValue(0);
+      this.popupHeading = "Add Separation Reason";
     }
     else if (popupType == "Edit") {
       this.isAddMode = false;
       this.SetupPopupData("#addSeparationReason", index, false);
-    }   
+    }
     this.OpenModelPopup("#addSeparationReason");
   }
 
   public OnOpenSeparationTaskPopup(index: any, popupType: string) {
-    this.SetupPopupData("#addSeparationTasks", index, false);
+    if (popupType == "Add") {
+      this.SeperationReasonForm.reset();
+      this.isAddMode = true;
+      this.popupHeading = "Add Separation Tasks";
+    }
+    else if (popupType == "Edit") {
+      this.isAddMode = false;
+      this.SetupPopupData("#addSeparationTasks", index, false);
+    }
     this.OpenModelPopup("#addSeparationTasks");
   }
+
   public OnClosePopup(PopUpID: string) {
     this.CloseModelPopup(PopUpID);
   }
-
-  //onItemSelect(item: UiMultiselectData, data: string) {
-  //  this.updateText(data);
-  //}
-  //updateText(data: string) {
-  //  if (data == "centre") {
-  //    this.CentrePlaceHolderText = this.updatePlaceHolder(this.centerType);
-  //  }
-  //  else if (data == "region") {
-  //    this.regionPlaceHolderText = this.updatePlaceHolder(this.region);
-  //  }
-  //  else if (data == "location") {
-  //    this.locationPlaceHolderText = this.updatePlaceHolder(this.location);
-  //  }
-  //  else if (data == "employeeType") {
-  //    this.employeeTypePlaceHolderText = this.updatePlaceHolder(this.employeeType);
-  //  }
-  //  else if (data == "position") {
-  //    this.positionPlaceHolderText = this.updatePlaceHolder(this.position);
-  //  }
-  //  else if (data == "costCentre") {
-  //    this.costCentrePlaceHolderText = this.updatePlaceHolder(this.costCentre);
-  //  }
-  //  else if (data == "grade") {
-  //    this.gradePlaceHolderText = this.updatePlaceHolder(this.grade);
-  //  }
-  //  else if (data == "employeegroup") {
-  //    this.employeegroupPlaceHolderText = this.updatePlaceHolder(this.employeegroup);
-  //  }
-  //  else if (data == "entity") {
-  //    this.entityPlaceHolderText = this.updatePlaceHolder(this.entity);
-  //  }
-  //  else if (data == "orgunit") {
-  //    this.orgunitPlaceHolderText = this.updatePlaceHolder(this.orgunit);
-  //  }
-  //  else if (data == "department") {
-  //    this.departmentPlaceHolderText = this.updatePlaceHolder(this.department);
-  //  }
-  //  else if (data == "designation") {
-  //    this.designationPlaceHolderText = this.updatePlaceHolder(this.designation);
-  //  }
-  //}
-
-  //onSelectAll(items: Array<UiMultiselectData>, data: string) {
-  //  this.updateText(data);
-  //}
-
-  private updatePlaceHolder(data: Array<UiMultiselectData>) {
-    let arrayData = [];
-    let selectedCentreType = data.filter(item => item.isCheckBoxSelected == true);
-    if (selectedCentreType.length > 0) {
-      if (selectedCentreType.length <= 3) {
-        selectedCentreType.forEach(item => {
-          arrayData.push(item.Text);
-        });
-        return arrayData.join(',');
-      }
-      else if (selectedCentreType.length > 3) {
-        return "Selected Item(" + selectedCentreType.length + ")";
-      }
-      else {
-        return "None Selected";
-      }
+  onOptionsSelected(event) {
+    const value = event.target.value;
+    if (value == 0) {
+      this.isSeparationtypenameRequiredError = true;
     }
     else {
-      return "None Selected";
+      this.isSeparationtypenameRequiredError = false;
     }
+  }
+
+  public AllowUptChange(event) {
+    if (event.checked) {
+      //this.SeparationForm.get('AllowDaysTo').setValue('true');
+      this.SeparationForm.get('SeparationDaysUpto').setValue(0);
+    }
+    else {
+      //this.SeparationForm.get('AllowDaysTo').setValue('false');
+      this.SeparationForm.get('SeparationDaysUpto').setValue(null);
+    }
+  }
+
+  public onSeparationSave() {
+    this.ShowLoader();
+    let separationtype: Observable<any>;
+    let rowData = [];
+    //  fieldname: null,
+    //   fieldtype: 0,
+    //   fieldvalueid: 0,
+    //   fieldvalue: null,
+    //   mandatory: false,
+    //   enable: false,
+    //   fieldvalues: new Array<UiMultiselectData>(),
+    //   isTextBox: false,
+    //   isDropDown: true,
+    //   isDisabledText: false,
+    //   disabledContent: ''
+    for (let i = 0; i < this.rows.value.length; i++) {
+      let data = this.rows.value[i];
+      let item = {
+        "FieldName": data.fieldname,
+        "FieldType": data.fieldtype,
+        "FieldValueId": data.fieldvalueid,
+        "IsMandatory": data.mandatory,
+        "IsActive": data.enable,
+        "FieldValue": null
+      };
+      if(data.isDisabledText){
+        item.FieldValue = data.disabledContent;
+      }
+      if(data.isTextBox){
+        item.FieldValue  = data.fieldvalue
+      }
+      rowData.push(item);
+    }
+    this.SeparationForm.value.UserDefinedField = JSON.stringify(rowData);
+    separationtype = this.LifeCycleService.SaveSeparationDetail(this.SeparationForm.value);
+    separationtype.subscribe(
+      (data: any) => {
+        this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
+        this.HideLoader();
+      },
+      (error) => {
+        this.HideLoader();
+      }
+    );
   }
 
 }

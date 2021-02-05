@@ -40,7 +40,6 @@ namespace CliqueHR.Common.Models
         public bool IsDoNotUse { get; set; }
         public int GroupId { get; set; }
         public int ActionId { get; set; }
-        public int Success { get; set; }
     }
     public class EngagementValidation : AbstractValidator<Probation>
     {
@@ -89,6 +88,7 @@ namespace CliqueHR.Common.Models
     public class AddUpdateMarketPlace
     {
         public int UserId { get; set; }
+        public int ActionId { get; set; }
         public bool IsPostSaleVehicle { get; set; }
         public bool IsPostSaleProperty { get; set; }
         public bool IsPostSaleHouseholdGood { get; set; }
@@ -97,8 +97,8 @@ namespace CliqueHR.Common.Models
         public int MarketPlaceId { get; set; }
         public bool IsCreateSurvey { get; set; }
         public bool IsPostSurvey { get; set; }
-        public int Success { get; set; }
-        public int ActionId { get; set; }
+
+
 
     }
     public class DailyContent
@@ -120,7 +120,8 @@ namespace CliqueHR.Common.Models
         public DateTime EndDate { get; set; }
         public int Success { get; set; }
         public int Total { get; set; }
-
-
+        public int StartRow { get; set; }
+        public int EndRow { get; set; }
+        public int SearchText { get; set; }
     }
 }

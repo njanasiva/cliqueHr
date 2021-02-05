@@ -20,8 +20,11 @@ export class UiAccordionMultiSelectComponent extends UiBaseComponent implements 
   public displayText: string;
   public selectedValue: string;
   public filter = new UiMultiselectData();
+  areaExpand: any[];
+  selectedData: string;
   constructor() {
     super();
+    this.areaExpand = ['', '', '', '', '', '', '', ''];
   }
 
   ngOnInit() {
@@ -45,27 +48,7 @@ export class UiAccordionMultiSelectComponent extends UiBaseComponent implements 
 
   @Input()
   public set selectedValues(data: Array<UiMultiSelectOptions>){
-
-    this._dropdownContainter.forEach(item=> {
-         item.Data.forEach(items=> {
-            items.isCheckBoxSelected = false;
-         });
-    });
-
-    this._dropdownContainter.forEach(item => {
-        let modifyValue = data.find(a=> a.OptionType == item.OptionType);
-        item.Data.forEach(items=> {
-            modifyValue.Data.forEach(b=> {
-                if(b.Value == items.Value){
-                    items.isCheckBoxSelected = true;
-                }
-                else{
-                    items.isCheckBoxSelected = false;
-                }
-            });
-        });
-    });
-   
+    this._dropdownContainter = data;
   }
 
   emittedValue(val: any): any {
@@ -86,23 +69,61 @@ export class UiAccordionMultiSelectComponent extends UiBaseComponent implements 
     return index;
 }
 
-  modelChanged(item: UiMultiselectData, text: string){
-    console.log(item);
-    this._dropdownContainter.forEach(items=>{
-        items.Data.forEach(a=> {
-            if(a.Value == item.Value && a.Text == text){
-                a.isCheckBoxSelected = item.isCheckBoxSelected;
-            }
-        })
+  // modelChanged(item: UiMultiselectData, text: string){
+  //   console.log(item);
+  //   this._dropdownContainter.forEach(items=>{
+  //       items.Data.forEach(a=> {
+  //           if(a.Value == item.Value && a.Text == text){
+  //               a.isCheckBoxSelected = item.isCheckBoxSelected;
+  //           }
+  //       })
+  //   });
+  //   this.onSelect.emit(this.emittedValue(this._dropdownContainter));
+  // }
+  modelChanged(item: any, text: string){
+    const selectedData = [];
+    // console.log(this._dropdownContainter);
+    const selectedValues = new Array<any>();
+    this._dropdownContainter.forEach(item=> {
+      item.Data.forEach(item1 => {
+        if (item1.isCheckBoxSelected) {
+          selectedData.push(item1);
+          // console.log(selectedData);
+        }
+      });
     });
-    this.onSelect.emit(this.emittedValue(this._dropdownContainter));
+    this.selectedData = this.updatePlaceHolder(selectedData);
   }
-
+  private updatePlaceHolder(data: Array<UiMultiselectData>){
+    let arrayData = [];
+    let selectedCentreType = data.filter(item => item.isCheckBoxSelected == true);
+      if (selectedCentreType.length > 0) {
+        if (selectedCentreType.length <= 3) {
+          selectedCentreType.forEach(item => {
+            arrayData.push(item.Text);
+          });
+          return arrayData.join(',');
+        }
+        else if (selectedCentreType.length > 3) {
+          return "Selected Item(" + selectedCentreType.length + ")";
+        }
+        else{
+          return "None Selected";
+        }
+      }
+      else{
+        return "None Selected";
+      }
+  }
   public toggleDdl(event) {
     event.stopPropagation();
     if(this.isEditable){
       this.multiDdOpen = !this.multiDdOpen;
     }
   }
-
+  getValue(event, oIndex) {
+    // console.log(oIndex);
+    this.areaExpand[oIndex] = document.getElementById(oIndex).getAttribute('aria-expanded');
+    // console.log(this.areaExpand);
+  }
 }

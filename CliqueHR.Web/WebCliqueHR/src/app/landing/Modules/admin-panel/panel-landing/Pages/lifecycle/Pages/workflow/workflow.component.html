@@ -4,8 +4,8 @@
       <h4 class="mb-0">Approval Path List</h4>
     </div>
     <div class="col-1 text-right">
-      <div class="btn-more ml-auto shadow btn-custom" data-toggle="modal" data-target="#addlifeCycleWorkflow"
-           data-tooltip="tooltip" data-placement="top" title="Add Workflow">
+      <div class="btn-more ml-auto shadow btn-custom" data-toggle="modal"
+           data-tooltip="tooltip" data-placement="top" title="Add Workflow" (click)="OnOpenPopup(0,'Add')">
         <i class="icon icon-plus-symbol h3 mb-0"></i>
       </div>
     </div>
@@ -16,7 +16,15 @@
       <lib-ui-data-table [Configuration]="WorkflowConfig">
         <ng-template let-data>
           <tr>
-            <td class="text-nowrap">{{data.data.WfID}}</td>
+            <td class="text-nowrap">
+              <div class="btn-more d-inline-block shadow btn-blue" (click)="OnOpenPopup(data.index,'Edit')"
+                data-tooltip="tooltip" data-placement="top" title="Edit Workflow Details">
+                <i class="icon icon-edit h3 mb-0"></i>
+              </div>
+            </td>
+            <td class="text-nowrap"> {{data.data.ApprovalPathType}}</td>
+            <td class="text-nowrap"> {{data.data.ApprovalPathName}}</td>
+            <td class="text-nowrap"> {{data.data.WorkGrps}}</td>
           </tr>
         </ng-template>
       </lib-ui-data-table>
@@ -27,7 +35,7 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
       <div class="modal-content border-0">
         <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalCenterTitle">Add Approval Path</h4>
+          <h4 class="modal-title" id="exampleModalCenterTitle">{{popupHeading}}</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <i class="icon icon-wrong"></i>
           </button>
@@ -38,38 +46,38 @@
               <label class="h6 mb-1">
                 Approval Path Type
               </label>
-              <select class="form-control" id="pathLifeCycleWorkflow">
-                <option value="conV">Confirmation</option>
-                <option value="sepV">Separation</option>
-                <option value="movV">Movement</option>
+              <select class="form-control" id="pathLifeCycleWorkflow" [formControl]="WorkFlowForm.get('ApprovalPathTypeId')">
+                <option value="0">Select...</option>
+                <option value="1">Confirmation</option>
+                <option value="2">Separation</option>
+                <option value="3">Movement</option>
               </select>
             </div>
             <div class="col-md-3 mb-3">
               <label class="h6 mb-1">
                 Reasons
               </label>
-              <select class="form-control multiple-select" multiple="multiple" id="reasonLifeCycleWorkflow">
-                <option value="retirement">Retirement</option>
-                <option value="absconding">Absconding</option>
-                <option value="resignation">Resignation</option>
-                <option value="extendProbation">Extend Probation</option>
-                <option value="confirm">Confirm</option>
-              </select>
+              <lib-ui-multi-select id="separationTypeMultiSelect"
+                                   [data]="separationType"
+                                   (onSelect)="onItemSelect($event,'separationType')"
+                                   (onSelectAll)="onSelectAll($event,'separationType')"
+                                   [selectedValues]="separationTypeSelectedValues">
+              </lib-ui-multi-select>
             </div>
             <div class="col-md-3 mb-3">
               <label class="h6 mb-1">
                 Approval Path Name
               </label>
-              <input class="form-control" type="text" placeholder="Enter Approval Path Name...">
+              <input class="form-control"  type="text" [formControl]="WorkFlowForm.get('ApprovalPathName')" placeholder="Enter Approval Path Name...">
             </div>
             <div class="col-md-3 mb-3">
               <label class="h6 mb-1">
                 Number of Levels
               </label>
-              <select class="form-control level-selector">
+              <select class="form-control level-selector" [formControl]="WorkFlowForm.get('NumberOfLevels')" (change)="LoadGrid($event.target.value)">
                 <option value="1">1</option>
                 <option value="2">2</option>
-                <option value="3" selected>3</option>
+                <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
                 <option value="6">6</option>
@@ -80,151 +88,59 @@
               </select>
             </div>
           </div>
-          <div class="form-row">
-            <div class="col-12 table-responsive mb-3">
-              <table class="table table-striped mb-0" id="levelAdded">
-                <thead>
-                  <tr>
-                    <th>Level</th>
-                    <th class="text-nowrap" style="width: 200px;">Approver</th>                   
-                    <th>Allow follow-up after</th>
-                    <th class="text-nowrap" style="width: 200px;">Escalate to</th>
-                    <th>Escalate after</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>1</th>
-                    <td>
-                      <select class="multiple-select other-option" multiple="multiple">
-                        <option value="1">L1 Manager</option>
-                        <option value="2">L2 Manager</option>
-                        <option value="3">Functional Manager</option>
-                        <option value="4">Dotted Line Manager</option>
-                        <option value="5">HOD</option>
-                      </select>
-                      <select class="form-control multiple-select movement-options d-none" multiple="multiple">
-                        <option value="1">Current L1 Manager</option>
-                        <option value="2">Current L2 Manager</option>
-                        <option value="3">Current Functional Manager</option>
-                        <option value="4">Current Dotted Line Manager</option>
-                        <option value="5">Current HOD</option>
-                        <option value="6">New L1 Manager</option>
-                        <option value="7">New L2 Manager</option>
-                        <option value="8">New Functional Manager</option>
-                        <option value="9">New Dotted Line Manager</option>
-                        <option value="10">New HOD</option>
-                      </select>
-                    </td>
-                    <td>
-                      <input type="text" class="form-control" value="11">
-                    </td>
-                    <td>
-                      <select class="form-control multiple-select">
-                        <option value="1">L1 Manager</option>
-                        <option value="2">L2 Manager</option>
-                        <option value="3">Functional Manager</option>
-                        <option value="4">Dotted Line Manager</option>
-                        <option value="5">HOD</option>
-                      </select>
-                    </td>
-                    <td>
-                      <input type="text" class="form-control" value="11">
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>2</th>
-                    <td>
-                      <select class="multiple-select other-option" multiple="multiple">
-                        <option value="1">L1 Manager</option>
-                        <option value="2">L2 Manager</option>
-                        <option value="3">Functional Manager</option>
-                        <option value="4">Dotted Line Manager</option>
-                        <option value="5">HOD</option>
-                      </select>
-                      <select class="form-control multiple-select movement-options d-none" multiple="multiple">
-                        <option value="1">Current L1 Manager</option>
-                        <option value="2">Current L2 Manager</option>
-                        <option value="3">Current Functional Manager</option>
-                        <option value="4">Current Dotted Line Manager</option>
-                        <option value="5">Current HOD</option>
-                        <option value="6">New L1 Manager</option>
-                        <option value="7">New L2 Manager</option>
-                        <option value="8">New Functional Manager</option>
-                        <option value="9">New Dotted Line Manager</option>
-                        <option value="10">New HOD</option>
-                      </select>
-                    </td>
-                    <td>
-                      <input type="text" class="form-control" value="11">
-                    </td>
-                    <td>
-                      <select class="form-control multiple-select">
-                        <option value="1">L1 Manager</option>
-                        <option value="2">L2 Manager</option>
-                        <option value="3">Functional Manager</option>
-                        <option value="4">Dotted Line Manager</option>
-                        <option value="5">HOD</option>
-                      </select>
-                    </td>
-                    <td>
-                      <input type="text" class="form-control" value="11">
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>3</th>
-                    <td>
-                      <select class="multiple-select other-option" multiple="multiple">
-                        <option value="1">L1 Manager</option>
-                        <option value="2">L2 Manager</option>
-                        <option value="3">Functional Manager</option>
-                        <option value="4">Dotted Line Manager</option>
-                        <option value="5">HOD</option>
-                      </select>
-                      <select class="form-control multiple-select movement-options d-none" multiple="multiple">
-                        <option value="1">Current L1 Manager</option>
-                        <option value="2">Current L2 Manager</option>
-                        <option value="3">Current Functional Manager</option>
-                        <option value="4">Current Dotted Line Manager</option>
-                        <option value="5">Current HOD</option>
-                        <option value="6">New L1 Manager</option>
-                        <option value="7">New L2 Manager</option>
-                        <option value="8">New Functional Manager</option>
-                        <option value="9">New Dotted Line Manager</option>
-                        <option value="10">New HOD</option>
-                      </select>
-                    </td>                   
-                    <td>
-                      <input type="text" class="form-control" value="11">
-                    </td>
-                    <td>
-                      <select class="form-control multiple-select">
-                        <option value="1">L1 Manager</option>
-                        <option value="2">L2 Manager</option>
-                        <option value="3">Functional Manager</option>
-                        <option value="4">Dotted Line Manager</option>
-                        <option value="5">HOD</option>
-                      </select>
-                    </td>
-                    <td>
-                      <input type="text" class="form-control" value="11">
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div class="form-row" style="height: 500px; overflow-y: scroll;">
+            <table class="table table-striped mb-0" id="levelAdded">
+              <thead>
+                <tr>
+                  <th>Level</th>
+                  <th class="text-nowrap" style="width: 200px;">Approver</th>
+                  <th>Allow follow-up after</th>
+                  <th class="text-nowrap" style="width: 200px;">Escalate to</th>
+                  <th>Escalate after</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of addForm.get('rows')?.controls; let index = index;">
+                  <td>
+                    {{row.get('seqNo').value}}
+                  </td>
+                  <td>
+                    <lib-ui-multi-select
+                      id="row.get('approverId').value"
+                      [data]="row.get('approver').value"
+                      (onSelect)="gridMultiOnItemSelect($event,index)"
+                      [selectedValues]="row.get('approverSelectedValues').value">
+                    </lib-ui-multi-select>
+                  </td>
+                  <td>
+                    <input type="number"  class="form-control" value="" id="txtFollow{{seqNo}}" [formControl]="row.get('followUp')">
+                  </td>
+                  <td>
+                    <select class="form-control field-type-sepration" [formControl]="row.get('escalateToSelectedValues')">
+                      <option value="0">Select your option</option>
+                      <option *ngFor="let item of row.get('escalateTo').value" value="{{item.Value}}">
+                        {{item.Text}}
+                      </option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="number"  class="form-control" value="" id="txtEscalate{{seqNo}}" [formControl]="row.get('escalateAfter')">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="modal-footer">
           <div class="d-inline-block mr-5">
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" name="gender" id="apdnu" class="custom-control-input"
+              <input type="checkbox" name="gender" id="apdnu" [formControl]="WorkFlowForm.get('IsDoNotUse')" class="custom-control-input"
                      value="male" checked="">
               <label class="custom-control-label h5 pl-2" for="apdnu">Do Not Use</label>
             </div>
           </div>
           <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-custom px-4 py-2">Add</button>
+          <button type="button" class="btn btn-custom px-4 py-2" (click)="SaveWorkFlow()">Add</button>
         </div>
       </div>
     </div>

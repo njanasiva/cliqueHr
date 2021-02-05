@@ -15,6 +15,7 @@ import { SecuritySettingsComponent } from './panel-landing/Pages/company/Pages/s
 import { CompanyService } from './panel-landing/Pages/company/company.service';
 import { CommonService } from '../common.service';
 import { LifeCycleService } from '../admin-panel/admin-panel-services/lifecycle.service';
+import { EngagementService } from '../admin-panel/admin-panel-services/encagement.services';
 import { QualificationComponent } from './panel-landing/Pages/master/Pages/qualification/qualification.component';
 import { EmployeeTypeComponent } from './panel-landing/Pages/master/Pages/employee-type/employee-type.component';
 import { CurrencyComponent } from './panel-landing/Pages/master/Pages/currency/currency.component';
@@ -90,7 +91,8 @@ import { SurveyComponent } from './panel-landing/Pages/engagement/Pages/survey/s
     MasterService,
     CompanyService,
     CommonService,
-    LifeCycleService
+    LifeCycleService,
+    EngagementService
   ]
 })
 export class AdminPanelModule { }

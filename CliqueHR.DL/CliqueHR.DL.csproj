@@ -53,6 +53,7 @@
     <Compile Include="AdminPanel\HelpDesk\HelpDeskRepository.cs" />
     <Compile Include="AdminPanel\LifeCycle\LifeCycleRepository.cs" />
     <Compile Include="Common\CommonRepository.cs" />
+    <Compile Include="Helper\CliqueHRExtensions.cs" />
     <Compile Include="Implementation\AdminPanel\Company\IEntityRepository.cs" />
     <Compile Include="Implementation\AdminPanel\Engagement\IEngagementRepository.cs" />
     <Compile Include="Implementation\AdminPanel\HelpDesk\IHelpDeskRepository.cs" />

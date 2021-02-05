@@ -4,7 +4,7 @@
       <h4 class="mb-0">Exit Interview</h4>
     </div>
     <div class="col-1 text-right">
-      <div class="btn-more ml-auto shadow btn-custom" data-toggle="modal" data-target="#addPolicy"
+      <div class="btn-more ml-auto shadow btn-custom" (click)="OnOpenPopup(0,'Add')" 
            data-tooltip="tooltip" data-placement="top" title="Add Policy">
         <i class="icon icon-plus-symbol h3 mb-0"></i>
       </div>
@@ -15,13 +15,13 @@
       <lib-ui-data-table [Configuration]="ExtinterviewConfig">
         <ng-template let-data>
           <tr>
-            <div class="btn-more d-inline-block shadow btn-blue" (click)="OnOpenPopup(data.index)"
+            <div class="btn-more d-inline-block shadow btn-blue" (click)="OnOpenPopup(data.index,'Edit')"
                  data-tooltip="tooltip" data-placement="top" title="Edit Probation Details">
               <i class="icon icon-edit h3 mb-0"></i>
             </div>
             <td class="text-nowrap">{{data.data.PolicyName}}</td>
-            <td class="text-nowrap">{{data.data.Department}}</td>
-            <td class="text-nowrap">{{data.data.OrgUnit}}</td>
+            <td class="text-nowrap">{{data.data.Form}}</td>
+            <td class="text-nowrap">{{data.data.WorkGroup}}</td>
           </tr>
         </ng-template>
       </lib-ui-data-table>
@@ -32,7 +32,7 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
       <div class="modal-content border-0">
         <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalCenterTitle">Add Policy</h4>
+          <h4 class="modal-title" id="exampleModalCenterTitle">{{popupHeading}}</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <i class="icon icon-wrong"></i>
           </button>
@@ -41,30 +41,29 @@
           <div class="form-row">
             <div class="col-md-4 mb-3">
               <label class="h6 mb-1">Policy Name</label>
-              <lib-text-box [Configuration]="{PlaceHolder:'Enter Policy Name'}">
+              <lib-text-box [FormInput]="ExitInterviewForm.get('PolicyName')"                            
+                            [Configuration]="{PlaceHolder:'Enter Confirmation Day'}">
               </lib-text-box>
-              <input class="form-control" type="text" value="" placeholder="Enter Policy Name">
             </div>
             <div class="col-md-4 mb-3">
               <label class="h6 mb-1">Separation Type</label>
-              <select class="form-control">
-                <option>Resignation</option>
-                <!-- <option>Absconding</option>
-                <option>Termination</option> -->
-                <option>Retirement</option>
+              <select class="form-control" [formControl]="ExitInterviewForm.get('SeparationTypeId')">
+                <option *ngFor="let item of separationtypename" value="{{item.Value}}">
+                  {{item.Text}}
+                </option>
               </select>
             </div>
           </div>
           <div class="form-row align-items-center my-3">
             <div class="col-md-5 pt-2">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" id="setting1" class="custom-control-input" checked="">
+                <input type="checkbox" id="setting1" class="custom-control-input" [formControl]="ExitInterviewForm.get('IsSendMail')">
                 <label class="custom-control-label h5 pl-2" for="setting1">Send Exit Interview to Personal Email</label>
               </div>
             </div>
             <div class="col-md-5 pt-2">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" id="setting2" class="custom-control-input" checked="">
+                <input type="checkbox" id="setting2" class="custom-control-input" [formControl]="ExitInterviewForm.get('IsExitInterviewMandatory')">
                 <label class="custom-control-label h5 pl-2" for="setting2">Make Exit Interview mandatory</label>
               </div>
             </div>
@@ -72,29 +71,27 @@
           <div class="form-row">
             <div class="col-md-12 mb-3">
               <div class="form-row align-items-center pt-3">
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                   <label class="h6 mb-1">Initiate Exit interview</label>
                 </div>
                 <div class="col-sm-1">
-                  <input class="form-control" type="text" value="" placeholder="">
+                  <input class="form-control" type="number" value="" placeholder="" [formControl]="ExitInterviewForm.get('ExitInterviewDay')">
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                   <label class="h6 mb-1 text-muted">Days</label>
                 </div>
                 <div class="col-sm-3">
-                  <select class="form-control" id="initiateInterview1">
-                    <option selected>Select...</option>
-                    <option value="before">Before</option>
-                    <option value="on">on</option>
-                    <option value="after">After</option>
+                  <select class="form-control" (change)='onOptionsSelected($event)' [formControl]="ExitInterviewForm.get('ExitInterviewDayTypeId')">
+                    <option *ngFor="let item of daytype" value="{{item.Value}}">
+                      {{item.Text}}
+                    </option>
                   </select>
                 </div>
                 <div class="col-sm-3">
-                  <select class="form-control" id="initiateInterview2">
-                    <option selected>Select...</option>
-                    <option value="rd">Resignation date</option>
-                    <option value="rad">Resignation approval date</option>
-                    <option value="reld">Relieving date</option>
+                  <select class="form-control" id="initiateInterview2" [formControl]="ExitInterviewForm.get('ExitInterviewTypeId')">
+                    <option *ngFor="let item of dropDown1" value="{{item.Value}}">
+                      {{item.Text}}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -103,11 +100,10 @@
               <label class="h6 mb-1">Select Form</label>
               <div class="form-row">
                 <div class="col-md-4">
-                  <select class="form-control">
-                    <option>Form 1</option>
-                    <option>Form 2</option>
-                    <option>Form 3</option>
-                    <option>Form 4</option>
+                  <select class="form-control" [formControl]="ExitInterviewForm.get('FormId')">
+                    <option *ngFor="let item of assessmentForm" value="{{item.Value}}">
+                      {{item.Text}}
+                    </option>
                   </select>
                 </div>
                 <div class="col-md-1" data-toggle="modal" data-target="#formDemo">
@@ -125,101 +121,30 @@
           </div>
           <div class="form-row form-fields">
             <div class="col-md-4 mb-3">
-              <label class="h6 mb-1">Employee Group</label>              
+              <lib-ui-accordion-multi-select [PlaceHolderText]="orgPlaceHolder"
+                                             [selectedValues]="selectedOrgEntityDepartment"
+                                             (onSelect)="onItemSelect1($event)"
+                                             [data]="orgEntityDepartment">
+              </lib-ui-accordion-multi-select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="h6 mb-1">Employee Group</label>
               <lib-ui-multi-select id="employeegroupMultiSelect"
                                    [data]="employeegroup"
+                                   [selectedValues]="employeegroupSelectedValues"
                                    (onSelect)="onItemSelect($event,'employeegroup')"
                                    (onSelectAll)="onSelectAll($event,'employeegroup')"
-                                   [PlaceHolderText]="employeegroupPlaceHolderText"
-                                   [isSingleSelection]="false">
+                                   [PlaceHolderText]="employeegroupPlaceHolderText">
               </lib-ui-multi-select>
             </div>
-            
             <div class="col-md-4 mb-3">
-              <label class="h6 mb-1">Entity/Org Unit/Department</label>
-              <div class="tree-dropdown-main tree-multiselect">
-                <div data-toggle="collapse" href="#link">
-                  <input class="form-control" type="text" value="Entity Group - 1">
-                  <div class="tree-dropdown-arrow"><i class="icon icon-down mr-2"></i></div>
-                </div>
-                <ul class="tree-dropdown collapse" id="link">
-                  <li class="mt-0">
-                    <input class="form-control" type="text" placeholder="Search ...">
-                  </li>
-                  <li>
-                    <span data-toggle="collapse" href="#link1"><i class="icon icon-down mr-2"></i>Entity Group</span>
-                    <ul class="collapse" id="link1">
-                      <li>
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="eeval1">
-                          <label class="custom-control-label" for="eeval1">Entity - 1</label>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="eeval2">
-                          <label class="custom-control-label" for="eeval2">Entity - 2</label>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="eeval3">
-                          <label class="custom-control-label" for="eeval3">Entity - 1</label>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <span data-toggle="collapse" href="#link2"><i class="icon icon-down mr-2"></i>Org Unit</span>
-                    <ul class="collapse" id="link2">
-                      <li>
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="eeval4">
-                          <label class="custom-control-label" for="eeval4">Unit - 1</label>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="eeval5">
-                          <label class="custom-control-label" for="eeval5">Unit - 1</label>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <span data-toggle="collapse" href="#link3"><i class="icon icon-down mr-2"></i>Department</span>
-                    <ul class="collapse" id="link3">
-                      <li>
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="eeval6">
-                          <label class="custom-control-label" for="eeval6">Marketing</label>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="eeval7">
-                          <label class="custom-control-label" for="eeval7">Sales</label>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="eeval8">
-                          <label class="custom-control-label" for="eeval8">HR</label>
-                        </div>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-md-4 mb-3">
-              <label class="h6 mb-1">Designation</label>             
+              <label class="h6 mb-1">Designation</label>
               <lib-ui-multi-select id="designationMultiSelect"
                                    [data]="designation"
                                    (onSelect)="onItemSelect($event,'designation')"
                                    (onSelectAll)="onSelectAll($event,'designation')"
-                                   [PlaceHolderText]="designationPlaceHolderText"
-                                   [isSingleSelection]="false">
+                                    [selectedValues]="designationSelectedValues" 
+                                   [PlaceHolderText]="designationPlaceHolderText">
               </lib-ui-multi-select>
             </div>
             <div class="col-md-4 mb-3">
@@ -228,18 +153,18 @@
                                    [data]="location"
                                    (onSelect)="onItemSelect($event,'location')"
                                    (onSelectAll)="onSelectAll($event,'location')"
-                                   [PlaceHolderText]="locationPlaceHolderText"
-                                   [isSingleSelection]="false">
+                                    [selectedValues]="locationSelectedValues" 
+                                   [PlaceHolderText]="locationPlaceHolderText">
               </lib-ui-multi-select>
             </div>
             <div class="col-md-4 mb-3">
-              <label class="h6 mb-1">Employee Type</label>           
+              <label class="h6 mb-1">Employee Type</label>
               <lib-ui-multi-select id="employeetypeMultiSelect"
                                    [data]="employeetype"
                                    (onSelect)="onItemSelect($event,'employeetype')"
                                    (onSelectAll)="onSelectAll($event,'employeetype')"
-                                   [PlaceHolderText]="employeeTypePlaceHolderText"
-                                   [isSingleSelection]="false">
+                                    [selectedValues]="employeeTypeSelectedValues" 
+                                   [PlaceHolderText]="employeeTypePlaceHolderText">
               </lib-ui-multi-select>
             </div>
             <div class="col-md-4 mb-3">
@@ -248,8 +173,8 @@
                                    [data]="grade"
                                    (onSelect)="onItemSelect($event,'grade')"
                                    (onSelectAll)="onSelectAll($event,'grade')"
-                                   [PlaceHolderText]="gradePlaceHolderText"
-                                   [isSingleSelection]="false">
+                                    [selectedValues]="gradeSelectedValues" 
+                                   [PlaceHolderText]="gradePlaceHolderText">
               </lib-ui-multi-select>
             </div>
           </div>
@@ -263,12 +188,26 @@
             </div>
           </div>
           <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
-          <button type="button" (click)="OnProbationDetailsOp();" class="btn btn-custom px-4 py-2">
+          <button type="button" (click)="OnExitInterviewDetailsOp();" class="btn btn-custom px-4 py-2">
             {{isAddMode? 'Add' : 'Edit'}}
           </button>
         </div>
       </div>
     </div>
   </div>
-
+</div>
+<div class="modal fade" id="formDemo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalCenterTitle">Form Preview</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="icon icon-wrong"></i>
+        </button>
+      </div>
+      <div class="modal-body m-auto">
+        <img src="assets/images/form-demo.png">
+      </div>
+    </div>
+  </div>
 </div>

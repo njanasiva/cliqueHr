@@ -120,8 +120,62 @@ namespace CliqueHR.DL
                 confirmationMasterModel.CostCentre = ds.Tables.Count >= 9 ? this.GetDropDownValues(new Tuple<string, string>("CostCentreId", "CostCentre"), ds.Tables[8]) : new List<DropdownModel>();
                 confirmationMasterModel.Grade = ds.Tables.Count >= 10 ? this.GetDropDownValues(new Tuple<string, string>("GradeId", "Grade"), ds.Tables[9]) : new List<DropdownModel>();
                 confirmationMasterModel.AssessmentForm = ds.Tables.Count >= 11 ? this.GetDropDownValues(new Tuple<string, string>("AssessmentFormId", "FormName"), ds.Tables[10], this.GetDefaultValue("Select Form", 0)) : new List<DropdownModel>();
+                confirmationMasterModel.EmployeeGroup = ds.Tables.Count >= 12 ? this.GetDropDownValues(new Tuple<string, string>("EmployeeGroupId", "EmployeeGroup"), ds.Tables[11]) : new List<DropdownModel>();
+                confirmationMasterModel.Designation = ds.Tables.Count >= 13 ? this.GetDropDownValues(new Tuple<string, string>("DesignationId", "DesignationName"), ds.Tables[12]) : new List<DropdownModel>();
+                confirmationMasterModel.SeparationType = ds.Tables.Count >= 14 ? this.GetDropDownValues(new Tuple<string, string>("SeparationTypeId", "SeparationTypeName"), ds.Tables[13], this.GetDefaultValue("Select...", 0)) : new List<DropdownModel>();
+                confirmationMasterModel.DayType = ds.Tables.Count >= 15 ? this.GetDropDownValues(new Tuple<string, string>("DayTypeId", "DayTypeName"), ds.Tables[14], this.GetDefaultValue("Select...", 0)) : new List<DropdownModel>();
+                confirmationMasterModel.Users = ds.Tables.Count >= 19 ? this.GetDropDownValues(new Tuple<string, string>("UserId", "UserName"), ds.Tables[18]) : new List<DropdownModel>();
+                confirmationMasterModel.Moderators = ds.Tables.Count >= 19 ? this.GetDropDownValues(new Tuple<string, string>("UserId", "UserName"), ds.Tables[18]) : new List<DropdownModel>();
+                confirmationMasterModel.EntityOrgDepTreeData = ds.Tables.Count >= 20 ? this.GetDropDownValues(ds.Tables[19]) : new List<EntityOrgDepTree>();
             }
             return confirmationMasterModel;
+        }
+
+        private List<EntityOrgDepTree> GetDropDownValues(DataTable dataTable)
+        {
+            if (dataTable == null || dataTable.Rows.Count == 0)
+                return new List<EntityOrgDepTree>();
+            else
+            {
+                List<EntityOrgDepTree> entityOrgDepTrees = new List<EntityOrgDepTree>();
+                List<EntityOrgDep> entityOrgDeps = dataTable.ToListof<EntityOrgDep>(); 
+                List<int> DistinctValues = entityOrgDeps.Select(a=>a.EntityId)?.Distinct()?.ToList();
+                foreach (var item in DistinctValues)
+                {
+                    var data = entityOrgDeps.Where(a=>a.EntityId == item)?.ToList();
+                    if (data != null)
+                    {
+                        EntityOrgDepTree entityOrgDepTree = new EntityOrgDepTree();
+                        entityOrgDepTree.Id = item;
+                        entityOrgDepTree.Name = data?.FirstOrDefault()?.EntityName;
+                        entityOrgDepTree.Orgs = new List<OrgTree>();
+                        var OrgData = data.Where(a=>a.OrgUnitId != null).Select(a => a.OrgUnitId)?.Distinct().ToList();
+                        if (OrgData != null && OrgData.Count > 0)
+                        {
+                            for (int i = 0; i < OrgData.Count; i++)
+                            {
+                                List<EntityOrgDep> Orgs = data.Where(a => a.OrgUnitId == OrgData[i] && a.EntityId == item)?.ToList();
+                                OrgTree orgTree = new OrgTree();
+                                orgTree.Id = Orgs.FirstOrDefault().OrgUnitId.Value;
+                                orgTree.Name = Orgs.FirstOrDefault().OrgUnit;
+                                orgTree.Departments = new List<BaseMembers>();
+                                var DepartmentIDs = data.Where(a=>a.DepartmentId != null && a.EntityId == item && a.OrgUnitId == OrgData[i]).Select(a=>a.DepartmentId)?.Distinct()?.ToList();
+                                foreach (var ids in DepartmentIDs)
+                                {
+                                    List<EntityOrgDep> Departments = data.Where(a => a.DepartmentId == ids)?.ToList();
+                                    BaseMembers baseMembers = new BaseMembers();
+                                    baseMembers.Id = ids.Value;
+                                    baseMembers.Name = Departments.FirstOrDefault()?.Department;
+                                    orgTree.Departments.Add(baseMembers);
+                                }
+                                entityOrgDepTree.Orgs.Add(orgTree);
+                            }
+                        }
+                        entityOrgDepTrees.Add(entityOrgDepTree);
+                    }
+                }
+                return entityOrgDepTrees;
+            }
         }
 
         private KeyValuePair<string, int>? GetDefaultValue(string key, int value)
@@ -150,9 +204,6 @@ namespace CliqueHR.DL
             }
             return dropdownModels;
         }
-
-
-
 
         public DataSet GetMovementReasonsField(string DbName, ListModel model)
         {
@@ -184,10 +235,14 @@ namespace CliqueHR.DL
         {
             try
             {
+                int AllowManagerInitiate = model.AllowManagerInitiate == true ? 1 : 0;
                 var sqlParameterd = _dbHelper.CreateSqlParameter("UserId", model.UserId, DataType.AsInt);
                 _dbHelper.UpdateSqlParameter("MovementReason", model.MovementReason, DataType.AsString, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("AllowManagerInitiate", model.AllowManagerInitiate, DataType.AsInt, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("AllowRelocationExpense", model.AllowRelocationExpense, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("AllowManagerInitiate", AllowManagerInitiate, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("AllowManager", model.AllowManager, DataType.AsBoolean, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("AllowRoleHolder", model.AllowRoleHolder, DataType.AsBoolean, sqlParameterd);
+                //AllowManager
+                //AllowRoleHolder
                 _dbHelper.UpdateSqlParameter("EditableFieldsId", model.EditableFieldsId, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("IsDoNotUse", model.IsDoNotUse, DataType.AsBoolean, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("ActionId", model.ActionId, DataType.AsInt, sqlParameterd);
@@ -420,8 +475,6 @@ namespace CliqueHR.DL
                 _dbHelper.UpdateSqlParameter("Position", model.Position, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("CostCentre", model.CostCentre, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("Grade", model.Grade, DataType.AsString, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("EmployeeGroup", model.EmployeeGroup, DataType.AsString, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("DesignationType", model.Designation, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("IsDoNotUse", model.IsDoNotUse, DataType.AsBoolean, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("DayTypeId", model.DayTypeId, DataType.AsInt, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("InterviewTypeId", model.InterviewTypeId, DataType.AsInt, sqlParameterd);
@@ -454,7 +507,7 @@ namespace CliqueHR.DL
                 //  _dbHelper.UpdateSqlParameter("Start", model.Start, DataType.AsInt, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("StartRow", model.StartRow, DataType.AsInt, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("EndRow", model.EndRow, DataType.AsInt, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("SearchText", model.SearchText, DataType.AsString, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("SearchText", model.SearchText, DataType.AsInt, sqlParameterd);
                 //_dbHelper.UpdateSqlParameter("NoofData", model.NoofData, DataType.AsInt, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("ActionId", model.ActionId, DataType.AsInt, sqlParameterd);
 
@@ -536,44 +589,28 @@ namespace CliqueHR.DL
                         if (name == "FieldName")
                         {
                             FieldName = value;
-                            if (FieldName == "")
-                            {
-                                FieldName = null;
-                            }
                         }
                         else if (name == "FieldTypeId")
                         {
                             FieldTypeId = value;
-                            if (FieldTypeId == "")
-                            {
-                                FieldTypeId = null;
-                            }
                         }
                         else if (name == "FieldValueId")
                         {
                             FieldValueId = value;
-                            if (FieldValueId == "")
-                            {
-                                FieldValueId = null;
-                            }
                         }
                         else if (name == "IsMandatory")
                         {
                             IsMandatory = value;
-                            if (IsMandatory == "")
-                            {
-                                IsMandatory = null;
-                            }
                         }
                         //Do something with name and value
                         //System.Windows.MessageBox.Show("name is "+name+" and value is "+value);
                     }
 
                     var sqlParameterdUserDefinedField = _dbHelper.CreateSqlParameter("UserId", model.UserId, DataType.AsInt);
-                    _dbHelper.UpdateSqlParameter("FieldName", Convert.ToString(FieldName), DataType.AsString, sqlParameterdUserDefinedField);
-                    _dbHelper.UpdateSqlParameter("FieldTypeId", Convert.ToInt32(FieldTypeId), DataType.AsInt, sqlParameterdUserDefinedField);
-                    _dbHelper.UpdateSqlParameter("FieldValueId", Convert.ToInt32(FieldValueId), DataType.AsInt, sqlParameterdUserDefinedField);
-                    _dbHelper.UpdateSqlParameter("IsMandatory", Convert.ToBoolean(IsMandatory), DataType.AsBoolean, sqlParameterdUserDefinedField);
+                    _dbHelper.UpdateSqlParameter("FieldName", FieldName, DataType.AsString, sqlParameterdUserDefinedField);
+                    _dbHelper.UpdateSqlParameter("FieldTypeId", FieldTypeId, DataType.AsInt, sqlParameterdUserDefinedField);
+                    _dbHelper.UpdateSqlParameter("FieldValueId", FieldValueId, DataType.AsInt, sqlParameterdUserDefinedField);
+                    _dbHelper.UpdateSqlParameter("IsMandatory", IsMandatory, DataType.AsBoolean, sqlParameterdUserDefinedField);
                     var dt = _dbHelper.GetDataSet(DbName, "[AddSeparationUserDefindData]", sqlParameterdUserDefinedField);
 
                 }
@@ -592,7 +629,6 @@ namespace CliqueHR.DL
                 throw helper.GetException();
             }
         }
-
 
 
         public DataSet GetSeparation(string DbName, Separation model)
@@ -635,12 +671,12 @@ namespace CliqueHR.DL
                 _dbHelper.UpdateSqlParameter("Region", model.Region, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("Location", model.Location, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("EmployeeType", model.EmployeeType, DataType.AsString, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("EmployeeGroup", model.EmployeeGroup, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("Position", model.Position, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("CostCentre", model.CostCentre, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("Grade", model.Grade, DataType.AsString, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("EmployeeGroup", model.EmployeeGroup, DataType.AsString, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("DesignationType", model.Designation, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("IsDoNotUse", model.IsDoNotUse, DataType.AsBoolean, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("Designation", model.Designation, DataType.AsString, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("ExitInterviewId", model.ExitInterviewId, DataType.AsInt, sqlParameterd);
                 _dbHelper.UpdateSqlParameter("ActionTypeId", model.ActionTypeId, DataType.AsInt, sqlParameterd);
                 var ds = _dbHelper.GetDataSet(DbName, "[AddModifyExitInterview]", sqlParameterd);
@@ -715,102 +751,6 @@ namespace CliqueHR.DL
             }
         }
 
-        public PaginationData<LifeCycleSetting> AddModifyApprovalPath(string DbName, LifeCycleSetting model)
-        {
-            try
-            {
-                var sqlParameterd = _dbHelper.CreateSqlParameter("UserId", model.UserId, DataType.AsInt);
-                _dbHelper.UpdateSqlParameter("ApprovalPathTypeId", model.ApprovalPathTypeId, DataType.AsInt, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("ApprovalReasonsId", model.ApprovalReasonsId, DataType.AsInt, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("ApprovalPathName", model.ApprovalPathName, DataType.AsString, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("NumberofLevels", model.NumberofLevels, DataType.AsInt, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("DoNotUse", model.DoNotUse, DataType.AsBoolean, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("LifeCycleWorkFlowId", model.LifeCycleWorkFlowId, DataType.AsInt, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("ActionTypeId", model.ActionTypeId, DataType.AsInt, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("LifeCycleWorkFlowLevel", model.LifeCycleWorkFlowLevel, DataType.AsString, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("StartRow", model.StartRow, DataType.AsInt, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("EndRow", model.EndRow, DataType.AsString, sqlParameterd);
-                _dbHelper.UpdateSqlParameter("SearchText", model.SearchText, DataType.AsString, sqlParameterd);
-                if (model.Sort != null)
-                {
-                    _dbHelper.UpdateSqlParameter("PropertyName", model.Sort.PropertyName, DataType.AsString, sqlParameterd);
-                    _dbHelper.UpdateSqlParameter("Direction", model.Sort.Direction, DataType.AsString, sqlParameterd);
-                }
-                var ds = _dbHelper.GetDataSet(DbName, "[AddModifyApprovalPath]", sqlParameterd);
-                var jsonString = model.LifeCycleWorkFlowLevel;
-                JArray array = JArray.Parse(jsonString);
-                var ApproverId = "";
-                var Followup = "";
-                var Escalateto = "";
-                var EscalateAfter = "";
-                foreach (JObject obj in array.Children<JObject>())
-                {
-                    foreach (JProperty singleProp in obj.Properties())
-                    {
-                        string name = singleProp.Name;
-                        string value = singleProp.Value.ToString();
-                        if (name == "ApproverId")
-                        {
-                            ApproverId = value;
-                            if (ApproverId == "")
-                            {
-                                ApproverId = null;
-                            }
-                        }
-                        else if (name == "AllowFollowUp")
-                        {
-                            Followup = value;
-                            if (Followup == "")
-                            {
-                                Followup = null;
-                            }
-                        }
-                        else if (name == "EscalateTo")
-                        {
-                            Escalateto = value;
-                            if (Escalateto == "")
-                            {
-                                Escalateto = null;
-                            }
-                        }
-                        else if (name == "EscalateAfter")
-                        {
-                            EscalateAfter = value;
-                            if (EscalateAfter == "")
-                            {
-                                EscalateAfter = null;
-                            }
-                        }
-                        //Do something with name and value
-                        //System.Windows.MessageBox.Show("name is "+name+" and value is "+value);
-                    }
-
-                    var sqlParameterdUserDefinedField = _dbHelper.CreateSqlParameter("UserId", model.UserId, DataType.AsInt);
-                    _dbHelper.UpdateSqlParameter("ApproverId", Convert.ToInt32(ApproverId), DataType.AsInt, sqlParameterdUserDefinedField);
-                    _dbHelper.UpdateSqlParameter("Followup", Convert.ToInt32(Followup), DataType.AsInt, sqlParameterdUserDefinedField);
-                    _dbHelper.UpdateSqlParameter("Escalateto", Convert.ToInt32(Escalateto), DataType.AsInt, sqlParameterdUserDefinedField);
-                    _dbHelper.UpdateSqlParameter("EscalateAfter", Convert.ToInt32(EscalateAfter), DataType.AsInt, sqlParameterdUserDefinedField);
-                    _dbHelper.UpdateSqlParameter("ActionId", model.ActionTypeId, DataType.AsInt, sqlParameterdUserDefinedField);
-                    _dbHelper.UpdateSqlParameter("LifeCycleWorkFlowId", ds.Tables[0].Rows[0]["LifeCycleWorkFlowId"], DataType.AsInt, sqlParameterdUserDefinedField);
-
-                    var dt = _dbHelper.GetDataSet(DbName, "[AddLifeCycleWorkFlowLevel]", sqlParameterdUserDefinedField);
-
-                }
-
-                var paginationData = new PaginationData<LifeCycleSetting>();
-                if (ds != null)
-                {
-                    paginationData.Total = Convert.ToInt32(ds.Tables[0].Rows[0]["Total"]);
-                    paginationData.Data = _dbHelper.ConvertDataTableToList<LifeCycleSetting>(ds.Tables[0]);
-                }
-                return paginationData;
-            }
-            catch (Exception ex)
-            {
-                var helper = new Helpers.ExceptionHelper.DataException(ex);
-                throw helper.GetException();
-            }
-        }
 
         public PaginationData<LifeCycleWorkFlow> GetWorkFlowList(string DbName, ListModel model)
         {
@@ -826,6 +766,84 @@ namespace CliqueHR.DL
                 {
                     paginationData.Total = Convert.ToInt32(ds.Tables[0].Rows[0]["Total"]);
                     paginationData.Data = _dbHelper.ConvertDataTableToList<LifeCycleWorkFlow>(ds.Tables[0]);
+                }
+                return paginationData;
+            }
+            catch (Exception ex)
+            {
+                var helper = new Helpers.ExceptionHelper.DataException(ex);
+                throw helper.GetException();
+            }
+        }
+        public PaginationData<LifeCycleSetting> AddModifyApprovalPath(string DbName, LifeCycleSetting model)
+        {
+            try
+            {
+                var sqlParameterd = _dbHelper.CreateSqlParameter("UserId", model.UserId, DataType.AsInt);
+                _dbHelper.UpdateSqlParameter("ApprovalPathTypeId", model.ApprovalPathTypeId, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("ApprovalReasonsId", model.ApprovalReasonsId, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("ApprovalPathName", model.ApprovalPathName, DataType.AsString, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("NumberofLevels", model.NumberofLevels, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("DoNotUse", model.DoNotUse, DataType.AsBoolean, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("LifeCycleWorkFlowId", model.LifeCycleWorkFlowId, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("ActionTypeId", model.ActionTypeId, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("LifeCycleWorkFlowLevel", model.LifeCycleWorkFlowLevel, DataType.AsString, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("Start", model.Start, DataType.AsInt, sqlParameterd);
+                _dbHelper.UpdateSqlParameter("NoofData", model.NoofData, DataType.AsInt, sqlParameterd);
+
+
+                var ds = _dbHelper.GetDataSet(DbName, "[AddModifyApprovalPath]", sqlParameterd);
+
+
+                var jsonString = model.LifeCycleWorkFlowLevel;
+                JArray array = JArray.Parse(jsonString);
+                var ApproverId = "";
+                var Followup = "";
+                var Escalateto = "";
+                var EscalateAfter = "";
+                foreach (JObject obj in array.Children<JObject>())
+                {
+                    foreach (JProperty singleProp in obj.Properties())
+                    {
+                        string name = singleProp.Name;
+                        string value = singleProp.Value.ToString();
+                        if (name == "ApproverId")
+                        {
+                            ApproverId = value;
+                        }
+                        else if (name == "AllowFollowUp")
+                        {
+                            Followup = value;
+                        }
+                        else if (name == "EscalateTo")
+                        {
+                            Escalateto = value;
+                        }
+                        else if (name == "EscalateAfter")
+                        {
+                            EscalateAfter = value;
+                        }
+                        //Do something with name and value
+                        //System.Windows.MessageBox.Show("name is "+name+" and value is "+value);
+                    }
+
+                    var sqlParameterdUserDefinedField = _dbHelper.CreateSqlParameter("UserId", model.UserId, DataType.AsInt);
+                    _dbHelper.UpdateSqlParameter("ApproverId", ApproverId, DataType.AsInt, sqlParameterdUserDefinedField);
+                    _dbHelper.UpdateSqlParameter("Followup", Followup, DataType.AsInt, sqlParameterdUserDefinedField);
+                    _dbHelper.UpdateSqlParameter("Escalateto", Escalateto, DataType.AsInt, sqlParameterdUserDefinedField);
+                    _dbHelper.UpdateSqlParameter("EscalateAfter", EscalateAfter, DataType.AsInt, sqlParameterdUserDefinedField);
+                    _dbHelper.UpdateSqlParameter("ActionId", model.ActionTypeId, DataType.AsInt, sqlParameterdUserDefinedField);
+                    _dbHelper.UpdateSqlParameter("LifeCycleWorkFlowId", ds.Tables[0].Rows[0]["LifeCycleWorkFlowId"], DataType.AsInt, sqlParameterdUserDefinedField);
+
+                    var dt = _dbHelper.GetDataSet(DbName, "[AddLifeCycleWorkFlowLevel]", sqlParameterdUserDefinedField);
+
+                }
+
+                var paginationData = new PaginationData<LifeCycleSetting>();
+                if (ds != null)
+                {
+                    paginationData.Total = Convert.ToInt32(ds.Tables[0].Rows[0]["Total"]);
+                    paginationData.Data = _dbHelper.ConvertDataTableToList<LifeCycleSetting>(ds.Tables[0]);
                 }
                 return paginationData;
             }

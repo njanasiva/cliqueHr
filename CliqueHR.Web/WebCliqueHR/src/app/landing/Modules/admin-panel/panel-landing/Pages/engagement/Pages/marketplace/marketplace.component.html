@@ -11,7 +11,7 @@
           <tr>
             <td style="width: 50px;">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="gender" id="mau01" class="custom-control-input" value="male" checked="">
+                <input type="checkbox" [(ngModel)]="PostSaleVehicle" id="mau01" class="custom-control-input">
                 <label class="custom-control-label h5 pl-2" for="mau01"></label>
               </div>
             </td>
@@ -20,7 +20,7 @@
           <tr>
             <td style="width: 50px;">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="gender" id="mau02" class="custom-control-input" value="male" checked="">
+                <input type="checkbox" [(ngModel)]="PostSaleProperty" id="mau02" class="custom-control-input">
                 <label class="custom-control-label h5 pl-2" for="mau02"></label>
               </div>
             </td>
@@ -35,7 +35,7 @@
           <tr>
             <td style="width: 50px;">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="gender" id="mau03" class="custom-control-input" value="male" checked="">
+                <input type="checkbox" [(ngModel)]="PostSaleHouseholdGood" id="mau03" class="custom-control-input">
                 <label class="custom-control-label h5 pl-2" for="mau03"></label>
               </div>
             </td>
@@ -44,7 +44,7 @@
           <tr>
             <td style="width: 50px;">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="gender" id="mau04" class="custom-control-input" value="male" checked="">
+                <input type="checkbox" [(ngModel)]="PostRentalProperty" id="mau04" class="custom-control-input">
                 <label class="custom-control-label h5 pl-2" for="mau04"></label>
               </div>
             </td>
@@ -57,7 +57,7 @@
   <div class="form-row align-items-end mt-3 pt-3 border-top">
     <div class="col-12 text-right">
       <button class="btn btn-outline-custom py-2 px-4 mr-2">Cancel</button>
-      <button class="btn btn-custom py-2 px-4">Save</button>
+      <button class="btn btn-custom py-2 px-4" (click)="OnMarketPlaceSave();">Save</button>
     </div>
   </div>
 </div>
