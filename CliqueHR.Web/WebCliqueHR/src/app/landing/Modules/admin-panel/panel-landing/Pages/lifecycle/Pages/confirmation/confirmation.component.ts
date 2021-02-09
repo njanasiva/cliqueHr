@@ -133,6 +133,29 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
     }
   }
 
+  noOfRecord(number: number){
+    console.log(number);
+    this.ConfirmationConfig= {
+      Columns: [
+        { fieldId: 'ProbationId', fieldName: '', columnClass: 'width40' },
+        { fieldId: 'ProbationName', fieldName: 'Probation Name', columnClass: 'text-nowrap width100' },
+        { fieldId: 'Probationperiod', fieldName: 'Probation Period', columnClass: 'text-nowrap width60' },
+        { fieldId: ' Confirmation days', fieldName: 'Confirmation days', columnClass: 'text-nowrap width100' },
+        { fieldId: 'AssessmentRequired', fieldName: 'Assessment Required(Y/N)', columnClass: 'text-nowrap width100' },
+        { fieldId: 'WorkGroup', fieldName: 'WorkGroup', columnClass: 'text-nowrap width100' }
+      ],
+      Pagination: true,
+      PaginationPageSize: number,
+      DefaultSort: { fieldId: 'ProbationId', direction: 'asc' },
+      UniqueRowCol: 'ProbationId',
+      isEditable: true
+    };
+    console.log(this.ConfirmationConfig.PaginationPageSize);
+    this.CreateProbationDetail();
+    this.LoadGrid();
+    this.clearDropdowns();
+  }
+
   private LoadMultiSelectDropdownList() {
     let paginationModel: any = {
       UserId: 1

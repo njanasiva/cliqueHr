@@ -68,6 +68,7 @@ export class LifecycleComponent extends WebComponents.ApplicationComponent imple
 
   }
   public get tabData() {
+    // console.log(tabData);
     return tabData;
   }
 }
