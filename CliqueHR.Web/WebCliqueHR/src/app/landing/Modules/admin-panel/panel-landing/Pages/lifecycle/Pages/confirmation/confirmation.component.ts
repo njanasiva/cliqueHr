@@ -164,7 +164,7 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
           if (data.AssessmentForm) {
             this.assessmentForm = data.AssessmentForm;
           }
-          if(data.EntityOrgDepTreeData){
+          if (data.EntityOrgDepTreeData) {
             this.orgEntityData = data.EntityOrgDepTreeData;
           }
 
@@ -210,7 +210,7 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
       this.isAssessmentRequiredError = false;
     }
   }
-  keyPress(event){
+  keyPress(event) {
     console.log(event, "click");
     const key = event.keyCode;
     console.log(key);
@@ -222,6 +222,10 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
     console.log(event, "click");
     const key = event.keyCode;
     console.log(key, "length");
+    console.log(event.target.value.length, "value");
+    // if(event.target.value.length >= 3 ){
+    //   this.ProbationDetailForm.controls['ProbationPeriod'];
+    // }
     // Only Numbers 0-9
     if ((key < 48 || key > 57)) {
       event.preventDefault();
@@ -319,13 +323,15 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
         // console.log(probationtype,"probationtype");
         probationtype.subscribe(
           (data: any) => {
-            this.OnClosePopup("#addProbationPopUp");
-            this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
-            this.LoadGrid();
+            if (this.ProbationDetailForm.valid) {
+              this.OnClosePopup("#addProbationPopUp");
+              this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
+              this.LoadGrid();
+            }
           },
           (error) => {
             if (error.message != "") {
-            this.uiSweetAlertService.ShowAlert('probation already exists');
+              this.uiSweetAlertService.ShowAlert('probation already exists');
             }
             this.HideLoader();
           })
@@ -444,8 +450,8 @@ export class ConfirmationComponent extends WebComponents.ApplicationComponent im
     this.clearDropdowns();
     if (isNullOrUndefined(this.ProbationDetailForm)) {
       this.ProbationDetailForm = this.fb.group({
-        ProbationName: ['', [Validators.required]],
-        ProbationPeriod: ['', [Validators.required]],
+        ProbationName: ['', [Validators.required, Validators.minLength(50)]],
+        ProbationPeriod: ['', [Validators.required, Validators.maxLength(3)]],
         ConfirmationDay: ['', [Validators.required]],
         AssessmentFormId: 0,
         AllowExtension: false,
