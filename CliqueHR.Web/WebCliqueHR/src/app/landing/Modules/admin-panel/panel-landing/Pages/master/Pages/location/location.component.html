@@ -1,0 +1,186 @@
+<div class="tab-pane fade show active" id="location" role="tabpanel" aria-labelledby="location-tab">
+    <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+        <div class="col-11">
+            <h4 class="mb-0">Location Details</h4>
+        </div>
+        <div class="col-1 text-right">
+            <div class="btn-more ml-auto shadow btn-custom" (click)="OpenLocationPopup(true, null)"
+                data-tooltip="tooltip" data-placement="top" title="Add Location">
+                <i class="icon icon-plus-symbol h3 mb-0"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-12 table-responsive mb-3">
+            <lib-ui-data-table [Configuration]="LocationConfig">
+                <ng-template let-data>
+                    <tr>
+                        <td class="text-nowrap">
+                            <div class="btn-more d-inline-block shadow btn-blue" data-tooltip="tooltip"
+                                (click)="OpenLocationPopup(false, data.data)" data-placement="top" title=""
+                                data-original-title="Edit Entity">
+                                <i class="icon icon-edit h3 mb-0"></i>
+                            </div>
+                        </td>
+                        <td class="text-nowrap">{{data.data.Name}}</td>
+                        <td class="text-nowrap">{{data.data.Code}}</td>
+                        <td class="text-nowrap">{{data.data.CenterTypeName}}</td>
+                        <td>{{data.data.Address}}</td>
+                        <td class="text-nowrap">{{data.data.Phone}}</td>
+                        <td class="text-nowrap">{{data.data.LocHeadName}}</td>
+                    </tr>
+                </ng-template>
+            </lib-ui-data-table>
+        </div>
+    </div>
+    <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addLocation" tabindex="-1"
+        role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-content border-0">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalCenterTitle">
+                        {{ isAddMode ? 'Add Location' : 'Edit Location'}}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="icon icon-wrong"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row form-fields">
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                Location Name
+                            </label>
+                            <lib-text-box [FormInput]="LocationForm.get('Name')"
+                                [ValidationMessages]="validationMassages.LocationForm.Name"
+                                [Configuration]="{PlaceHolder:'Enter Location Name'}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                Location Code
+                            </label>
+                            <lib-text-box [FormInput]="LocationForm.get('Code')"
+                                [ValidationMessages]="validationMassages.LocationForm.Code"
+                                [Configuration]="{PlaceHolder:'Enter Location Code'}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                Centre Type
+                            </label>
+                            <lib-drop-down [FormInput]="LocationForm.get('CenterType')" [Configuration]='{}'>
+                                <ng-template let-selectedvalue #options>
+                                    <option *ngFor="let ctype of CenterTypeList" [selected]="selectedvalue == ctype.Id"
+                                        [value]="ctype.Id">{{ctype.CenterTypeName}}</option>
+                                </ng-template>
+                            </lib-drop-down>
+                        </div>
+                        <div class="col-md-3 mb-3 mt-4">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="gender" id="ro" class="custom-control-input"
+                                    [formControl]="LocationForm.get('IsRegisteredOffice')">
+                                <label class="custom-control-label h5 pl-2" for="ro">Registered Office</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row form-fields">
+                        <div class="col-md-6">
+                            <label class="h6 mb-1">
+                                Address
+                            </label>
+                            <lib-text-area [FormInput]="LocationForm.get('Address')"
+                                [ValidationMessages]="validationMassages.LocationForm.Address"
+                                [Configuration]="{PlaceHolder:'Enter Address', Rows:4 }">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-area>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-row form-fields">
+                                <div class="col-md-6 mb-2">
+                                    <label class="h6 mb-1">
+                                        Country
+                                    </label>
+                                    <lib-ui-single-select (OnSelect)="OnCountrySelect($event)"
+                                        [Selected]="LocationData.CountryValue"
+                                        [Configuration]="LocationData.CountryConfig"
+                                        [Options]="LocationData.CountryList">
+                                    </lib-ui-single-select>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="h6 mb-1">
+                                        State
+                                    </label>
+                                    <lib-ui-single-select (OnSelect)="OnStateSelect($event)"
+                                        [Selected]="LocationData.StateValue" [Configuration]="LocationData.StateConfig"
+                                        [Options]="LocationData.StateList">
+                                    </lib-ui-single-select>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="h6 mb-1">
+                                        City
+                                    </label>
+                                    <lib-ui-single-select (OnSelect)="OnCitySelect($event)"
+                                        [Selected]="LocationData.CityValue" [Configuration]="LocationData.CityConfig"
+                                        [Options]="LocationData.CityList">
+                                    </lib-ui-single-select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="h6 mb-1">
+                                        Pin Code
+                                    </label>
+                                    <lib-text-box [FormInput]="LocationForm.get('PinCode')"
+                                        [ValidationMessages]="validationMassages.LocationForm.PinCode"
+                                        [Configuration]="{PlaceHolder:'Enter Pin Code', isNumeric:true}">
+                                        <ng-template let-validation>
+                                            <div class="error-message">{{validation}}</div>
+                                        </ng-template>
+                                    </lib-text-box>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row form-fields">
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                Phone
+                            </label>
+                            <lib-text-box [FormInput]="LocationForm.get('Phone')"
+                                [ValidationMessages]="validationMassages.LocationForm.Phone"
+                                [Configuration]="{PlaceHolder:'Enter Phone no.', isNumeric:true}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                Location Head
+                            </label>
+                            <app-application-emp-single-dd>
+                            </app-application-emp-single-dd>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-inline-block mr-5">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="gender" id="ldnu" class="custom-control-input" 
+                            [formControl]="LocationForm.get('IsDoNotUse')">
+                            <label class="custom-control-label h5 pl-2" for="ldnu">Do Not Use</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
+                    <button type="button" (click)="LocationOp()" class="btn btn-custom px-4 py-2">{{isAddMode ? 'Add' : 'Edit'}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

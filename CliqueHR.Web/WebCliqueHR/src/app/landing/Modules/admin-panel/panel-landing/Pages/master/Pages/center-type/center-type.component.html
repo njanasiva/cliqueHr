@@ -1,0 +1,70 @@
+<div class="tab-pane fade  show active" id="centre" role="tabpanel" aria-labelledby="centre-tab">
+    <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+        <div class="col-11">
+            <h4 class="mb-0">Centre Type Details</h4>
+        </div>
+        <div class="col-1 text-right">
+            <div class="btn-more ml-auto shadow btn-custom" (click)="OpenCenterTypePopup(true, null)"
+                data-tooltip="tooltip" data-placement="top" title="Add Centre Type">
+                <i class="icon icon-plus-symbol h3 mb-0"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-12 table-responsive mb-3">
+            <lib-ui-data-table [Configuration]="CenterTypeConfig">
+                <ng-template let-data>
+                    <tr>
+                        <td class="text-nowrap">
+                            <div class="btn-more d-inline-block shadow btn-blue" data-tooltip="tooltip"
+                                (click)="OpenCenterTypePopup(false, data.data)" data-placement="top"
+                                title="Edit CentreType">
+                                <i class="icon icon-edit h3 mb-0"></i>
+                            </div>
+                        </td>
+                        <td class="text-nowrap">{{data.data.CenterTypeName}}</td>
+                    </tr>
+                </ng-template>
+            </lib-ui-data-table>
+        </div>
+    </div>
+    <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addCentreType" tabindex="-1"
+        role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content border-0">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalCenterTitle">{{ isAddMode ? 'Add Centre Type' : 'Edit Centre Type'}}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="icon icon-wrong"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row form-fields">
+                        <div class="col-md-12 mb-3">
+                            <label class="h6 mb-1">
+                                Centre Type
+                            </label>
+                            <lib-text-box [FormInput]="CenterTypeForm.get('CenterTypeName')"
+                                [ValidationMessages]="validationMassages.CenterTypeForm.CenterTypeName"
+                                [Configuration]="{PlaceHolder:'Enter Centre Type'}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-inline-block mr-5">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="gender" id="ctdnu" class="custom-control-input" [formControl]="CenterTypeForm.get('IsDoNotUse')">
+                            <label class="custom-control-label h5 pl-2" for="ctdnu">Do Not Use</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
+                    <button type="button" (click)="CurrencyOp()" class="btn btn-custom px-4 py-2">{{isAddMode ? 'Add' : 'Edit'}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

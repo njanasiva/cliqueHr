@@ -1,0 +1,16 @@
+<li class="ComboTreeItemParent">
+    <span class="comboTreeParentPlus" [class.collapsed]="!isShowChild">
+        <i (click)="toggleChild()" class="icon icon-plus-symbol"></i>
+        <i (click)="toggleChild()" class="icon icon-minus-symbol"></i>
+    </span>
+    <span  [attr.data-id]="Id" data-selectable="true" [class.selected-value]="isSelected" class="custom-control custom-checkbox comboTreeItemTitle selectable">
+        <input type="checkbox" id="{{Id}}" [checked]="isSelected" value="true" (change)="OnNodeSelection()" class="custom-control-input">
+        <label class="custom-control-label h5 pl-2" for="{{Id}}">{{GetDisplayText}}</label>
+    </span>
+
+    <ul [class.show]="isShowChild" class="collapse">
+        <ng-container #parent>
+
+        </ng-container>
+    </ul>
+</li>

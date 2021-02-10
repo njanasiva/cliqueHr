@@ -1,0 +1,267 @@
+<div class="tab-pane fade show active" id="entity" role="tabpanel" aria-labelledby="entity-tab">
+    <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+        <div class="col-11">
+            <h4 class="mb-0">Entity Details</h4>
+        </div>
+        <div class="col-1 text-right">
+            <div class="btn-more ml-auto shadow btn-custom" (click)="OnAddClick()" data-tooltip="tooltip"
+                data-placement="top" title="Add Entity">
+                <i class="icon icon-plus-symbol h3 mb-0"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-12 table-responsive mb-3">
+            <lib-ui-data-table [Configuration]="restoGridConfig">
+                <ng-template let-data>
+                    <tr>
+                        <td class="text-nowrap">
+                            <div class="btn-more d-inline-block shadow btn-blue" data-tooltip="tooltip"
+                                data-placement="top" title="Edit Entity" (click)="OnEditClick(data.data.Id)">
+                                <i class="icon icon-edit h3 mb-0"></i>
+                            </div>
+                        </td>
+                        <td class="text-nowrap">{{data.data.Name}}</td>
+                        <td class="text-nowrap">{{data.data.Code}}</td>
+                        <td class="text-nowrap">{{data.data.WebSite}}</td>
+                        <td>{{data.data.TypeName}}</td>
+                        <td class="text-nowrap">{{data.data.IncorporationDate | date}}</td>
+                    </tr>
+                </ng-template>
+            </lib-ui-data-table>
+        </div>
+    </div>
+    <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addEntity" tabindex="-1"
+        role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-content border-0">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalCenterTitle">{{isAddMode ? 'Add Entity' : 'Edit Entity'}}
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="icon icon-wrong"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row form-fields">
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                Entity Name
+                            </label>
+                            <lib-text-box [FormInput]="entityForm.get('Name')"
+                                [ValidationMessages]="validationMassages.entityForm.Name"
+                                [Configuration]="{PlaceHolder:'Enter Company Name'}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                Entity Code
+                            </label>
+                            <lib-text-box [FormInput]="entityForm.get('Code')"
+                                [ValidationMessages]="validationMassages.entityForm.Code"
+                                [Configuration]="{PlaceHolder:'Enter Company Code'}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                    </div>
+                    <div class="form-row form-fields">
+                        <div class="col-md-6">
+                            <label class="h6 mb-1">
+                                Address
+                            </label>
+                            <lib-text-area [FormInput]="entityForm.get('Address')"
+                                [ValidationMessages]="validationMassages.entityForm.Address"
+                                [Configuration]="{PlaceHolder:'Enter Address', Rows:4 }">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-area>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-row form-fields">
+                                <div class="col-md-6 mb-2">
+                                    <label class="h6 mb-1">
+                                        Country
+                                    </label>
+                                    <lib-ui-single-select (OnSelect)="OnCountrySelect($event)"
+                                        [Selected]="LocationData.CountryValue"
+                                        [Configuration]="LocationData.CountryConfig"
+                                        [Options]="LocationData.CountryList">
+                                    </lib-ui-single-select>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="h6 mb-1">
+                                        State
+                                    </label>
+                                    <lib-ui-single-select (OnSelect)="OnStateSelect($event)"
+                                        [Selected]="LocationData.StateValue" [Configuration]="LocationData.StateConfig"
+                                        [Options]="LocationData.StateList">
+                                    </lib-ui-single-select>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="h6 mb-1">
+                                        City
+                                    </label>
+                                    <lib-ui-single-select (OnSelect)="OnCitySelect($event)"
+                                        [Selected]="LocationData.CityValue" [Configuration]="LocationData.CityConfig"
+                                        [Options]="LocationData.CityList">
+                                    </lib-ui-single-select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="h6 mb-1">
+                                        Pin Code
+                                    </label>
+                                    <lib-text-box [FormInput]="entityForm.get('PinCode')"
+                                        [ValidationMessages]="validationMassages.entityForm.PinCode"
+                                        [Configuration]="{PlaceHolder:'Enter Pin Code', isNumeric:true}">
+                                        <ng-template let-validation>
+                                            <div class="error-message">{{validation}}</div>
+                                        </ng-template>
+                                    </lib-text-box>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row form-fields">
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                Company Type
+                            </label>
+                            <lib-drop-down [FormInput]="entityForm.get('TypeId')" [Configuration]='{}'>
+                                <ng-template let-selectedvalue #options>
+                                    <option *ngFor="let ctype of CompanyType" [selected]="selectedvalue == ctype.TypeId"
+                                        [value]="ctype.TypeId">{{ctype.Name}}</option>
+                                </ng-template>
+                            </lib-drop-down>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                Incorporation Date
+                            </label>
+                            <lib-ui-datepicker [Configuration]="incorporationDateConfig"
+                                [FormInput]="entityForm.get('IncorporationDate')">
+                            </lib-ui-datepicker>
+                            <div class="error-message">{{DateValidation}}</div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                Contact No.
+                            </label>
+                            <lib-text-box [FormInput]="entityForm.get('ContcatNo')"
+                                [ValidationMessages]="validationMassages.entityForm.ContcatNo"
+                                [Configuration]="{PlaceHolder:'Enter Contact number...', isNumeric:true}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                Website
+                            </label>
+                            <lib-text-box [FormInput]="entityForm.get('WebSite')"
+                                [ValidationMessages]="validationMassages.entityForm.WebSite"
+                                [Configuration]="{PlaceHolder:'Enter Website...'}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                    </div>
+                    <div class="form-row form-fields">
+                        <div class="col-md-2 mb-3">
+                            <label class="h6 mb-1">
+                                PAN
+                            </label>
+                            <lib-text-box [FormInput]="entityForm.get('PAN')"
+                                [Configuration]="{PlaceHolder:'Enter PAN'}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="h6 mb-1">
+                                TAN
+                            </label>
+                            <lib-text-box [FormInput]="entityForm.get('TAN')"
+                                [Configuration]="{PlaceHolder:'Enter TAN'}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="h6 mb-1">
+                                GSTIN
+                            </label>
+                            <lib-text-box [FormInput]="entityForm.get('GSTIN')"
+                                [Configuration]="{PlaceHolder:'Enter GSTIN'}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                PF
+                            </label>
+                            <lib-text-box [FormInput]="entityForm.get('PF')" [Configuration]="{PlaceHolder:'Enter PF'}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="h6 mb-1">
+                                ESIC
+                            </label>
+                            <lib-text-box [FormInput]="entityForm.get('ESIC')"
+                                [Configuration]="{PlaceHolder:'Enter ESIC'}">
+                                <ng-template let-validation>
+                                    <div class="error-message">{{validation}}</div>
+                                </ng-template>
+                            </lib-text-box>
+                        </div>
+                    </div>
+                    <div class="form-row form-fields">
+                        <div class="col-md-12">
+                            <div class="form-row align-items-center">
+                                <div class="col-3">
+                                    <div class="custom-file custom-file-btn btn btn-custom">
+                                        <input type="file" (change)="SelectImage($event)" class="custom-file-input">
+                                        <span class="mb-0" for="customFile">{{editData.Logo && editData.Logo != '' ? 'Change Logo' : 'Add Logo'}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-9">
+                                    <div class="h5 d-block file-name text-break mb-2"></div>
+                                </div>
+                                <div class="error-message">{{fileValidations}}</div>
+                                <div class="col-12 mt-2">
+                                    <div class="text-small d-block text-danger text-break mb-0">
+                                        Note: Only JPG, PNG and GIF files are allowed.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-inline-block mr-5">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="gender" id="dnu" class="custom-control-input" [formControl]="entityForm.get('IsDoNotUse')">
+                            <label class="custom-control-label h5 pl-2" for="dnu">Do Not Use</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
+                    <button type="button" (click)="isAddMode? OnAddEntity() : OnEditEntity()" class="btn btn-custom px-4 py-2">{{isAddMode ? 'Add' : 'Edit'}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
