@@ -1,0 +1,14 @@
+<lib-ui-multi-select 
+[SelectedItem]="SelectedItem"
+[SearchInput]="formControl" [Configuration]="Configuration" [SelectedItem]="SelectedItem">
+    <ng-template>
+        <li class="pure-checkbox">
+            <input (change)="OnSelectUnSelectAll($event)" type="checkbox" [checked]="isSelectedAll" ><label>Select All</label>
+        </li>
+        <ng-template ngFor let-obj [ngForOf]="Data" let-i="index">
+            <li class="pure-checkbox">
+                <input (change)="OnSelect($event, i)" type="checkbox" [checked]="isChecked(obj)" ><label>{{DisplayText(obj)}}</label>
+            </li>
+        </ng-template>
+    </ng-template>
+</lib-ui-multi-select>

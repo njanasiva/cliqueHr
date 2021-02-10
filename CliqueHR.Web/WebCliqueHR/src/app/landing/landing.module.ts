@@ -7,6 +7,7 @@ import { LandingRouteModule } from './landing-route/landing-route.module';
 import {WebTokens} from 'src/Application/Types/types.api';
 import { ApplicationService } from 'src/Application/Services/application.service';
 import { ChangeTheamComponent } from './Pages/PopUp/change-theam/change-theam.component';
+import { CommonService } from './Modules/common.service';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ChangeTheamComponent } from './Pages/PopUp/change-theam/change-theam.co
     {
       provide: WebTokens.APPLICATION_SERVICE,
       useClass: ApplicationService
-    }
+    },
+    CommonService
   ]
 })
 export class LandingModule { }

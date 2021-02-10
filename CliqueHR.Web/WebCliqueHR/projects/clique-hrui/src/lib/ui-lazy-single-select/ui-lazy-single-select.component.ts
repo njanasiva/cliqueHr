@@ -1,8 +1,9 @@
 import { Component, OnInit, Output, Input, ContentChild, TemplateRef, EventEmitter, ViewChild, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { UiBaseComponent } from '../Common/ui-base-component';
 import { FormControl } from '@angular/forms';
-import { UiSingleselect, UiLazySingleSelect, UiLazyLoadingData, UiLazyLoadingRequest } from '../ui-models';
+import { UiLazySingleSelect, UiLazyLoadingData, UiLazyLoadingRequest } from '../ui-models';
 import { isNullOrUndefined } from 'util';
+import { filter, debounceTime, switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -14,12 +15,11 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
 
   private displayText: string;
   public formControl: FormControl = new FormControl('');
-  @Output("OnSelect")
-  private onSelect: EventEmitter<any> = new EventEmitter<any>();
   @Output("FetchRequest")
   private fetchRequest: EventEmitter<UiLazyLoadingRequest> = new EventEmitter<UiLazyLoadingRequest>();
-  @Input("Selected")
-  private selectedValue: any;
+  @Output("OnChange")
+  private onOptionSelect: EventEmitter<any> = new EventEmitter<any>();
+  public selectedValue: any;
   @Input('Configuration')
   public config: UiLazySingleSelect;
   public multiDdOpen: boolean = false;
@@ -27,8 +27,8 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
   private optionContainer: ViewContainerRef;
   private ActualOptions: any[] = [];
   private m_startIndex: number = 0;
-  private m_isLastRecord: boolean = true;
-  private m_isLoading: boolean = true;
+  private m_isLastRecord: boolean = false;
+  private m_isLoading: boolean = false;
 
   @ViewChild('options', { read: TemplateRef, static: true })
   optionsContent: TemplateRef<any>;
@@ -36,9 +36,22 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
     private changeDetection: ChangeDetectorRef
   ) {
     super();
+    this.formControl.valueChanges.
+    pipe(
+      switchMap(x => x == '' ? ' ': x),
+      debounceTime(500),
+    ).
+    subscribe((value:any) => {
+      this.ResetDropdown();
+      this.LoadOptions();
+    });
   }
 
   ngOnInit() {
+    this.LoadOptions();
+    if (!isNullOrUndefined(this.selectedValue)) {
+      this.OnSelect(this.selectedValue);
+    }
   }
   public toggleDdl(event) {
     event.stopPropagation();
@@ -52,16 +65,10 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
     }
   }
   private ConstructOptions(options: Array<any>) {
-    this.optionContainer.clear();
     this.changeDetection.detach();
     if (!isNullOrUndefined(options)) {
       let i = 0;
       for (let opt of options) {
-        if (!isNullOrUndefined(this.selectedValue)) {
-          if (opt[this.ValueProperty] == this.selectedValue) {
-            this.OnSelect(opt);
-          }
-        }
         this.optionContainer.createEmbeddedView(this.optionsContent,
           { $implicit: { index: i, data: opt } });
         i++;
@@ -75,21 +82,25 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
   private FetchRecord(event: any) {
     if (!this.m_isLastRecord && !this.m_isLoading && (((event.srcElement.scrollHeight - event.srcElement.offsetHeight) - 26) < event.srcElement.scrollTop))
     {
-      this.m_isLoading = true;
-      let prevStartIndex = this.m_startIndex;
-      this.m_startIndex = this.m_startIndex + this.config.pageNo;
-      this.fetchRequest.emit({
-        StartIndex: (prevStartIndex + 1),
-        EndIndex: this.m_startIndex
-      });
+      this.LoadOptions();
     }
+  }
+  private LoadOptions() {
+    this.m_isLoading = true;
+    let prevStartIndex = this.m_startIndex;
+    this.m_startIndex = this.m_startIndex + this.config.pageNo;
+    this.fetchRequest.emit({
+      StartIndex: (prevStartIndex + 1),
+      EndIndex: this.m_startIndex,
+      SerchText: this.formControl.value
+    });
   }
   public OnScroll(event: any) {
     this.FetchRecord(event);
   }
   public GenerateDropDown(value: UiLazyLoadingData) {
     if (!isNullOrUndefined(value) && !isNullOrUndefined(value.Data)) {
-      this.ActualOptions.concat(value.Data);
+      this.ActualOptions = this.ActualOptions.concat(value.Data);
       if (this.ActualOptions.length == value.Total) {
         this.m_isLastRecord = true;
       }
@@ -100,20 +111,27 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
       this.m_isLoading = false;
     }
   }
+  public HideLoading() {
+    this.m_isLoading = false;
+  }
   public ResetDropdown() {
     this.m_isLastRecord = false;
     this.ActualOptions = [];
-    this.m_isLoading = true;
+    this.m_isLoading = false;
     this.m_startIndex = 0;
+    this.optionContainer.clear();
   }
-  public SelectValue(text: string, value: any) {
-    this.displayText = text;
-    this.selectedValue = value;
+  public setSelectValue(data: any) {
+    this.OnSelect(data)
   }
   public OnSelect(data: any) {
     this.displayText = data[this.displayProperty];
-    this.selectedValue = data[this.ValueProperty];
-    this.onSelect.emit(data);
+    this.selectedValue = data;
+    this.multiDdOpen = false;
+  }
+  public OnSelectEvent(data: any) {
+    this.OnSelect(data);
+    this.onOptionSelect.emit(data);
   }
   public get DisplayText() {
     if (!isNullOrUndefined(this.displayText)) {

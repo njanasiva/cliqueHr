@@ -4,36 +4,38 @@ import { WebInterface, WebTokens } from 'src/Application/Types/types.api';
 import { Components } from 'src/Application/Types/Constants';
 import { WebAppModels } from 'src/Application/Models/models.api';
 import { CompanyComponent } from './Pages/company/company.component';
+import { EmployeeComponent } from './Pages/employee/employee.component';
 import { isNullOrUndefined } from 'util';
 import { MasterComponent } from './Pages/master/master.component';
-import { LifecycleComponent } from './Pages/lifecycle/lifecycle.component';
-import { EngagementComponent } from './Pages/engagement/engagement.component';
+import { EmployeeTypeComponent } from './Pages/master/Pages/employee-type/employee-type.component';
+import { RolesComponent } from './Pages/roles/roles.component';
+import { AppSetings } from 'src/Application/Loader/runtime-function';
 
 const tabData = {
   Hearder: [
     {
       Name: 'Company',
-      Component: CompanyComponent,
+      Path: import('./Pages/company/company.module'),
       Selected:true,
       Icon: 'icon icon-business mr-2'
     },
     {
+      Name: 'Employee',
+      Path: import('./Pages/employee/employee.module'),
+      Selected:false,
+      Icon: 'icon icon-employee mr-2'
+    },
+    {
       Name: 'Master',
-      Component: MasterComponent,
+      Path: import('./Pages/master/master.module'),
       Selected:false,
       Icon: 'icon icon-manager mr-2'
     },
     {
-      Name: 'Life Cycle',
-      Component: LifecycleComponent,
-      Selected: false,
+      Name: 'Roles',
+      Path: import('./Pages/roles/roles.module'),
+      Selected:false,
       Icon: 'icon icon-user-group mr-2'
-    },
-    {
-      Name: 'Engagemant',
-      Component: EngagementComponent,
-      Selected: false,
-      Icon: 'icon icon-meeting mr-2'
     }
   ]
 };
@@ -101,9 +103,8 @@ export class PanelLandingComponent extends WebComponents.ApplicationComponent im
     this.tabHeader.createEmbeddedView(this.tabItem, { $implicit: data });
   }
   private LoadContent(data: any) {
-    let component = this.componentResolver.resolveComponentFactory(data.Component);
     this.tabContent.clear();
-    this.tabContent.createComponent(component);
+    AppSetings.GetModuleFromImport(data.Path, this.tabContent);
   }
   public OnLeftItemSelect(index: number) {
     if(!this.tabData.Hearder[index].Selected){

@@ -1,0 +1,79 @@
+<div class="wrapper login-page">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <ng-template ngFor let-loginimg let-i="index" [ngForOf]="loginPageData?.loginPageImages">
+                <div class="carousel-item" [class.active]="i==0">
+                    <img [src]="imageUrl+loginimg.ImagePath" class="d-block w-100" alt="...">
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <div class="login-btn">
+        <div class="nav flex-column nav-pills">
+            <a class="nav-link active px-3" style="width: 120px;">
+                <i class="icon icon-login h3 mb-0 mr-2 text-primary align-middle"></i>
+                <span class="align-middle h4 mb-0 text-primary">Login</span>
+            </a>
+        </div>
+    </div>
+    <div class="tab-content py-0 hidden-login" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="v-pills-login">
+            <div class="row no-gutters vh-100">
+                <div class="col-12 align-self-center">
+                    <div class="row no-gutters">
+                        <div class="col-12 text-center align-self-start">
+                            <object id="phoenixHCM" data="assets/images/logo.svg" type="image/svg+xml"
+                                style="height: 100px;"></object>
+                        </div>
+                        <div class="col-12 mt-5">
+                            <div class="form-group">
+                                <label class="h6 mb-1">
+                                    Employee Code
+                                </label>
+                                <lib-text-box [FormInput]="loginForm.get('EmployeeCode')"
+                                    [ValidationMessages]="validationMassages.loginForm.EmployeeCode"
+                                    [Configuration]="{PlaceHolder:'Enter Company Name'}">
+                                    <ng-template let-validation>
+                                        <div class="error-message">{{validation}}</div>
+                                    </ng-template>
+                                </lib-text-box>
+                            </div>
+                            <div class="form-group">
+                                <label class="h6 mb-1">
+                                    Password
+                                </label>
+                                <lib-text-box [FormInput]="loginForm.get('Password')"
+                                    [ValidationMessages]="validationMassages.loginForm.Password"
+                                    [Configuration]="{PlaceHolder:'Enter Password', Type:'password'}">
+                                    <ng-template let-validation>
+                                        <div class="error-message">{{validation}}</div>
+                                    </ng-template>
+                                </lib-text-box>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-6">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" id="rememberme" class="custom-control-input">
+                                <label class="custom-control-label h5 pl-2" for="rememberme">Remember Me</label>
+                            </div>
+                        </div>
+                        <div class="col-6 text-right">
+                            <a href="forgotpassword.html" class="text-link">Forgot Password?</a>
+                        </div>
+                    </div>
+                    <div class="row mt-3 no-gutters">
+                        <a (click)="OnLogin()" class="btn btn-custom shadow col-12">LOG IN</a>
+                    </div>
+                </div>
+                <div class="col-12 h6 text-center text-muted align-self-end">©Copyright 2020 phoenixHCM</div>
+            </div>
+        </div>
+    </div>
+</div>

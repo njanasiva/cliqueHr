@@ -21,7 +21,7 @@ import { UiSweetAlertService } from 'projects/clique-hrui/src/public-api';
 })
 export class GroupCompanyComponent extends WebComponents.ApplicationComponent implements OnInit {
 
-  private GroupCompanyForm: FormGroup;
+  public GroupCompanyForm: FormGroup;
   public LocationData: LocationDropdown;
   public CompanyType = new Array<any>();
   public validationMassages = ValidationMessage.data;
@@ -127,7 +127,6 @@ export class GroupCompanyComponent extends WebComponents.ApplicationComponent im
   public SaveData(){
     this.ShowLoader();
     this.DateValidation = '';
-    console.log(this.GroupCompanyForm.value);
     if (this.GroupCompanyForm.invalid) {
       this.triggerValidation(this.GroupCompanyForm);
       this.DateValidation = this.GroupCompanyForm.get("IncorporationDate").invalid ? 'Incorporation Date Required' : '';
@@ -136,7 +135,6 @@ export class GroupCompanyComponent extends WebComponents.ApplicationComponent im
     }
     let model:GroupCompany = this.GroupCompanyForm.value;
     model.IncorporationDate = GetUTCDateFromString(this.GroupCompanyForm.get("IncorporationDate").value);
-    console.log(model);
     this.companyService.AddUpdateGroupCompany(model).subscribe(
       (data:any) => {
         this.HideLoader();

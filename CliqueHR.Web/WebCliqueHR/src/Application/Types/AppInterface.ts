@@ -1,4 +1,5 @@
 import { Subject } from "rxjs";
+import { UiMultiselect, UiDropdownTemplate } from 'projects/clique-hrui/src/lib/ui-models';
 
 export namespace WebInterface {
     export interface IApplicationService {
@@ -19,4 +20,32 @@ export namespace WebInterface {
         Sort?: { PropertyName: string, Direction: string };
         SearchText?: string;
     }
+    export interface SinglePaginationModel extends PaginationModel{
+
+    }
+    export interface FileValidationConfig{
+        MaxSizeInMb?:number;
+        AllowedExtentions?:string[];
+    }
+
+    export interface Multiselect extends UiMultiselect {
+        DisplayProperty:any;
+    }
+    export interface TreeDropdown extends UiDropdownTemplate {
+        DisplayProperty:string;
+        ChildProperty:string;
+        ValueProperty: string;
+    }
+
+    export interface ITreeNode {
+        data: any;
+        displayProperty: string;
+        isSelected: boolean;
+        Id:number;
+        MarkForChange();
+        parentComponent: WebInterface.ITreeNode;
+        OpenParent(): void;
+    }
+
+    export type selectCalback = (data: any) => boolean;
 }

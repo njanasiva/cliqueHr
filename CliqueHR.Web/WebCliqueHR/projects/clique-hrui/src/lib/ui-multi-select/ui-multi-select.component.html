@@ -1,7 +1,7 @@
 <div (appOutsideClick)="multiDdOpen = false;" class="cuppa-dropdown">
     <button class="selected-list form-control" (click)="toggleDdl($event)">
         <div class="c-btn">
-            <span class="display-text">{{PlaceHolderText}}</span>
+            <span class="display-text">{{displayText}}</span>
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down ml-auto" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -25,18 +25,15 @@
                         </path>
                     </svg>
                 </span>
-                <input class="c-input form-control ng-pristine ng-valid ng-touched" [(ngModel)]= "filter.Text" style="box-shadow: none;" type="text"  placeholder="Search">
+                <input class="c-input form-control ng-pristine ng-valid ng-touched" style="box-shadow: none;" type="text" [formControl]="formControl" placeholder="Search" />
             </div>
-            <div>
+            <div style="overflow: auto; max-height: 300px;">
                 <ul class="lazyContainer">
-                    <li class="pure-checkbox">
-                        <input aria-labelledby="option" type="checkbox" value="-1" [checked]="masterSelectedAll" (change)="checkUncheckAll($event.target)"><label>Select All</label>
-                    </li>
-                </ul>
-                <ul class="lazyContainer" style="overflow: scroll; height: 120px !important;">
-                    <li *ngFor="let item of _dropdownContainter | uiFilter:filter"  class="pure-checkbox" >
-                        <input aria-labelledby="option" type="checkbox" (change)="modelChanged(item,$event.target)"  [checked]="isSelected(item)"  value="{{ item.Value }}"><label>{{ item.Text }}</label>
-                    </li>
+                    <ng-container *ngTemplateOutlet="dropdownContaint;">
+                    </ng-container>
+                    <!-- <li class="pure-checkbox">
+                        <input aria-labelledby="option" type="checkbox"><label>Brazil</label>
+                    </li> -->
                 </ul>
             </div>
         </div>

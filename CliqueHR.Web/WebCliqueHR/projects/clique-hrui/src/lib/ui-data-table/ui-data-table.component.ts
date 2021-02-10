@@ -2,7 +2,7 @@ import { Component, OnInit, EmbeddedViewRef, ChangeDetectorRef, TemplateRef, Eve
 import { isNullOrUndefined } from 'util';
 import { RequestParam, UiDataTableConfig, columnType } from '../ui-models';
 import { Observable } from 'rxjs';
-
+declare var $: any;
 @Component({
   selector: 'lib-ui-data-table',
   templateUrl: './ui-data-table.component.html',
@@ -42,9 +42,6 @@ export class UiDataTableComponent implements OnInit {
   private loadingViewRef: EmbeddedViewRef<any>;
   private noRowsFound: boolean = false;
   private showPagination: boolean = false;
-
-  private nextBtnDisable: boolean = true;
-  private PreBtnDisable:  boolean = false;
 
   constructor(private changeDetection: ChangeDetectorRef) {
   }
@@ -106,7 +103,6 @@ export class UiDataTableComponent implements OnInit {
     this.resetRows();
     this.showLoading();
     this.fetObs$.emit(data);
-    console.log(data);
   }
 
   public ConstructRow(rowData: any[], totalData: number) {
@@ -137,6 +133,7 @@ export class UiDataTableComponent implements OnInit {
       this.CreateDataTableNav();
     }
     this.changeDetection.detectChanges();
+    this.ApplyTooltip();
   }
 
   public sortData(column: columnType) {
@@ -147,25 +144,7 @@ export class UiDataTableComponent implements OnInit {
     this.GetRowData();
   }
 
-buttonDisable(){
-  console.log(this.activePage);
-  if(this.activePage == this.navPagesSets[this.activePageSet].length){
-    this.nextBtnDisable = false;
-  }
-  else{
-    this.nextBtnDisable = true;
-    this.PreBtnDisable = false;
-  }
-  if(this.activePage == 1){
-    this.PreBtnDisable = false;
-  }
-  else{
-    this.PreBtnDisable = true;
-  }
-}
-
   public nextPage() {
-    this.UpdatePageIndex();
     var pageIndexInSet = this.navPagesSets[this.activePageSet].findIndex(x => x.page == (this.activePage + 1));
     var isLastPageSet = this.activePageSet == (this.navPagesSets.length - 1);
     if (pageIndexInSet == -1 && isLastPageSet) {
@@ -173,19 +152,16 @@ buttonDisable(){
     }
     else if (pageIndexInSet == -1) {
       this.activePageSet++;
-      this.activePage++; 
+      this.activePage++;
     }
     else {
       this.activePage++;
     }
-   
     this.UpdatePageIndex();
     this.GetRowData();
-    this.buttonDisable();
   }
   public previousPage() {
     if (this.activePage == 1) {
-      this.UpdatePageIndex();
       return;
     }
     var pageIndexInSet = this.navPagesSets[this.activePageSet].findIndex(x => x.page == (this.activePage - 1));
@@ -198,21 +174,17 @@ buttonDisable(){
     }
     this.UpdatePageIndex();
     this.GetRowData();
-    this.buttonDisable();
   }
   private UpdatePageIndex() {
-
     let currentPage = this.navPagesSets[this.activePageSet].find(x => x.page == this.activePage);
     this.pageStart = currentPage.pageStart;
     this.pageEnd = (currentPage.pageStart + this.restoGridConfig.PaginationPageSize) - 1;
     this.pageEnd = this.pageEnd > this.totalRows ? this.totalRows : this.pageEnd;
-    console.log(this.pageStart, this.pageEnd, this.pageEnd);
   }
   public OnPageSelect(selectedPage: { page: number, pageStart: number }) {
     this.activePage = selectedPage.page;
     this.UpdatePageIndex();
     this.GetRowData();
-    this.buttonDisable();
   }
   public OnSearch() {
     this.totalRows = 0;
@@ -294,6 +266,16 @@ buttonDisable(){
   private CreateSortClass() {
     for (let col of this.restoGridConfig.Columns) {
       this.sortingClass[col.fieldId] = this.isSorting(col);
+    }
+  }
+
+  private ApplyTooltip() {
+    if (!isNullOrUndefined($)) {
+      $('[data-toggle="tooltip"]').tooltip();
+      $('[data-tooltip="tooltip"]').tooltip()
+      $('[data-toggle="popover"]').popover({
+        trigger: 'focus'
+      });
     }
   }
 

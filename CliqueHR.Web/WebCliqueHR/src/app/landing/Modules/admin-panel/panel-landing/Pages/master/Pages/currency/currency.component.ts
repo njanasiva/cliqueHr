@@ -56,6 +56,7 @@ export class CurrencyComponent extends WebComponents.ApplicationComponent implem
     this.CreateCurrencyForm();
   }
   ngAfterViewInit(): void {
+    super.ngAfterViewInit();
     this.ShowLoader();
     forkJoin([
       this.GetCurrency(),
@@ -134,6 +135,7 @@ export class CurrencyComponent extends WebComponents.ApplicationComponent implem
     this.isAddMode = isAddMode;
     if (isAddMode) {
       this.CurrencyForm.reset();
+      this.CurrencyForm.patchValue(new CurrancyMapping());
       this.CurrencyForm.get("CurrencyId").enable();
       let currency: any = this.CurrencyList[0] || {};
       this.CurrencyForm.get('CurrencyId').patchValue(currency.Id);
@@ -151,6 +153,7 @@ export class CurrencyComponent extends WebComponents.ApplicationComponent implem
     if (this.CurrencyForm.invalid) {
       this.triggerValidation(this.CurrencyForm);
       this.HideLoader();
+      return;
     }
     let model: CurrancyMapping = this.CurrencyForm.value as CurrancyMapping;
     let apiObs: Observable<any>;

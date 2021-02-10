@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  // api_baseurl: 'http://localhost:59281/'
-  api_baseurl: 'https://cliquehrapi.azurewebsites.net/'
+  api_baseurl: 'http://localhost:59281/'
 };
 
 /*

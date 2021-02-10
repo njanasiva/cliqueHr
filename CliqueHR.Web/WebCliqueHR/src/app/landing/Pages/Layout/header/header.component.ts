@@ -1,9 +1,11 @@
 import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild, TemplateRef, ViewContainerRef, QueryList, ViewChildren, ElementRef, asNativeElements, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { Components, Dashboard, RequestTypes } from 'src/Application/Types/Constants';
+import { Components, Dashboard, RequestTypes, ApplicationVeriable } from 'src/Application/Types/Constants';
 import { WebComponents } from 'src/Application/Components/ApplicationComponent';
 import { WebInterface, WebTokens } from 'src/Application/Types/types.api';
 import { AppCodeDirective } from 'src/Application/Directives/app-code.directive';
 import { fromEvent } from 'rxjs';
+import { CommonService } from 'src/app/landing/Modules/common.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'header',
@@ -24,7 +26,9 @@ export class HeaderComponent extends WebComponents.ApplicationComponent implemen
     @Inject(WebTokens.APPLICATION_SERVICE)
     protected applicationService: WebInterface.IApplicationService,
     protected changeDetection: ChangeDetectorRef,
-    protected viewContainerRef: ViewContainerRef
+    protected viewContainerRef: ViewContainerRef,
+    private commonService:CommonService,
+    public router:Router
   ) {
     super(Components.HeaderComponent, applicationService, changeDetection, viewContainerRef);
   }
@@ -66,5 +70,21 @@ export class HeaderComponent extends WebComponents.ApplicationComponent implemen
   }
   public OnChangeTheme() {
     this.SendCommand(Components.ChangeTheamComponent, RequestTypes.ChangeTheme, 'show');
+  }
+  public OnLogout() {
+    this.commonService.Logout().subscribe(
+      (data:any) => {
+        localStorage.removeItem(ApplicationVeriable.AuthTokenKey);
+        localStorage.removeItem(ApplicationVeriable.AuthTokenKey);
+        localStorage.removeItem(ApplicationVeriable.AccessFactorKey);
+        this.router.navigate(['/secure/login']);
+      },
+      (error:any) => {
+        localStorage.removeItem(ApplicationVeriable.AuthTokenKey);
+        localStorage.removeItem(ApplicationVeriable.AuthTokenKey);
+        localStorage.removeItem(ApplicationVeriable.AccessFactorKey);
+        this.router.navigate(['/secure/login']);
+      }
+    )
   }
 }

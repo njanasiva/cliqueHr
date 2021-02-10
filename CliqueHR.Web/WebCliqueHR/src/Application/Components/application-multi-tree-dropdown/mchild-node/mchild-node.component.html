@@ -1,0 +1,6 @@
+<li class="ComboTreeItemChlid">
+    <span [attr.data-id]="Id" data-selectable="true" [class.selected-value]="isSelected" class="custom-control custom-checkbox comboTreeItemTitle selectable">
+        <input type="checkbox" [checked]="isSelected" id="{{Id}}" (change)="OnNodeSelection()" class="custom-control-input">
+        <label class="custom-control-label h5 pl-2" for="{{Id}}">{{GetDisplayText}}</label>
+    </span>
+</li>
