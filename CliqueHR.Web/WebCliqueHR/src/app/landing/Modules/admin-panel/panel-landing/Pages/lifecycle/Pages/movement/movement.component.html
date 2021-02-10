@@ -46,7 +46,7 @@
               </label>
               <!--<input class="form-control" type="text" value="" placeholder="Enter Reason for Movement">-->
               <lib-text-box [FormInput]="MovementForm.get('MovementReason')"
-                            [Configuration]="{PlaceHolder:'Enter Reason for Movement'}">
+              [maxLength]="20"     [Configuration]="{PlaceHolder:'Enter Reason for Movement'}">
               </lib-text-box>
             </div>
             <div class="col-md-6">

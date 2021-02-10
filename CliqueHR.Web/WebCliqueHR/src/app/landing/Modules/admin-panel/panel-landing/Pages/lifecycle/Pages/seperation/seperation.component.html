@@ -307,7 +307,7 @@
                 Notice Period Name
               </label>
               <lib-text-box [FormInput]="NoticePeriodDetailForm.get('NoticePeriodName')"
-              (keypress)="keyPress($event)"  [Configuration]="{PlaceHolder:'Enter Name'}">
+              (keypress)="keyPress($event)"  [maxLength]="50" [Configuration]="{PlaceHolder:'Enter Name'}">
               </lib-text-box>
             </div>
             <div class="col-md-4 mb-3">
@@ -477,7 +477,7 @@
               </label>
               <!--<input class="form-control" type="text" value="" placeholder="Enter Separation Reason">-->
               <lib-text-box [FormInput]="SeperationReasonForm.get('SeparationReason')"
-                            [Configuration]="{PlaceHolder:'Enter Separation Reason'}">
+              [maxLength]="100"     [Configuration]="{PlaceHolder:'Enter Separation Reason'}">
               </lib-text-box>
             </div>
             <div class="col-md-6 mb-3">

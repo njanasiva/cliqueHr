@@ -726,6 +726,7 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
       (data: any) => {
         this.HideLoader();
         this.LoadGrid();
+
         this.uiSweetAlertService.ShowAlert('Data Saved Successfully');
         this.CloseModelPopup('#addNoticePeriod');
       },

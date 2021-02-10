@@ -41,8 +41,10 @@
           <div class="form-row">
             <div class="col-md-4 mb-3">
               <label class="h6 mb-1">Policy Name</label>
-              <lib-text-box [FormInput]="ExitInterviewForm.get('PolicyName')"                            
-                            [Configuration]="{PlaceHolder:'Enter Confirmation Day'}">
+              <lib-text-box [FormInput]="ExitInterviewForm.get('PolicyName')"
+                            (keypress)="keyPress($event)"  
+                            [maxLength]="50"                          
+                            [Configuration]="{PlaceHolder:'enter policy name'}">
               </lib-text-box>
             </div>
             <div class="col-md-4 mb-3">
@@ -75,7 +77,7 @@
                   <label class="h6 mb-1">Initiate Exit interview</label>
                 </div>
                 <div class="col-sm-1">
-                  <input class="form-control" type="number" value="" placeholder="" [formControl]="ExitInterviewForm.get('ExitInterviewDay')">
+                  <input class="form-control" type="number" min="0" value="" placeholder="" [formControl]="ExitInterviewForm.get('ExitInterviewDay')">
                 </div>
                 <div class="col-sm-1">
                   <label class="h6 mb-1 text-muted">Days</label>

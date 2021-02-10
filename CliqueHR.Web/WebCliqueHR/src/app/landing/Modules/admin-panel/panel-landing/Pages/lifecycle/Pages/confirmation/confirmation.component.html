@@ -1,9 +1,12 @@
 <div class="tab-pane fade show active" id="confirmation" role="tabpanel" aria-labelledby="confirmation-tab">
   <div class="form-row align-items-end mb-3 pb-3 border-bottom">
-    <div class="col-11">
+    <div class="col-9">
       <h4 class="mb-0">Probation Details</h4>
     </div>
-    <div class="col-1 text-right">
+    <div class="col-3 text-right">
+      <div>
+        <input class="form-control" type="number" name="noofrecord" (keyup)="noOfRecord(noofrecord.control.value)"  ngModel required #noofrecord="ngModel" placeholder="Enter no of record to show" >
+      </div>
       <div class="btn-more ml-auto shadow btn-custom" (click)="OnOpenPopup(0,'Add')" data-tooltip="tooltip"
         data-placement="top" title="Add Probation">
         <i class="icon icon-plus-symbol h3 mb-0"></i>
@@ -52,6 +55,7 @@
                <lib-text-box [ValidationMessages]="validationMassages.ProbationDetailForm.ProbationName"
                 [FormInput]="ProbationDetailForm.get('ProbationName')"
                 (keypress)="keyPress($event)"
+                [maxLength]="50"
                 [Configuration]="{PlaceHolder:'Enter Probation Name'}">
               </lib-text-box>
               <span class="text-danger"
@@ -67,10 +71,7 @@
               <div class="form-row align-items-center">
                 <div class="col-5">
                   <!--<input class="form-control" type="text" value="" placeholder="Period">-->
-                  <lib-text-box [FormInput]="ProbationDetailForm.get('ProbationPeriod')"
-                    [ValidationMessages]="validationMassages.ProbationDetailForm.ProbationPeriod"
-                    [Configuration]="{PlaceHolder:'Enter Day(s)'}"
-                    (keypress)="keyPressNumbers($event)">
+                  <lib-text-box [maxLength]="3" [FormInput]="ProbationDetailForm.get('ProbationPeriod')" [ValidationMessages]="validationMassages.ProbationDetailForm.ProbationPeriod" [Configuration]="{PlaceHolder:'Enter Day(s)'}" (keypress)="keyPressNumbers($event)">
                   </lib-text-box>
                 </div>
                 <div class="col-7">
@@ -161,6 +162,7 @@
                   <lib-text-box [FormInput]="ProbationDetailForm.get('ConfirmationDay')"
                     [ValidationMessages]="validationMassages.ProbationDetailForm.ConfirmationDay"
                     (keypress)="keyPressNumbers($event)"
+                    [maxLength]="3"
                     [Configuration]="{PlaceHolder:'Enter Confirmation trigger days'}">
                   </lib-text-box>
                 </div>

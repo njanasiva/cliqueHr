@@ -90,7 +90,14 @@ export class ExitinterviewComponent extends WebComponents.ApplicationComponent i
     this.filter.Text = '';
     this.CreateExitInterviewDetail();
   }
-
+  keyPress(event){
+    console.log(event, "click");
+    const key = event.keyCode;
+    console.log(key);
+    if (key >= 15 && key <= 64) {
+      event.preventDefault();
+    }
+  }
   LoadDropDown(value) {
     this.dropDown1 = [];
     let values = new UiMultiselectData();

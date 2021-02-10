@@ -168,6 +168,7 @@ export class WorkflowComponent extends WebComponents.ApplicationComponent implem
 
   AssignValue(data: string) {
     let values = Object.assign(Array<UiMultiselectData>(), this.designation);
+    console.log(values,"values");
     values.forEach(items => {
       items.isCheckBoxSelected = false;
     });
@@ -363,7 +364,7 @@ export class WorkflowComponent extends WebComponents.ApplicationComponent implem
     this.LifeCycleService.GetConfirmationMasterList(paginationModel).subscribe(
       (data: any) => {
         if (data && data != undefined) {
-          console.log(data);
+          console.log(data,"data");
           if (data.SeparationType) {
             let separationTypeData = data.SeparationType.filter(a => a.Value != 0);
             this.separationType = separationTypeData;
