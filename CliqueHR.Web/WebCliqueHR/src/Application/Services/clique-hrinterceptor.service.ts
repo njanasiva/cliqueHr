@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+<<<<<<< HEAD
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpClient, HttpResponse, HttpErrorResponse, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { isNullOrUndefined } from 'util';
@@ -7,10 +8,18 @@ import { map, catchError, filter, take, switchMap, finalize } from 'rxjs/operato
 import { environment } from 'src/environments/environment';
 import { LoginResponse } from 'src/app/auth/AuthModels';
 import { Router } from '@angular/router';
+=======
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpClient, HttpResponse, HttpErrorResponse, HttpEventType } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { isNullOrUndefined } from 'util';
+import { ApplicationVeriable } from '../Types/Constants';
+import { catchError } from 'rxjs/operators';
+>>>>>>> change
 @Injectable({
   providedIn: 'root'
 })
 export class CliqueHRInterceptorService implements HttpInterceptor {
+<<<<<<< HEAD
   private refreshTokenInProgress: boolean = false;
   private refreshTokenObs: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
@@ -18,6 +27,10 @@ export class CliqueHRInterceptorService implements HttpInterceptor {
     private httpClient: HttpClient,
     private router:Router
     ) { }
+=======
+
+  constructor(private httpClient: HttpClient) { }
+>>>>>>> change
 
   private AddAuthToken(req: HttpRequest<any>) {
     let token = localStorage.getItem(ApplicationVeriable.AuthTokenKey);
@@ -36,6 +49,7 @@ export class CliqueHRInterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (!isNullOrUndefined(error)) {
+<<<<<<< HEAD
           let isInvalidRefreshToken = this.isInvalidRefreshTokenError(error);
           if (error.status == 401) {
             // Handle error code
@@ -66,6 +80,13 @@ export class CliqueHRInterceptorService implements HttpInterceptor {
           else if (error.status == 403 || isInvalidRefreshToken) {
             // Redirect to login
             this.router.navigate(['/secure/login']);
+=======
+          if (error.status == 401) {
+            // Handle error code
+          }
+          else if (error.status == 403) {
+            // Handle error code
+>>>>>>> change
           }
         }
         return throwError(error);
@@ -73,6 +94,7 @@ export class CliqueHRInterceptorService implements HttpInterceptor {
       )
     );
   }
+<<<<<<< HEAD
   private isInvalidRefreshTokenError(error:any) {
     if(error.status == 400 &&
       !isNullOrUndefined(error.error) && 
@@ -90,4 +112,6 @@ export class CliqueHRInterceptorService implements HttpInterceptor {
     };
     return this.httpClient.post(environment.api_baseurl + "login", body.toString(), options);
   }
+=======
+>>>>>>> change
 }

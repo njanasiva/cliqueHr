@@ -28,7 +28,11 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("CommonController:GetAllCompanyType", "Get All Company Types  Start", string.Empty);
                 UserContextModel objUser = new UserContextModel();
+<<<<<<< HEAD
                 objUser.EmployeeId = 1;
+=======
+                objUser.UserID = 1;
+>>>>>>> change
                 objUser.CompanyCode = "devDB";
                 var data = _CommonService.GetAllCompanyType(objUser);
                 Log.Info("CommonController:GetAllCompanyType", "Get All Company Types End", string.Empty);
@@ -48,7 +52,11 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("CommonController:GetAllCountry", "Get All Country Start", string.Empty);
                 UserContextModel objUser = new UserContextModel();
+<<<<<<< HEAD
                 objUser.EmployeeId = 1;
+=======
+                objUser.UserID = 1;
+>>>>>>> change
                 objUser.CompanyCode = "devDB";
                 var data = _CommonService.GetAllCountry(objUser);
                 Log.Info("CommonController:GetAllCountry", "Get All Country End", string.Empty);
@@ -70,7 +78,11 @@ namespace CliqueHR.Api.Controllers
                 Log.Info("CommonController:GetAllState", "Get All State Start", string.Empty);
 
                 UserContextModel objUser = new UserContextModel();
+<<<<<<< HEAD
                 objUser.EmployeeId = 1;
+=======
+                objUser.UserID = 1;
+>>>>>>> change
                 objUser.CompanyCode = "devDB";
                 var data = _CommonService.GetAllState(CountryId, objUser);
                 Log.Info("CommonController:GetAllState", "Get All State End", string.Empty);
@@ -90,7 +102,11 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("CommonController:GetAllCity", "Get All City Start", string.Empty);
                 UserContextModel objUser = new UserContextModel();
+<<<<<<< HEAD
                 objUser.EmployeeId = 1;
+=======
+                objUser.UserID = 1;
+>>>>>>> change
                 objUser.CompanyCode = "devDB";
                 var data = _CommonService.GetAllCity(StateId, objUser);
                 Log.Info("CommonController:GetAllCity", "Get All City End", string.Empty);

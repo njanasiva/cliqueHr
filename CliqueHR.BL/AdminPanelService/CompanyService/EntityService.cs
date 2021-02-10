@@ -25,6 +25,10 @@ namespace CliqueHR.BL
         {
             try
             {
+<<<<<<< HEAD
+=======
+
+>>>>>>> change
                 var responseValidation = Validator.GetValidationResponseInstance();
                 string modelStr = request.Form["data"];
                 if (string.IsNullOrEmpty(modelStr))
@@ -39,7 +43,11 @@ namespace CliqueHR.BL
                     throw new ValidationException(validationResponse);
                 }
                 model.TransType = "SAVE";
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 StorageRequest uploadRequest = null;
                 if (request.Files.Count != 0 && request.Files["file"] != null)
                 {
@@ -70,6 +78,10 @@ namespace CliqueHR.BL
                     if (!string.IsNullOrEmpty(OldLogo))
                         _storageService.DeleteFileData(OldLogo, false, objUser.CompanyCode);
                 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> change
                
             }
             catch (Exception ex)
@@ -96,7 +108,11 @@ namespace CliqueHR.BL
                     throw new ValidationException(validationResponse);
                 }
                 model.TransType = "SAVE";
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 var data = _entityRepository.UpdateEntity(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {
@@ -131,6 +147,7 @@ namespace CliqueHR.BL
 
                 }
 
+<<<<<<< HEAD
                 // Update Cache
                 EntityCaching.Instance.UpdateCacheTimestamp(new EntityModelParams
                 {
@@ -138,6 +155,11 @@ namespace CliqueHR.BL
                     entity = model,
                     Key = model.Id.ToString()
                 });
+=======
+             
+
+
+>>>>>>> change
             }
             catch (Exception ex)
             {

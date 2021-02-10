@@ -19,8 +19,12 @@ namespace CliqueHR.Common.Models
         public string Name { get; set; }
         public string Code { get; set; }
         public int TypeId { get; set; }
+<<<<<<< HEAD
         public string TypeName { get; set; }
         public DateTime IncorporationDate { get; set; }
+=======
+        public string IncorporationDate { get; set; }
+>>>>>>> change
         public string Address { get; set; }
         public int CountryId { get; set; }
         public int StateId { get; set; }
@@ -56,6 +60,7 @@ namespace CliqueHR.Common.Models
         {
             var message = new List<ValidationMessage>();
             string contactPattern = @"^[0-9]{10}$";
+<<<<<<< HEAD
             bool isContactValid = false, isWebSite = false;
             if (model.Id == 0)
             {
@@ -78,6 +83,31 @@ namespace CliqueHR.Common.Models
                         Message = "Entity Code can not be blank."
                     });
                 }
+=======
+            string panPattern = "/^([A-Z]){5}([0-9]){4}([A-Z]){1}$/";
+            string gstinPattern = "/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/";
+
+            bool isContactValid = false, isPanValid = false, isWebSite = false;
+
+
+
+            if (string.IsNullOrEmpty(model.Name))
+            {
+                message.Add(new ValidationMessage
+                {
+                    Property = "EntityName",
+                    Message = "Entity Name can not be blank."
+                });
+            }
+
+            if (string.IsNullOrEmpty(model.Code))
+            {
+                message.Add(new ValidationMessage
+                {
+                    Property = "EntityCode",
+                    Message = "Entity Code can not be blank."
+                });
+>>>>>>> change
             }
 
             if (string.IsNullOrEmpty(Convert.ToString(model.IncorporationDate)))
@@ -151,7 +181,12 @@ namespace CliqueHR.Common.Models
                     Message = "Contcat Number can not be blank."
                 });
             }
+<<<<<<< HEAD
             else
+=======
+
+            if (!(string.IsNullOrEmpty(model.ContcatNo)))
+>>>>>>> change
             {
                 isContactValid = Regex.IsMatch(Convert.ToString(model.ContcatNo), contactPattern);
                 if (!isContactValid)
@@ -177,7 +212,22 @@ namespace CliqueHR.Common.Models
             }
 
 
+<<<<<<< HEAD
 
+=======
+            //if (!(string.IsNullOrEmpty(model.PAN)))
+            //{
+            //    isPanValid = Regex.IsMatch(Convert.ToString(model.PAN), panPattern);
+            //    if (!isPanValid)
+            //    {
+            //        message.Add(new ValidationMessage
+            //        {
+            //            Property = "PAN",
+            //            Message = "Please enter proper PAN."
+            //        });
+            //    }
+            //}
+>>>>>>> change
 
             return message;
         }

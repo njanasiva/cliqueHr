@@ -39,7 +39,11 @@ namespace CliqueHR.BL
                 {
                     throw new ValidationException(validationResponse);
                 }
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 var data = _qualificationRepository.AddCourseType(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {
@@ -90,7 +94,11 @@ namespace CliqueHR.BL
                 {
                     throw new ValidationException(validationResponse);
                 }
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 var data = _qualificationRepository.UpdateCourseType(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {
@@ -117,7 +125,11 @@ namespace CliqueHR.BL
                 {
                     throw new ValidationException(validationResponse);
                 }
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 var data = _qualificationRepository.AddCourseTitle(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {
@@ -168,7 +180,11 @@ namespace CliqueHR.BL
                 {
                     throw new ValidationException(validationResponse);
                 }
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 var data = _qualificationRepository.UpdateCourseTitle(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {
@@ -195,7 +211,11 @@ namespace CliqueHR.BL
                 {
                     throw new ValidationException(validationResponse);
                 }
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 var data = _qualificationRepository.AddCourseMajor(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {
@@ -246,7 +266,11 @@ namespace CliqueHR.BL
                 {
                     throw new ValidationException(validationResponse);
                 }
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 var data = _qualificationRepository.UpdateCourseMajor(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {
@@ -273,7 +297,11 @@ namespace CliqueHR.BL
                 {
                     throw new ValidationException(validationResponse);
                 }
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 var data = _qualificationRepository.AddCourseUniversity(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {
@@ -324,7 +352,11 @@ namespace CliqueHR.BL
                 {
                     throw new ValidationException(validationResponse);
                 }
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 var data = _qualificationRepository.UpdateCourseUniversity(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {
@@ -351,7 +383,11 @@ namespace CliqueHR.BL
                 {
                     throw new ValidationException(validationResponse);
                 }
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 var data = _qualificationRepository.AddCourseInstitute(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {
@@ -401,7 +437,11 @@ namespace CliqueHR.BL
                 {
                     throw new ValidationException(validationResponse);
                 }
+<<<<<<< HEAD
                 model.CreatedBy = objUser.EmployeeId;
+=======
+                model.CreatedBy = objUser.UserID;
+>>>>>>> change
                 var data = _qualificationRepository.UpdateCourseInstitute(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {

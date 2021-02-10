@@ -23,7 +23,11 @@ export class UiSingleSelectComponent extends UiBaseComponent implements OnInit {
   public set options(value) {
     this.ActualOptions = value;
     this.ConstructOptions(value);
+<<<<<<< HEAD
     if (this.DisplayText == '') {
+=======
+    if (isNullOrUndefined(this.displayText)) {
+>>>>>>> change
       this.SetDefaultOption();
     }
   }
@@ -84,17 +88,24 @@ export class UiSingleSelectComponent extends UiBaseComponent implements OnInit {
           { $implicit: { index: i, data: opt } });
         i++;
       }
+<<<<<<< HEAD
       if(isNullOrUndefined(this.ActualOptions) || 
       this.ActualOptions.length == 0){
+=======
+      if(i == 0){
+>>>>>>> change
         this.displayText = undefined;
       }
     }
     this.changeDetection.reattach();
   }
+<<<<<<< HEAD
   public OnScroll(event: any) {
     console.log(event.srcElement.scrollHeight, event.srcElement.offsetHeight, event.srcElement.scrollTop);
     console.log(((event.srcElement.scrollHeight - event.srcElement.offsetHeight) - 26) < event.srcElement.scrollTop )
   }
+=======
+>>>>>>> change
   public OnSelect(data: any) {
     this.displayText = data[this.displayProperty];
     this.selectedValue = data[this.ValueProperty];

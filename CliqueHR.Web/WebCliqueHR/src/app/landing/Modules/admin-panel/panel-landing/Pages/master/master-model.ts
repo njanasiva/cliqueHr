@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import { EntityOrgunitDepartmentModel } from 'src/app/landing/Modules/common-model';
 
+=======
+>>>>>>> change
 export class CourseType {
     Id: number;
     TypeName: string;
@@ -60,6 +63,7 @@ export class CurrancyMapping {
     CurrencyCode: string;
     IsDefault: boolean;
     IsDoNotUse: boolean;
+<<<<<<< HEAD
     constructor() {
         this.IsDoNotUse = false;
         this.IsDefault = false;
@@ -183,4 +187,6 @@ export class RegionModel {
         this.Id = 0;
         this.IsDoNotUse = false;
     }
+=======
+>>>>>>> change
 }

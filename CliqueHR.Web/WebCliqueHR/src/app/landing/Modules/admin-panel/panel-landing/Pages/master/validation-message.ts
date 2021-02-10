@@ -26,6 +26,7 @@ export class ValidationMessage {
             InstituteName: {
                 [ValidationType.required]: "Institute Name Required."
             }
+<<<<<<< HEAD
         },
         CenterTypeForm: {
             CenterTypeName: {
@@ -97,6 +98,8 @@ export class ValidationMessage {
             Name: {
                 [ValidationType.required]: "Name Required."
             }
+=======
+>>>>>>> change
         }
     }
 }

@@ -1,0 +1,63 @@
+<div class="tab-pane fade show active" id="engaMarketplace" role="tabpanel" aria-labelledby="engaMarketplace-tab">
+  <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+    <div class="col-12 pt-2">
+      <h4 class="mb-0">Allow Users to</h4>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-6 table-responsive mb-3">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td style="width: 50px;">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" [(ngModel)]="PostSaleVehicle" id="mau01" class="custom-control-input">
+                <label class="custom-control-label h5 pl-2" for="mau01"></label>
+              </div>
+            </td>
+            <td>Post Sale of Vehicle</td>
+          </tr>
+          <tr>
+            <td style="width: 50px;">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" [(ngModel)]="PostSaleProperty" id="mau02" class="custom-control-input">
+                <label class="custom-control-label h5 pl-2" for="mau02"></label>
+              </div>
+            </td>
+            <td>Post Sale of Property</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-6 table-responsive mb-3">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td style="width: 50px;">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" [(ngModel)]="PostSaleHouseholdGood" id="mau03" class="custom-control-input">
+                <label class="custom-control-label h5 pl-2" for="mau03"></label>
+              </div>
+            </td>
+            <td>Post Sale of Household Goods</td>
+          </tr>
+          <tr>
+            <td style="width: 50px;">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" [(ngModel)]="PostRentalProperty" id="mau04" class="custom-control-input">
+                <label class="custom-control-label h5 pl-2" for="mau04"></label>
+              </div>
+            </td>
+            <td>Post Rental of Property</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="form-row align-items-end mt-3 pt-3 border-top">
+    <div class="col-12 text-right">
+      <button class="btn btn-outline-custom py-2 px-4 mr-2">Cancel</button>
+      <button class="btn btn-custom py-2 px-4" (click)="OnMarketPlaceSave();">Save</button>
+    </div>
+  </div>
+</div>

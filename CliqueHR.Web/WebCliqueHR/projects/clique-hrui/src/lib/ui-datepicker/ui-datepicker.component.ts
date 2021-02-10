@@ -40,7 +40,11 @@ export class UiDatepickerComponent extends UiBaseComponent implements OnInit {
   private SetupConfig(value: UiDatepicker) {
     if (!isNullOrUndefined(value)) {
       this.options.disabled = value.disabled;
+<<<<<<< HEAD
       this.options.plcaeholder = value.placeholder;
+=======
+      this.options.plcaeholder = value.plcaeholder;
+>>>>>>> change
       let maxObj = this.GetDateFromString(value.max);
       let minObj = this.GetDateFromString(value.min);
       if (maxObj != null) {
@@ -112,11 +116,19 @@ export class UiDatepickerComponent extends UiBaseComponent implements OnInit {
       this.OnDateSelectEvent.emit(event);
     }
   }
+<<<<<<< HEAD
   public get isDisabled() {
     return isNullOrUndefined(this.config.disabled) ? false : this.config.disabled;
   }
   public get Placeholder() {
     return isNullOrUndefined(this.config.placeholder) ? '' : this.config.placeholder;
+=======
+  public isDisabled() {
+    return isNullOrUndefined(this.config.disabled) ? false : this.config.disabled;
+  }
+  public Placeholder() {
+    return isNullOrUndefined(this.config.plcaeholder) ? '' : this.config.plcaeholder;
+>>>>>>> change
   }
 
 }

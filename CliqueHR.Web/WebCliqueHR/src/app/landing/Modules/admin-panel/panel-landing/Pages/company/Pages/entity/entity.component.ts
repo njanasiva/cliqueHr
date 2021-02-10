@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, ChangeDetectorRef, ViewChild, AfterViewInit, ViewContainerRef } from '@angular/core';
 import { WebComponents } from 'src/Application/Components/componenets.api';
 import { WebInterface, WebTokens, MultiSelectUtil } from 'src/Application/Types/types.api';
+<<<<<<< HEAD
 import { Components, ValidationType, FileType } from 'src/Application/Types/Constants';
 import { UiDataTableConfig, SortType, UiDatepicker } from 'projects/clique-hrui/src/lib/ui-models';
 import { UiDataTableComponent } from 'projects/clique-hrui/src/lib/ui-data-table/ui-data-table.component';
@@ -15,12 +16,18 @@ import { LocationDropdown, Country, State, City } from 'src/app/landing/Modules/
 import { Entity } from '../../company-model';
 import { ValidationBuilder, GetDateInString, GetUTCDateFromString } from 'src/Application/Utilitis/ApplicationUtility';
 import { ValidationMessage } from '../../validation-message';
+=======
+import { Components } from 'src/Application/Types/Constants';
+import { UiDataTableConfig } from 'projects/clique-hrui/src/lib/ui-models';
+import { UiDataTableComponent } from 'projects/clique-hrui/src/lib/ui-data-table/ui-data-table.component';
+>>>>>>> change
 
 @Component({
   selector: 'app-entity',
   templateUrl: './entity.component.html',
   styleUrls: ['./entity.component.css']
 })
+<<<<<<< HEAD
 export class EntityComponent extends WebComponents.ApplicationComponent implements OnInit, AfterViewInit {
 
   @ViewChild(UiDataTableComponent, { static: true, read: UiDataTableComponent })
@@ -62,11 +69,40 @@ export class EntityComponent extends WebComponents.ApplicationComponent implemen
     max: GetDateInString(new Date())
   }
   public DateValidation: string;
+=======
+export class EntityComponent extends WebComponents.ApplicationComponent implements OnInit,AfterViewInit {
+
+  @ViewChild(UiDataTableComponent,{static:true, read: UiDataTableComponent})
+  private uiDataTableComponent: UiDataTableComponent;
+  public restoGridConfig: UiDataTableConfig = {
+    Columns: [
+      { fieldId: 'Edit', fieldName: '' },
+      { fieldId: 'EntityName', fieldName: 'Entity Name' },
+      { fieldId: 'EntityCode', fieldName: 'Entity Code' },
+      { fieldId: 'Address', fieldName: 'Address' },
+      { fieldId: 'Website', fieldName: 'Website' },
+      { fieldId: 'CompanyType', fieldName: 'Company Type' },
+      { fieldId: 'IncorporationDate', fieldName: 'Incorporation Date' },
+      { fieldId: 'PAN', fieldName: 'PAN' },
+      { fieldId: 'TAN', fieldName: 'TAN' },
+      { fieldId: 'GSTIN', fieldName: 'GSTIN' },
+      { fieldId: 'PF', fieldName: 'PF' },
+      { fieldId: 'ESIC', fieldName: 'ESIC' },
+    ],
+    Pagination: true,
+    PaginationPageSize: 10,
+    DefaultSort: { fieldId: 'EntityCode', direction: 'asc' },
+    UniqueRowCol: 'EntityCode',
+    isEditable: true
+    /*ColumnClass: 'text-nowrap'*/
+  };
+>>>>>>> change
 
   constructor(
     @Inject(WebTokens.APPLICATION_SERVICE)
     protected applicationService: WebInterface.IApplicationService,
     protected changeDetection: ChangeDetectorRef,
+<<<<<<< HEAD
     protected viewContainerRef: ViewContainerRef,
     private fb: FormBuilder,
     private componyService: CompanyService,
@@ -90,11 +126,17 @@ export class EntityComponent extends WebComponents.ApplicationComponent implemen
       },
       complete: () => { }
     };
+=======
+    protected viewContainerRef: ViewContainerRef
+  ) { 
+    super(Components.EntityComponent, applicationService, changeDetection, viewContainerRef);
+>>>>>>> change
   }
 
   protected TriggerCommand(request: WebInterface.CommandRequest) {
   }
   ngOnInit() {
+<<<<<<< HEAD
     this.CreateEntityForm();
   }
   ngAfterViewInit(): void {
@@ -265,5 +307,10 @@ export class EntityComponent extends WebComponents.ApplicationComponent implemen
       this._selectedImage = event.target.files[0];
       this.fileValidations = this.fileValidationMessage[this.ValidateFile(this.fileValidation, this._selectedImage)];
     }
+=======
+  }
+  ngAfterViewInit(): void {
+    this.uiDataTableComponent.ConstructRow([1,2,3],8);
+>>>>>>> change
   }
 }

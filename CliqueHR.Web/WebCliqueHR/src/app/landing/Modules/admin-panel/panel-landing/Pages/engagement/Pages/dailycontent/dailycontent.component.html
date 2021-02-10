@@ -1,0 +1,156 @@
+<div class="tab-pane fade show active" id="engaGroups" role="tabpanel" aria-labelledby="engaGroups-tab">
+  <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+    <div class="col-11">
+      <h4 class="mb-0">Daily Content List</h4>
+    </div>
+    <div class="col-1 text-right">
+      <div class="btn-more ml-auto shadow btn-custom ml-2" (click)="OnOpenPopup(0,'Add')" data-target="#addDailyContent"
+           data-tooltip="tooltip" data-placement="top" title="Add Daily Content">
+        <i class="icon icon-plus-symbol h3 mb-0"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-12 table-responsive mb-3">      
+      <lib-ui-data-table [Configuration]="DailyContentConfig">
+        <ng-template let-data>
+          <tr>
+            <td class="text-nowrap">
+              <div class="btn-more d-inline-block shadow btn-blue" (click)="OnOpenPopup(data.index,'Edit')"
+                   data-tooltip="tooltip" data-placement="top" title="Edit Probation Details">
+                <i class="icon icon-edit h3 mb-0"></i>
+              </div>
+            </td>
+            <td class="text-nowrap"> {{data.data.Content}}</td>
+            <td class="text-nowrap"> {{data.data.Recurring}}</td>
+            <td class="text-nowrap"> {{data.data.StartDate}}</td>
+            <td class="text-nowrap"> {{data.data.EndDate}}</td>
+            <td class="text-nowrap"> {{data.data.WrkGrps}}</td>
+          </tr>
+        </ng-template>
+      </lib-ui-data-table>
+    </div>
+  </div>
+
+  <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addDailyContent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content border-0">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalCenterTitle">{{popupHeading}}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="icon icon-wrong"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="col-md-12">
+              <div class="form-row">
+                <div class="col-md-9 mb-3">
+                  <label class="h6 mb-1">
+                    Content to Display
+                  </label>
+                  <textarea class="form-control" [(ngModel)]="Content" placeholder="Enter Content to display..."></textarea>
+                </div>
+                <div class="col-md-3 text-right">
+                  <label class="h6 mb-1 d-block">
+                    &nbsp;
+                  </label>
+                  <div class="btn-more ml-auto shadow btn-danger" data-tooltip="tooltip" data-placement="top" title="Remove Geo Fence">
+                    <i class="icon icon-minus-symbol h3 mb-0"></i>
+                  </div>
+                  <div class="btn-more ml-auto shadow btn-custom ml-2" data-tooltip="tooltip" data-placement="top" title="Add Geo Fence">
+                    <i class="icon icon-plus-symbol h3 mb-0"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row mt-2">
+                <div class="col-md-9 mb-3">
+                  <label class="h6 mb-1">
+                    Content to Display
+                  </label>
+                  <textarea class="form-control" placeholder="Enter Content to display..."></textarea>
+                </div>
+                <div class="col-md-3 text-right">
+                  <label class="h6 mb-1 d-block">
+                    &nbsp;
+                  </label>
+                  <div class="btn-more ml-auto shadow btn-danger" data-tooltip="tooltip" data-placement="top" title="Remove Geo Fence">
+                    <i class="icon icon-minus-symbol h3 mb-0"></i>
+                  </div>
+                  <div class="btn-more ml-auto shadow btn-custom ml-2" data-tooltip="tooltip" data-placement="top" title="Add Geo Fence">
+                    <i class="icon icon-plus-symbol h3 mb-0"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mb-3">
+              <label class="h6 mb-1">
+                Recurring Settings
+              </label>
+              <div class="form-row mt-2">
+                <div class="col-md-4">
+                  <div class="custom-control custom-radio">                  
+                    <input type="checkbox" [(ngModel)]="Shuffle" id="Recurring" class="custom-control-input">
+                    <label class="custom-control-label h5 pl-2" for="Recurring">Shuffle</label>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="custom-control custom-radio">
+                    <!--<input type="radio" name="RecurringS" id="StartDate" class="custom-control-input"
+                           value="StartD">-->
+                    <input type="checkbox" [(ngModel)]="IsDate" id="StartDate" class="custom-control-input">
+                    <label class="custom-control-label h5 pl-2" for="StartDate"></label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-row">
+                    <div class="col-6">
+                      <label class="h6 mb-1">Start Date</label>
+                      <lib-ui-datepicker  [FormInput]="DailyContentForm.get('StartDate')">
+                      </lib-ui-datepicker>
+                    </div>
+                    <div class="col-6">
+                      <label class="h6 mb-1">End Date</label>
+                      <!--<input class="form-control custom_date_picker" type="text" value="" placeholder="">-->
+                      <lib-ui-datepicker [FormInput]="DailyContentForm.get('EndDate')">
+                      </lib-ui-datepicker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-row align-items-end mb-3 pb-3 mt-3 border-bottom">
+                <div class="col-11">
+                  <h4 class="mb-0">Publish To</h4>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <lib-ui-accordion-multi-select [PlaceHolderText]="orgPlaceHolder"
+                                                 [selectedValues]="selectedOrgEntityDepartment" (onSelect)="onItemSelect1($event)"
+                                                 [data]="orgEntityDepartment">
+                  </lib-ui-accordion-multi-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="d-inline-block mr-5">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" name="gender" id="cgdnu" class="custom-control-input"
+                     value="male" checked="">
+              <label class="custom-control-label h5 pl-2" for="cgdnu">Do Not Use</label>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
+          <button type="button" (click)="OnDailyContent();" class="btn btn-custom px-4 py-2">
+            {{isAddMode? 'Add' : 'Edit'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

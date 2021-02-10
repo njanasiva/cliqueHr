@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="CliqueHR.Helpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+<<<<<<< HEAD
       <HintPath>bin\Debug\CliqueHR.Helpers.dll</HintPath>
     </Reference>
     <Reference Include="Infragistics.Web.Documents.Core, Version=20.1.20201.215, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
@@ -47,6 +48,9 @@
     <Reference Include="CliqueHR.DL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CliqueHR.DL\bin\Debug\CliqueHR.DL.dll</HintPath>
+=======
+      <HintPath>..\References\CliqueHR.Helpers.dll</HintPath>
+>>>>>>> change
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -54,6 +58,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+<<<<<<< HEAD
     <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
       <Private>True</Private>
@@ -75,6 +80,8 @@
     <Reference Include="System.Text.Encoding.CodePages, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encoding.CodePages.4.6.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
     </Reference>
+=======
+>>>>>>> change
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -82,6 +89,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+<<<<<<< HEAD
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +144,21 @@
     <Compile Include="Implementation\Common\ICommonService.cs" />
     <Compile Include="Implementation\Employee\EmployeeCreation\IEmployeeCreationService.cs" />
     <Compile Include="Implementation\ITestService.cs" />
+=======
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminPanelService\CompanyService\EntityService.cs" />
+    <Compile Include="AdminPanelService\EngagementService\EngagementService.cs" />
+    <Compile Include="AdminPanelService\HelpDeskService\HelpDeskService.cs" />
+    <Compile Include="AdminPanelService\LifeCycleService\LifeCycleService.cs" />
+    <Compile Include="Application\Utility.cs" />
+    <Compile Include="CommonService\CommonService.cs" />
+    <Compile Include="Implementation\AdminPanel\CompanyService\IEntityService.cs" />
+    <Compile Include="Implementation\AdminPanel\EngagementService\IEngagementService.cs" />
+    <Compile Include="Implementation\AdminPanel\HelpDeskService\IHelpDeskService.cs" />
+    <Compile Include="Implementation\AdminPanel\LifeCycleService\ILifeCycleService.cs" />
+    <Compile Include="Implementation\Common\ICommonService.cs" />
+>>>>>>> change
     <Compile Include="Implementation\AdminPanel\MastersService\IQualificationService.cs" />
     <Compile Include="AdminPanelService\MastersService\QualificationService.cs" />
     <Compile Include="Implementation\StorageService\IStorageService.cs" />
@@ -147,9 +170,23 @@
       <Project>{6724215F-12BE-4F9E-BBAA-5E5DD183AA2D}</Project>
       <Name>CliqueHR.Common</Name>
     </ProjectReference>
+<<<<<<< HEAD
+=======
+    <ProjectReference Include="..\CliqueHR.DL\CliqueHR.DL.csproj">
+      <Project>{6fa4186a-6ce0-4d43-9de4-a575c252104b}</Project>
+      <Name>CliqueHR.DL</Name>
+    </ProjectReference>
+>>>>>>> change
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+<<<<<<< HEAD
+=======
+  <ItemGroup>
+    <Folder Include="AdminPanelService\EmployeeService\" />
+    <Folder Include="Implementation\AdminPanel\EmployeeService\" />
+  </ItemGroup>
+>>>>>>> change
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

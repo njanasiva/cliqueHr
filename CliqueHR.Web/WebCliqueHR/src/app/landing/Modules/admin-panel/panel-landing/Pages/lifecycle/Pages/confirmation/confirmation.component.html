@@ -1,0 +1,315 @@
+<div class="tab-pane fade show active" id="confirmation" role="tabpanel" aria-labelledby="confirmation-tab">
+  <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+    <div class="col-9">
+      <h4 class="mb-0">Probation Details</h4>
+    </div>
+    <div class="col-3 text-right">
+      <div>
+        <input class="form-control" type="number" name="noofrecord" (keyup)="noOfRecord(noofrecord.control.value)"  ngModel required #noofrecord="ngModel" placeholder="Enter no of record to show" >
+      </div>
+      <div class="btn-more ml-auto shadow btn-custom" (click)="OnOpenPopup(0,'Add')" data-tooltip="tooltip"
+        data-placement="top" title="Add Probation">
+        <i class="icon icon-plus-symbol h3 mb-0"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-12 table-responsive mb-3">
+      <lib-ui-data-table [Configuration]="ConfirmationConfig">
+        <ng-template let-data>
+          <tr>
+            <td class="text-nowrap">
+              <div class="btn-more d-inline-block shadow btn-blue" (click)="OnOpenPopup(data.index,'Edit')"
+                data-tooltip="tooltip" data-placement="top" title="Edit Probation Details">
+                <i class="icon icon-edit h3 mb-0"></i>
+              </div>
+            </td>
+            <td class="text-nowrap"> {{data.data.ProbationName}}</td>
+            <td class="text-nowrap"> {{data.data.ProbationPeriod}}</td>
+            <td class="text-nowrap"> {{data.data.ConfirmationDay}}</td>
+            <td class="text-nowrap"> {{data.data.AssessmentRequired === true ? 'Yes' : 'No' }}</td>
+            <td class="text-nowrap"> {{data.data.PublishTo}}</td>
+          </tr>
+        </ng-template>
+      </lib-ui-data-table>
+    </div>
+  </div>
+  <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addProbationPopUp" tabindex="-1"
+    role="dialog" aria-labelledby="exampleModalCenterTitle" style="margin-left: -35%;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content border-0">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalCenterTitle">{{popupHeading}}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="icon icon-wrong"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row form-fields">
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">
+                Probation Name
+              </label>
+              <!-- <input class="form-control" type="text" value=""  placeholder="Enter Probation Name"> -->
+               <lib-text-box [ValidationMessages]="validationMassages.ProbationDetailForm.ProbationName"
+                [FormInput]="ProbationDetailForm.get('ProbationName')"
+                (keypress)="keyPress($event)"
+                [maxLength]="50"
+                [Configuration]="{PlaceHolder:'Enter Probation Name'}">
+              </lib-text-box>
+              <span class="text-danger"
+                *ngIf="ProbationDetailForm.controls['ProbationName'].hasError('required') 
+                            && (ProbationDetailForm.controls['ProbationName'].dirty || ProbationDetailForm.controls['ProbationName'].touched)">
+                Probation name is required
+              </span>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">
+                Probation Period
+              </label>
+              <div class="form-row align-items-center">
+                <div class="col-5">
+                  <!--<input class="form-control" type="text" value="" placeholder="Period">-->
+                  <lib-text-box [maxLength]="3" [FormInput]="ProbationDetailForm.get('ProbationPeriod')" [ValidationMessages]="validationMassages.ProbationDetailForm.ProbationPeriod" [Configuration]="{PlaceHolder:'Enter Day(s)'}" (keypress)="keyPressNumbers($event)">
+                  </lib-text-box>
+                </div>
+                <div class="col-7">
+                  <label class="h5 mb-0">Day(s)</label>
+                </div>
+                <span class="text-danger"
+                  *ngIf="ProbationDetailForm.controls['ProbationPeriod'].hasError('required') 
+                            && (ProbationDetailForm.controls['ProbationPeriod'].dirty || ProbationDetailForm.controls['ProbationPeriod'].touched)">
+                  Probation period is required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">
+                Allow Probation extension
+              </label>
+              <div class="form-row mt-2" [formGroup]="ProbationDetailForm">
+                <div class="col-6">
+                  <div class="custom-control custom-radio allow-probation">
+                    <input type="radio" name="AllowExtension" id="allowYes" [value]="true"
+                      formControlName="AllowExtension" (change)="handleChange('Y')" class="custom-control-input"
+                      value="true">
+                    <label class="custom-control-label h5 pl-2" for="allowYes">Yes</label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="custom-control custom-radio allow-probation">
+                    <input type="radio" name="AllowExtension" id="allowNo" [value]="false"
+                      formControlName="AllowExtension" (change)="handleChange('N')" class="custom-control-input"
+                      value="false">
+                    <label class="custom-control-label h5 pl-2" for="allowNo">No</label>
+                  </div>
+                </div>
+              </div>
+              <ng-template let-validation>
+                <div class="error-message">{{validation}}</div>
+              </ng-template>
+            </div>
+            <div class="col-md-6 mb-3 allow-probation-value" *ngIf="showDiv">
+              <label class="h6 mb-1">
+                Max. number of extensions allowed
+              </label>
+              <div class="form-row align-items-center">
+                <div class="col-4">
+                  <input class="form-control" type="text"
+                    [formControl]="ProbationDetailForm.get('NumberExtensionsAllowed')" value="" placeholder="" maxlength="3" (keypress)="keyPressNumbers($event)">
+                </div>
+                <div class="col-8">
+                  <label class="h5 mb-0">Times</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3 allow-probation-value" *ngIf="showDiv">
+              <label class="h6 mb-1">
+                Increment each extension by
+              </label>
+              <div class="form-row align-items-center">
+                <div class="col-4">
+                  <input class="form-control" type="text"
+                    [formControl]="ProbationDetailForm.get('IncrementExtensionDay')" value="" placeholder="" maxlength="3" (keypress)="keyPressNumbers($event)">
+                </div>
+                <div class="col-8">
+                  <label class="h5 mb-0">Day(s)</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3 allow-probation-value" *ngIf="showDiv">
+              <label class="h6 mb-1">
+                Max. number of days to extend probation
+              </label>
+              <div class="form-row align-items-center">
+                <div class="col-2">
+                  <input class="form-control" type="number"
+                    [formControl]="ProbationDetailForm.get('ExtendProbationDay')" value="" placeholder="" min="0" maxlength="3" (keypress)="keyPressNumbers($event)">
+                </div>
+                <div class="col-10">
+                  <label class="h5 mb-0">Day(s)</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <label class="h6 mb-1">
+                Confirmation trigger
+              </label>
+              <div class="form-row align-items-center">
+                <div class="col-5">
+                  <!--<input class="form-control" type="text" value="" placeholder="">-->
+                  <lib-text-box [FormInput]="ProbationDetailForm.get('ConfirmationDay')"
+                    [ValidationMessages]="validationMassages.ProbationDetailForm.ConfirmationDay"
+                    (keypress)="keyPressNumbers($event)"
+                    [maxLength]="3"
+                    [Configuration]="{PlaceHolder:'Enter Confirmation trigger days'}">
+                  </lib-text-box>
+                </div>
+                <div class="col-7">
+                  <label class="h5 mb-0">Days prior to Date of Confirmation</label>
+                </div>
+                <span class="text-danger"
+                  *ngIf="ProbationDetailForm.controls['ConfirmationDay'].hasError('required') 
+                          && (ProbationDetailForm.controls['ConfirmationDay'].dirty || ProbationDetailForm.controls['ConfirmationDay'].touched)">
+                  Days prior to Date of Confirmation is required
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-row mt-4 align-items-center">
+            <div class="col-md-5">
+              <div class="custom-control custom-checkbox" data-toggle="collapse">
+                <input type="checkbox" [formControl]="ProbationDetailForm.get('AssessmentRequired')"
+                  (change)="ShowFormData($event.target)" name="assessment" id="rassessment"
+                  class="custom-control-input">
+                <label class="custom-control-label h5 pl-2" for="rassessment">Requires Assessment</label>
+              </div>
+            </div>
+            <div class="col-md-6" *ngIf="showForm">
+              <select class="form-control" (change)='onOptionsSelected($event)'
+                [formControl]="ProbationDetailForm.get('AssessmentFormId')">
+                <option *ngFor="let item of assessmentForm" value="{{item.Value}}">
+                  {{item.Text}}
+                </option>
+              </select>
+              <span class="text-danger" *ngIf="isAssessmentRequiredError">
+                Please select a Form
+              </span>
+            </div>
+            <div class="col-md-1" *ngIf="showForm" data-toggle="modal" data-target="#formDemo">
+              <i class="icon icon-visibility h4 mb-0 cursor-pointer"></i>
+            </div>
+          </div>
+          <div class="form-row mt-4">
+            <div class="col-12">
+              <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+                <div class="col-11">
+                  <h4 class="mb-0">Publish To</h4>
+                </div>
+                <div class="col-1 text-right">
+                  <div class="btn-more ml-auto shadow btn-custom" data-toggle="collapse" href="#attributeFilter"
+                    role="button" aria-expanded="false" aria-controls="attributeFilter" data-tooltip="tooltip"
+                    title="Attribute Filter">
+                    <i class="icon icon-down h3 mb-0"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 collapse" id="attributeFilter">
+              <div class="form-row form-fields">
+                <div class="col-md-6 mb-3">
+                  <lib-ui-accordion-multi-select [PlaceHolderText]="orgPlaceHolder"
+                  [selectedValues]="selectedOrgEntityDepartment"
+                  (onSelect)="onItemSelect1($event)"
+                  [data]="orgEntityDepartment">
+                  </lib-ui-accordion-multi-select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Centre Type</label>
+                  <lib-ui-multi-select id="centreTypeMultiSelect" [data]="centerType"
+                    [selectedValues]="centreTypeSelectedValues" (onSelect)="onItemSelect($event,'centre')"
+                    (onSelectAll)="onSelectAll($event,'centre')" [PlaceHolderText]="CentrePlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Region</label>
+                  <lib-ui-multi-select id="regionMultiSelect" [data]="region" (onSelect)="onItemSelect($event,'region')"
+                    [selectedValues]="regionSelectedValues" (onSelectAll)="onSelectAll($event,'region')"
+                    [PlaceHolderText]="regionPlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Location</label>
+                  <lib-ui-multi-select id="locationMultiSelect" [data]="location"
+                    (onSelect)="onItemSelect($event,'location')" [selectedValues]="locationSelectedValues"
+                    (onSelectAll)="onSelectAll($event,'location')" [PlaceHolderText]="locationPlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Employee Type</label>
+                  <lib-ui-multi-select id="employeeTypeMultiSelect" [data]="employeeType"
+                    (onSelect)="onItemSelect($event,'employeeType')" [selectedValues]="employeeTypeSelectedValues"
+                    (onSelectAll)="onSelectAll($event,'employeeType')" [PlaceHolderText]="employeeTypePlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Position</label>
+                  <lib-ui-multi-select id="positionMultiSelect" [data]="position"
+                    (onSelect)="onItemSelect($event,'position')" [selectedValues]="positionSelectedValues"
+                    (onSelectAll)="onSelectAll($event,'position')" [PlaceHolderText]="positionPlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Cost Centre</label>
+                  <lib-ui-multi-select id="costCentreMultiSelect" [data]="costCentre"
+                    (onSelect)="onItemSelect($event,'costCentre')" [selectedValues]="costCentreSelectedValues"
+                    (onSelectAll)="onSelectAll($event,'costCentre')" [PlaceHolderText]="costCentrePlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Grade</label>
+                  <lib-ui-multi-select id="gradeMultiSelect" [data]="grade" [selectedValues]="gradeSelectedValues"
+                    (onSelect)="onItemSelect($event,'grade')" (onSelectAll)="onSelectAll($event,'grade')"
+                    [PlaceHolderText]="gradePlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="d-inline-block mr-5">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" name="donotuse" [formControl]="ProbationDetailForm.get('IsDoNotUse')" id="pdnu"
+                class="custom-control-input" value="false">
+              <!--<input type="checkbox" name="donotuse" id="pdnu" [(ngModel)]="donotUse" class="custom-control-input" value="false">-->
+              <label class="custom-control-label h5 pl-2" for="pdnu">Do Not Use</label>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
+          <button type="button" (click)="OnProbationDetailsOp();" class="btn btn-custom px-4 py-2">
+            {{isAddMode? 'Add' : 'Edit'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="formDemo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalCenterTitle">Form Preview</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="icon icon-wrong"></i>
+        </button>
+      </div>
+      <div class="modal-body m-auto">
+        <img src="assets/images/form-demo.png">
+      </div>
+    </div>
+  </div>
+</div>

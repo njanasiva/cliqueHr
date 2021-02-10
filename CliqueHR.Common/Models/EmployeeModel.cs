@@ -1,6 +1,9 @@
 ﻿using CliqueHR.Helpers.Validation;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using System.Data;
+=======
+>>>>>>> change
 using System.Xml.Serialization;
 
 namespace CliqueHR.Common.Models
@@ -85,7 +88,10 @@ namespace CliqueHR.Common.Models
         public string FieldType { get; set; }
         public string FieldTypeValue { get; set; }
         public long CreatedBy { get; set; }
+<<<<<<< HEAD
         public bool IsSectionEditable { get; set; }
+=======
+>>>>>>> change
     }
 
     public class FieldType
@@ -185,6 +191,7 @@ namespace CliqueHR.Common.Models
     {
         public string userprofilexml { get; set; }
     }
+<<<<<<< HEAD
 
     public class ProfileFieldSetting
     {
@@ -220,4 +227,6 @@ namespace CliqueHR.Common.Models
 
     }
 
+=======
+>>>>>>> change
 }

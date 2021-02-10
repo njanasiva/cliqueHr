@@ -2,7 +2,11 @@ import { Component, OnInit, EmbeddedViewRef, ChangeDetectorRef, TemplateRef, Eve
 import { isNullOrUndefined } from 'util';
 import { RequestParam, UiDataTableConfig, columnType } from '../ui-models';
 import { Observable } from 'rxjs';
+<<<<<<< HEAD
 declare var $: any;
+=======
+
+>>>>>>> change
 @Component({
   selector: 'lib-ui-data-table',
   templateUrl: './ui-data-table.component.html',
@@ -43,6 +47,12 @@ export class UiDataTableComponent implements OnInit {
   private noRowsFound: boolean = false;
   private showPagination: boolean = false;
 
+<<<<<<< HEAD
+=======
+  private nextBtnDisable: boolean = true;
+  private PreBtnDisable:  boolean = false;
+
+>>>>>>> change
   constructor(private changeDetection: ChangeDetectorRef) {
   }
 
@@ -103,6 +113,10 @@ export class UiDataTableComponent implements OnInit {
     this.resetRows();
     this.showLoading();
     this.fetObs$.emit(data);
+<<<<<<< HEAD
+=======
+    console.log(data);
+>>>>>>> change
   }
 
   public ConstructRow(rowData: any[], totalData: number) {
@@ -133,7 +147,10 @@ export class UiDataTableComponent implements OnInit {
       this.CreateDataTableNav();
     }
     this.changeDetection.detectChanges();
+<<<<<<< HEAD
     this.ApplyTooltip();
+=======
+>>>>>>> change
   }
 
   public sortData(column: columnType) {
@@ -144,7 +161,29 @@ export class UiDataTableComponent implements OnInit {
     this.GetRowData();
   }
 
+<<<<<<< HEAD
   public nextPage() {
+=======
+buttonDisable(){
+  console.log(this.activePage);
+  if(this.activePage == this.navPagesSets[this.activePageSet].length){
+    this.nextBtnDisable = false;
+  }
+  else{
+    this.nextBtnDisable = true;
+    this.PreBtnDisable = false;
+  }
+  if(this.activePage == 1){
+    this.PreBtnDisable = false;
+  }
+  else{
+    this.PreBtnDisable = true;
+  }
+}
+
+  public nextPage() {
+    this.UpdatePageIndex();
+>>>>>>> change
     var pageIndexInSet = this.navPagesSets[this.activePageSet].findIndex(x => x.page == (this.activePage + 1));
     var isLastPageSet = this.activePageSet == (this.navPagesSets.length - 1);
     if (pageIndexInSet == -1 && isLastPageSet) {
@@ -152,16 +191,31 @@ export class UiDataTableComponent implements OnInit {
     }
     else if (pageIndexInSet == -1) {
       this.activePageSet++;
+<<<<<<< HEAD
       this.activePage++;
+=======
+      this.activePage++; 
+>>>>>>> change
     }
     else {
       this.activePage++;
     }
+<<<<<<< HEAD
     this.UpdatePageIndex();
     this.GetRowData();
   }
   public previousPage() {
     if (this.activePage == 1) {
+=======
+   
+    this.UpdatePageIndex();
+    this.GetRowData();
+    this.buttonDisable();
+  }
+  public previousPage() {
+    if (this.activePage == 1) {
+      this.UpdatePageIndex();
+>>>>>>> change
       return;
     }
     var pageIndexInSet = this.navPagesSets[this.activePageSet].findIndex(x => x.page == (this.activePage - 1));
@@ -174,17 +228,32 @@ export class UiDataTableComponent implements OnInit {
     }
     this.UpdatePageIndex();
     this.GetRowData();
+<<<<<<< HEAD
   }
   private UpdatePageIndex() {
+=======
+    this.buttonDisable();
+  }
+  private UpdatePageIndex() {
+
+>>>>>>> change
     let currentPage = this.navPagesSets[this.activePageSet].find(x => x.page == this.activePage);
     this.pageStart = currentPage.pageStart;
     this.pageEnd = (currentPage.pageStart + this.restoGridConfig.PaginationPageSize) - 1;
     this.pageEnd = this.pageEnd > this.totalRows ? this.totalRows : this.pageEnd;
+<<<<<<< HEAD
+=======
+    console.log(this.pageStart, this.pageEnd, this.pageEnd);
+>>>>>>> change
   }
   public OnPageSelect(selectedPage: { page: number, pageStart: number }) {
     this.activePage = selectedPage.page;
     this.UpdatePageIndex();
     this.GetRowData();
+<<<<<<< HEAD
+=======
+    this.buttonDisable();
+>>>>>>> change
   }
   public OnSearch() {
     this.totalRows = 0;
@@ -269,6 +338,7 @@ export class UiDataTableComponent implements OnInit {
     }
   }
 
+<<<<<<< HEAD
   private ApplyTooltip() {
     if (!isNullOrUndefined($)) {
       $('[data-toggle="tooltip"]').tooltip();
@@ -279,6 +349,8 @@ export class UiDataTableComponent implements OnInit {
     }
   }
 
+=======
+>>>>>>> change
   private resetRows(): void {
     this.hideLoading();
     this.noRowsFound = false;

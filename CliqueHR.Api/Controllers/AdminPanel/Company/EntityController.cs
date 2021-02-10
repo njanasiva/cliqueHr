@@ -28,7 +28,11 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("EntityController:AddEntity", "Add Entity Start", string.Empty);
                 UserContextModel objUser = new UserContextModel();
+<<<<<<< HEAD
                 objUser.EmployeeId = 1;
+=======
+                objUser.UserID = 1;
+>>>>>>> change
                 objUser.CompanyCode = "devDB";
                 _entityService.AddEntity(HttpContext.Current.Request, objUser);
                 Log.Info("EntityController:AddEntity", "Add Entity  End", string.Empty);
@@ -42,13 +46,22 @@ namespace CliqueHR.Api.Controllers
         }
 
         [HttpPost]
+<<<<<<< HEAD
         [AccessFilter]
+=======
+>>>>>>> change
         public HttpResponseMessage UpdateEntity()
         {
             try
             {
                 Log.Info("EntityController:UpdateEntity", "Update Entity Start", string.Empty);
+<<<<<<< HEAD
                 UserContextModel objUser = Request.GetUserLoginContext();
+=======
+                UserContextModel objUser = new UserContextModel();
+                objUser.UserID = 1;
+                objUser.CompanyCode = "devDB";
+>>>>>>> change
                 _entityService.UpdateEntity(HttpContext.Current.Request, objUser);
                 Log.Info("EntityController:UpdateEntity", "Update Entity  End", string.Empty);
                 return this.Request.CreateResponse(HttpStatusCode.OK);
@@ -60,15 +73,23 @@ namespace CliqueHR.Api.Controllers
             }
         }
 
+<<<<<<< HEAD
         [HttpPost]
         [AccessFilter]
+=======
+        [HttpGet]
+>>>>>>> change
         public HttpResponseMessage GetEntity(PaginationModel model)
         {
             try
             {
                 Log.Info("EntityController:GetEntity", "Get All Entities  Start", string.Empty);
                 UserContextModel objUser = new UserContextModel();
+<<<<<<< HEAD
                 objUser.EmployeeId = 1;
+=======
+                objUser.UserID = 1;
+>>>>>>> change
                 objUser.CompanyCode = "devDB";
                 var data = _entityService.GetEntity(model, objUser);
                 Log.Info("GroupCompanyController:GetGroupCompany", "Get All Entities End", string.Empty);
@@ -88,7 +109,11 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("EntityController:GetEntityById", "Get  Entities By Id  Start", string.Empty);
                 UserContextModel objUser = new UserContextModel();
+<<<<<<< HEAD
                 objUser.EmployeeId = 1;
+=======
+                objUser.UserID = 1;
+>>>>>>> change
                 objUser.CompanyCode = "devDB";
                 var data = _entityService.GetEntityById(Id, objUser);
                 Log.Info("EntityController:GetEntityById", "Get  Entities By Id  End", string.Empty);

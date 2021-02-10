@@ -446,13 +446,18 @@
                 ul: '<ul class="multiselect-container dropdown-menu w-100"></ul>',
                 filter: '<li class="multiselect-item multiselect-filter">\
                     <div class="input-group  m-0 my-3 px-3">\
+<<<<<<< HEAD
                         <div class="input-group-prepend">\
+=======
+                        <!--<div class="input-group-prepend">\
+>>>>>>> change
                             <span class="input-group-text">\
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">\
                                     <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>\
                                     <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>\
                                 </svg>\
                             </span>\
+<<<<<<< HEAD
                         </div>\
                         <input class="form-control multiselect-search" type="text" />\
                     </div></li>',
@@ -463,6 +468,18 @@
                             <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>\
                         </svg>\
                     </button></div>',
+=======
+                        </div>-->\
+                        <input class="form-control multiselect-search" type="text" />\
+                    </div></li>',
+                filterClearBtn: '<!--<div class="input-group-append">\
+                    <button class="input-group-text multiselect-clear-filter btn-custom" type="button">\
+                        <svg width="1.2em" height="1.2em" viewBox="0 0 18 18" class="bi bi-x-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">\
+                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>\
+                            <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>\
+                        </svg>\
+                    </button></div>-->',
+>>>>>>> change
                 li: '<li><a tabindex="0"><label></label></a></li>',
                 divider: '<li class="multiselect-item divider"></li>',
                 liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>',

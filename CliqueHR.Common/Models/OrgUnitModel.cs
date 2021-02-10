@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using System.Data;
+=======
+>>>>>>> change
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +13,7 @@ namespace CliqueHR.Common.Models
 {
     public class OrgUnitModel
     {
+<<<<<<< HEAD
 
     }
 
@@ -101,4 +105,9 @@ namespace CliqueHR.Common.Models
         public string Name { get; set; }
         public List<EntityOrgunitTreeVM> Childs { get; set; }
     }
+=======
+    }
+
+   
+>>>>>>> change
 }

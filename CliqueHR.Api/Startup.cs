@@ -7,7 +7,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using CliqueHR.Helpers.Logger;
+<<<<<<< HEAD
 using CliqueHR.Api.Application;
+=======
+>>>>>>> change
 
 [assembly: OwinStartup(typeof(CliqueHR.Api.Startup))]
 namespace CliqueHR.Api
@@ -16,6 +19,7 @@ namespace CliqueHR.Api
     {
         public void Configuration(IAppBuilder app)
         {
+<<<<<<< HEAD
 
             OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
@@ -31,11 +35,17 @@ namespace CliqueHR.Api
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
+=======
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+>>>>>>> change
             HttpConfiguration config = new HttpConfiguration();
             WebApiConfig.Register(config);
             app.UseWebApi(config);
             app.UseLogger("CloudHR");
+<<<<<<< HEAD
 
+=======
+>>>>>>> change
         }
 
     }

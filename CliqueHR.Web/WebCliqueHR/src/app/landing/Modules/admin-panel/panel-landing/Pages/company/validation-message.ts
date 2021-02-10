@@ -29,6 +29,7 @@ export class ValidationMessage {
             WebSite: {
                 [ValidationType.required]: "*"
             },
+<<<<<<< HEAD
         },
         entityForm: {
             Name: {
@@ -74,6 +75,8 @@ export class ValidationMessage {
             Code: {
                 [ValidationType.required]: "Code required"
             } 
+=======
+>>>>>>> change
         }
     }
 }

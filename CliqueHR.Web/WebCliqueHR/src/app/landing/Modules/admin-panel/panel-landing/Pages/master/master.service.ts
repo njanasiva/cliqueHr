@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+<<<<<<< HEAD
 import {
   CourseType, CourseTitle, Major, University,
   Institute, CurrancyMapping, CenterTypeModel, EmployeeType,
   GradeType, BandType, FunctionalRole, DesignationModel, Location, RegionModel
 } from './master-model';
+=======
+import { CourseType, CourseTitle, Major, University, Institute, CurrancyMapping } from './master-model';
+>>>>>>> change
 import { environment } from 'src/environments/environment';
 import { WebInterface } from 'src/Application/Types/types.api';
 
@@ -38,9 +42,15 @@ export class MasterService {
   public AddCourseTitle(courseTitle: CourseTitle) {
     return this.httpClient.post(environment.api_baseurl + "api/Qualification/AddCourseTitle", courseTitle);
   }
+<<<<<<< HEAD
   /**
   * GetAllCourseTitle
   */
+=======
+   /**
+   * GetAllCourseTitle
+   */
+>>>>>>> change
   public GetAllCourseTitle(model: WebInterface.PaginationModel) {
     return this.httpClient.post(environment.api_baseurl + "api/Qualification/GetAllCourseTitle", model);
   }
@@ -51,6 +61,7 @@ export class MasterService {
     return this.httpClient.post(environment.api_baseurl + "api/Qualification/UpdateCourseTitle", courseTitle);
   }
 
+<<<<<<< HEAD
   /**
   * AddMajor
   */
@@ -60,6 +71,17 @@ export class MasterService {
   /**
   * GetAllMajor
   */
+=======
+   /**
+   * AddMajor
+   */
+  public AddMajor(major: Major) {
+    return this.httpClient.post(environment.api_baseurl + "api/Qualification/AddMajor", major);
+  }
+   /**
+   * GetAllMajor
+   */
+>>>>>>> change
   public GetAllMajor(model: WebInterface.PaginationModel) {
     return this.httpClient.post(environment.api_baseurl + "api/Qualification/GetAllMajor", model);
   }
@@ -76,9 +98,15 @@ export class MasterService {
   public AddUniversity(university: University) {
     return this.httpClient.post(environment.api_baseurl + "api/Qualification/AddUniversity", university);
   }
+<<<<<<< HEAD
   /**
   * GetAllUniversity
   */
+=======
+   /**
+   * GetAllUniversity
+   */
+>>>>>>> change
   public GetAllUniversity(model: WebInterface.PaginationModel) {
     return this.httpClient.post(environment.api_baseurl + "api/Qualification/GetAllUniversity", model);
   }
@@ -87,9 +115,13 @@ export class MasterService {
    */
   public UpdateUniversity(university: University) {
     return this.httpClient.post(environment.api_baseurl + "api/Qualification/UpdateUniversity", university);
+<<<<<<< HEAD
   }
 
 
+=======
+  }  
+>>>>>>> change
 
   /**
    * AddInstitute
@@ -97,9 +129,15 @@ export class MasterService {
   public AddInstitute(institute: Institute) {
     return this.httpClient.post(environment.api_baseurl + "api/Qualification/AddInstitute", institute);
   }
+<<<<<<< HEAD
   /**
   * GetAllInstitute
   */
+=======
+   /**
+   * GetAllInstitute
+   */
+>>>>>>> change
   public GetAllInstitute(model: WebInterface.PaginationModel) {
     return this.httpClient.post(environment.api_baseurl + "api/Qualification/GetAllInstitute", model);
   }
@@ -108,9 +146,13 @@ export class MasterService {
    */
   public UpdateInstitute(institute: Institute) {
     return this.httpClient.post(environment.api_baseurl + "api/Qualification/UpdateInstitute", institute);
+<<<<<<< HEAD
   }
 
 
+=======
+  }  
+>>>>>>> change
 
   /**
    * GetAllCurrency
@@ -119,6 +161,7 @@ export class MasterService {
     return this.httpClient.get(environment.api_baseurl + "api/Master/GetAllCurrency");
   }
   /**
+<<<<<<< HEAD
  * AddCurrencyMapping
  */
   public AddCurrencyMapping(model: CurrancyMapping) {
@@ -333,5 +376,23 @@ export class MasterService {
    */
   public GetAllRegionData(model: WebInterface.PaginationModel) {
     return this.httpClient.post(environment.api_baseurl + "api/Master/GetAllRegionData", model);
+=======
+   * GetAllCurrencyMapping
+   */
+  public GetAllCurrencyMapping(model:WebInterface.PaginationModel) {
+    return this.httpClient.post(environment.api_baseurl + "api/Master/GetAllCurrencyMapping", model);
+  }
+  /**
+   * AddCurrencyMapping
+   */
+  public AddCurrencyMapping(model:CurrancyMapping) {
+    return this.httpClient.post(environment.api_baseurl + "api/Master/AddCurrencyMapping", model)
+  }
+  /**
+   * UpdateCurrencyMapping
+   */
+  public UpdateCurrencyMapping(model:CurrancyMapping) {
+    return this.httpClient.post(environment.api_baseurl + "api/Master/UpdateCurrencyMapping", model)
+>>>>>>> change
   }
 }

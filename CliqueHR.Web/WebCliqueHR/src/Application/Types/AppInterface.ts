@@ -1,5 +1,8 @@
 import { Subject } from "rxjs";
+<<<<<<< HEAD
 import { UiMultiselect, UiDropdownTemplate } from 'projects/clique-hrui/src/lib/ui-models';
+=======
+>>>>>>> change
 
 export namespace WebInterface {
     export interface IApplicationService {
@@ -20,6 +23,7 @@ export namespace WebInterface {
         Sort?: { PropertyName: string, Direction: string };
         SearchText?: string;
     }
+<<<<<<< HEAD
     export interface SinglePaginationModel extends PaginationModel{
 
     }
@@ -48,4 +52,6 @@ export namespace WebInterface {
     }
 
     export type selectCalback = (data: any) => boolean;
+=======
+>>>>>>> change
 }

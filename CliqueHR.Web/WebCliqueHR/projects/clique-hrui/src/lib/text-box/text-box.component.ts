@@ -15,6 +15,10 @@ export class TextBoxComponent extends UiBaseComponent implements OnInit {
   public formControl: FormControl;
   @Input('Configuration')
   public config: UiTextbox;
+<<<<<<< HEAD
+=======
+  @Input() maxLength:any;
+>>>>>>> change
   @Input('ValidationMessages')
   public validationMessages: { [key: string]: string };
 
@@ -46,6 +50,10 @@ export class TextBoxComponent extends UiBaseComponent implements OnInit {
     false : this.config.isDecimal
   }
   ngOnInit() {
+<<<<<<< HEAD
+=======
+    console.log("maximum lenght check", this.maxLength);
+>>>>>>> change
   }
 
 }

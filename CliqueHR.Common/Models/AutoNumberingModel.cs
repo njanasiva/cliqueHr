@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 ﻿using CliqueHR.Helpers.Validation;
 using System;
+=======
+﻿using System;
+>>>>>>> change
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +17,16 @@ namespace CliqueHR.Common.Models
 
     public class AutoNumbering
     {
+<<<<<<< HEAD
+=======
+        public string AutoType { get; set; }
+>>>>>>> change
         public string Prefix { get; set; }
         public int AppendNumber { get; set; }
         public int CreatedBy { get; set; }
         public int ModifiedBy { get; set; }
     }
+<<<<<<< HEAD
 
     public class AutoNumberingValidation : AbstractValidator<AutoNumbering>
     {
@@ -43,4 +52,6 @@ namespace CliqueHR.Common.Models
             return message;
         }
     }
+=======
+>>>>>>> change
 }

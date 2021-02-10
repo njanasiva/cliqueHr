@@ -1,0 +1,738 @@
+<div class="tab-pane fade show active" id="seperation" role="tabpanel" aria-labelledby="seperation-tab">
+  <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+    <div class="col-10">
+      <h4 class="mb-0">Notice Period Details</h4>
+    </div>
+    <div class="col-2 text-right">
+      <div class="btn-more ml-auto shadow btn-custom ml-2" (click)="OnOpenPopup(0,'Add')" data-toggle="modal" data-target="#addNoticePeriod"
+           data-tooltip="tooltip" data-placement="top" title="Add Notice Period">
+        <i class="icon icon-plus-symbol h3 mb-0"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-12 table-responsive mb-3">
+      <lib-ui-data-table [Configuration]="SeperationConfig">
+        <ng-template let-data>
+          <tr>
+            <td class="text-nowrap">
+              <div class="btn-more d-inline-block shadow btn-blue" (click)="OnOpenPopup(data.index, 'Edit')" data-tooltip="tooltip"
+                   data-placement="top" title="Edit Notice Period Details">
+                <i class="icon icon-edit h3 mb-0"></i>
+              </div>
+            </td>
+            <td class="text-nowrap"> {{data.data.NoticePeriodName}}</td>
+            <td class="text-nowrap"> {{data.data.NoticePeriodDays}}</td>
+            <td class="text-nowrap"> {{data.data.ConfirmationDays}}</td>
+            <td class="text-nowrap"> {{data.data.PublishTo}}</td>
+          </tr>
+        </ng-template>
+      </lib-ui-data-table>
+    </div>
+  </div>
+
+  <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+    <div class="col-10">
+      <h4 class="mb-0">Seperation</h4>
+    </div>
+  </div>
+  <div class="col-md-6 mb-3">
+    <div class="form-row align-items-center pt-3">
+      <div class="col-sm-4">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" name="_AllowUpTo" (change)="AllowUptChange($event.target)" [formControl]="SeparationForm.get('AllowUpTo')" 
+            id="aupto" class="custom-control-input" >
+
+          <label class="custom-control-label h5 pl-2" for="aupto">Allow Upto</label>
+        </div>
+      </div>
+      <div class="col-sm-2" *ngIf="SeparationForm.get('AllowUpTo').value">
+        <input class="form-control" type="text" [formControl]="SeparationForm.get('SeparationDaysUpto')">
+      </div>
+      <div class="col-sm-4" *ngIf="SeparationForm.get('AllowUpTo').value">
+        <label class="h6 mb-1 text-muted">Day(s)</label>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 mb-3" [formGroup]="SeparationForm">
+    <label class="h6 mb-1">Allow Relieving date to be WeeklyOff/Holiday</label>
+    <div class="form-row align-items-center pt-2">
+      <div class="col-2">
+        <div class="custom-control custom-radio" >
+          <input type="radio" name="RelievingDateTypeId" id="rdlYes" formControlName="RelievingDateTypeId" class="custom-control-input"
+                 [value]="1">
+          <label class="custom-control-label h5 pl-2" for="rdlYes">Yes</label>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="custom-control custom-radio">
+          <input type="radio" name="RelievingDateTypeId" id="rdlprevWrkDay" formControlName="RelievingDateTypeId" class="custom-control-input"
+                 [value]="2" >
+          <label class="custom-control-label h5 pl-2" for="rdlprevWrkDay">Previous Working day</label>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="custom-control custom-radio">
+          <input type="radio" name="RelievingDateTypeId" id="rdlNxtWrkDay" formControlName="RelievingDateTypeId" class="custom-control-input"
+                 [value]="3">
+          <label class="custom-control-label h5 pl-2" for="rdlNxtWrkDay">Next working day</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 mb-3" [formGroup]="SeparationForm">
+    <label class="h6 mb-1">Allow Manager to</label>
+    <div class="form-row pt-2">
+      <div class=" col-md-4 mb-2">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="d18" [formControl]="SeparationForm.get('AllowManagerResignOnBehalf')">
+          <label class="custom-control-label h5 pl-2" for="d18">Resign on behalf of subordinate</label>
+        </div>
+      </div>
+      <div class=" col-md-4 mb-2">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="d19" [formControl]="SeparationForm.get('EditExitDate')">
+          <label class="custom-control-label h5 pl-2" for="d19">Edit Exit date</label>
+        </div>
+      </div>
+      <div class=" col-md-4 mb-2">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="d20"  [formControl]="SeparationForm.get('EditRecoveryDates')">
+          <label class="custom-control-label h5 pl-2" for="d20">Edit Recovery days</label>
+        </div>
+      </div>
+      <div class=" col-md-4 mb-n2">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="d21" [formControl]="SeparationForm.get('RaiseTermination')">
+          <label class="custom-control-label h5 pl-2" for="d21">Raise Termination</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 mb-3 pt-2" >
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" id="211" [formControl]="SeparationForm.get('AutomaticallyTriggerRetirementWorkflow')" class="custom-control-input" >
+      <label class="custom-control-label h5 pl-2" for="211">Automatically trigger Retirement Workflow</label>
+    </div>
+    <div class="form-row align-items-center pt-2" *ngIf="SeparationForm.get('AutomaticallyTriggerRetirementWorkflow').value">
+      <div class="col-sm-4 mb-3">
+        <label class="h6 mb-1">Retirement Workflow trigger</label>
+      </div>
+      <div class="col-sm-1 mb-3">
+        <input class="form-control" type="text" [formControl]="SeparationForm.get('RetirementDays')"  value="" placeholder="">
+      </div>
+      <div class="col-sm-4 mb-3">
+        <label class="h6 mb-1 text-muted">days prior to Retirement date</label>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 mb-3 pt-2">
+    <div class="form-row align-items-center">
+      <div class="col-sm-2">
+        <label class="h6 mb-1">Retirement Age</label>
+      </div>
+      <div class="col-sm-1">
+        <input class="form-control" type="text" value="" [formControl]="SeparationForm.get('RetirementAge')" placeholder="">
+      </div>
+      <div class="col-sm-4">
+        <label class="h6 mb-1 text-muted">Year(s)</label>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 mb-3">
+    <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+      <div class="col-10">
+        <label class="h6 mb-1">User Defined Fields in Resignation</label>
+      </div>
+      <div class="col-2 text-right">
+        <div class="btn-more ml-auto shadow btn-custom ml-2" (click)="onAddRow()"
+             title="Add User Defined Fields">
+          <i class="icon icon-plus-symbol h3 mb-0"></i>
+        </div>
+      </div>
+    </div>
+    <table class="table table-bordered">
+      <tr>
+        <!--<th class="text-center" style="width: 50px;">Remove</th>-->
+        <th class="text-center" style="width: 50px;">Enable</th>
+        <th>Field Name</th>
+        <th>Field Type</th>
+        <th>Field Value</th>
+        <th class="text-center" style="width: 50px;">Mandatory</th>
+      </tr>
+      <tr *ngFor="let row of addForm.get('rows')?.controls;let index = index;">
+        <td>
+          <div align="center">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" [formControl]="row.get('enable')" id="chkEnable{{index}}">
+              <label class="custom-control-label h5 pl-2" for="chkEnable{{index}}"></label>
+            </div>
+          </div>
+        </td>
+        <td>
+          <input type="text" class="form-control" value="" [formControl]="row.get('fieldname')">
+        </td>
+        <td>
+          <select class="form-control field-type-sepration" (change)="loadFieldValue(index,row.get('fieldtype').value)" [formControl]="row.get('fieldtype')">
+            <option value="0">Select your option</option>
+            <option value="1">Text</option>
+            <option value="2">Number</option>
+            <option value="3">Drop Down</option>
+            <option value="4">Multi-Select Drop-Down</option>
+            <option value="5">Date</option>
+            <option value="6">Memo/Long Text</option>
+            <option value="7">File</option>
+          </select>
+        </td>
+        <td>
+          <div *ngIf="row.get('isTextBox').value">
+            <input type="text" class="form-control ddValue" placeholder="Enter Text" data-toggle="tooltip"
+                   data-placement="top" title="" data-original-title="Entered value will be display here..."
+                   [formControl]="row.get('fieldvalue')">
+          </div>
+          <div *ngIf="row.get('isDropDown').value">
+            <select class="form-control field-type-sepration" [formControl]="row.get('fieldvalueid')">
+              <option value="0">Select your option</option>
+              <option *ngFor="let item of row.get('fieldvalues').value" value="{{item.Value}}">
+                {{item.Text}}
+              </option>
+            </select>
+          </div>
+          <div *ngIf="row.get('isDisabledText').value">
+            <input type="text" disabled="disabled" class="form-control ddValue" value="{{row.get('disabledContent').value}}">
+          </div>
+        </td>
+        <td>
+          <div align="center">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" [formControl]="row.get('mandatory')" id="chkMandatory{{index}}">
+              <label class="custom-control-label h5 pl-2" for="chkMandatory{{index}}"></label>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+    <div class="col-10">
+      <h4 class="mb-0"></h4>
+    </div>
+    <div class="col-2 text-right">
+      <button type="button" class="btn btn-outline-custom px-4 py-2" (click)="onSeparationSave()" data-dismiss="modal">Save</button>
+    </div>
+  </div>
+
+  <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+    <div class="col-10">
+      <h4 class="mb-0">Separation Reason</h4>
+    </div>
+    <div class="col-2 text-right">
+      <div class="btn-more ml-auto shadow btn-custom ml-2" data-toggle="modal" (click)="OnOpenSeparationReasonPopup(0,'Add')" data-target="#addSeparationReason"
+           data-tooltip="tooltip" data-placement="top" title="Add Separation reason">
+        <i class="icon icon-plus-symbol h3 mb-0"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-12 table-responsive mb-3">
+      <lib-ui-data-table [Configuration]="SeperationReasonConfig">
+        <ng-template let-data>
+          <tr>
+            <td class="text-nowrap">
+              <div class="btn-more d-inline-block shadow btn-blue" (click)="OnOpenSeparationReasonPopup(data.index,'Edit')" data-tooltip="tooltip"
+                   data-placement="top" title="Edit Seperation Reason Details">
+                <i class="icon icon-edit h3 mb-0"></i>
+              </div>
+            </td>
+            <td class="text-nowrap">{{data.data.SeparationReason}}</td>
+            <td class="text-nowrap">{{data.data.SeparationTypeName}}</td>
+          </tr>
+        </ng-template>
+      </lib-ui-data-table>
+    </div>
+  </div>
+
+  <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+    <div class="col-10">
+      <h4 class="mb-0">Separation Tasks</h4>
+    </div>
+    <div class="col-2 text-right">
+      <div class="btn-more ml-auto shadow btn-custom ml-2" data-toggle="modal" (click)="OnOpenSeparationTaskPopup(0,'Add')"
+           data-tooltip="tooltip" data-placement="top" title="Add Separation Tasks">
+        <i class="icon icon-plus-symbol h3 mb-0"></i>
+      </div>
+
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-12 table-responsive mb-3">
+      <lib-ui-data-table [Configuration]="SeperationTasksConfig">
+        <ng-template let-data>
+          <tr>
+            <td class="text-nowrap">
+              <div class="btn-more d-inline-block shadow btn-blue" (click)="OnOpenSeparationTaskPopup(data.index, 'Edit')" data-tooltip="tooltip"
+                   data-placement="top" title="Edit Seperation Tasks">
+                <i class="icon icon-edit h3 mb-0"></i>
+              </div>
+            </td>
+            <td class="text-nowrap">{{data.data.SeparationTask}}</td>
+            <td class="text-nowrap">{{data.data.SeparationTypeName}}</td>
+            <td class="text-nowrap">{{data.data.TaskOwnerName}}</td>
+            <td class="text-nowrap">{{data.data.EscalateLevel}}</td>
+            <td class="text-nowrap">{{data.data.InitiateTaskDays}}</td>
+            <td class="text-nowrap">{{data.data.EscalatePostDay}}</td>
+            <td class="text-nowrap">{{data.data.WorkGroup}}</td>
+          </tr>
+        </ng-template>
+      </lib-ui-data-table>
+    </div>
+  </div>
+
+  <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addNoticePeriod"
+       tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="margin-left: -35%;">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content border-0">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalCenterTitle">{{popupHeading}}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="icon icon-wrong"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row form-fields">
+            <div class="col-md-4 mb-3">
+              <label class="h6 mb-1">
+                Notice Period Name
+              </label>
+              <lib-text-box [FormInput]="NoticePeriodDetailForm.get('NoticePeriodName')"
+              (keypress)="keyPress($event)"  [maxLength]="50" [Configuration]="{PlaceHolder:'Enter Name'}">
+              </lib-text-box>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="h6 mb-1">
+                During Probation
+              </label>
+              <div class="form-row align-items-center">
+                <div class="col-7">
+                  <!--<input class="form-control" type="text" value="" placeholder="Period">-->
+                  <lib-text-box [FormInput]="NoticePeriodDetailForm.get('NoticePeriodDays')"
+                  (keypress)="keyPressNumbers($event)" [Configuration]="{PlaceHolder:'Enter Day(s)'}">
+                  </lib-text-box>
+                </div>
+                <div class="col-5">
+                  <label class="h5 mb-0">Day(s)</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="h6 mb-1">
+                After Confirmation
+              </label>
+              <div class="form-row align-items-center">
+                <div class="col-7">
+                  <!--<input class="form-control" type="text" value="" placeholder="Period">-->
+                  <lib-text-box [FormInput]="NoticePeriodDetailForm.get('ConfirmationDays')"
+                  (keypress)="keyPressNumbers($event)" [Configuration]="{PlaceHolder:'Enter Day(s)'}">
+                  </lib-text-box>
+
+                </div>
+                <div class="col-5">
+                  <label class="h5 mb-0">Day(s)</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row mt-4">
+            <div class="col-12">
+              <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+                <div class="col-11">
+                  <h4 class="mb-0">Publish To</h4>
+                </div>
+                <div class="col-1 text-right">
+                  <div class="btn-more ml-auto shadow btn-custom" data-toggle="collapse" href="#attributeFilter"
+                       role="button" aria-expanded="false" aria-controls="attributeFilter" data-tooltip="tooltip" title="Attribute Filter">
+                    <i class="icon icon-down h3 mb-0"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 collapse" id="attributeFilter">
+              <div class="form-row form-fields">
+                <div class="col-md-6 mb-3">
+                  <lib-ui-accordion-multi-select [PlaceHolderText]="orgPlaceHolder"
+                                                 [selectedValues]="selectedOrgEntityDepartment"
+                                                 (onSelect)="onItemSelect1($event)"
+                                                 [data]="orgEntityDepartment">
+                  </lib-ui-accordion-multi-select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Centre Type</label>
+                  <lib-ui-multi-select id="centreTypeMultiSelect"
+                                       [data]="centerType"
+                                       (onSelect)="onItemSelect($event,'centre')"
+                                       (onSelectAll)="onSelectAll($event,'centre')"
+                                       [selectedValues]="centreTypeSelectedValues"
+                                       [PlaceHolderText]="CentrePlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Region</label>
+                  <lib-ui-multi-select id="regionMultiSelect"
+                                       [data]="region"
+                                       (onSelect)="onItemSelect($event,'region')"
+                                       (onSelectAll)="onSelectAll($event,'region')"
+                                       [selectedValues]="regionSelectedValues"
+                                       [PlaceHolderText]="regionPlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Location</label>
+                  <lib-ui-multi-select id="locationMultiSelect"
+                                       [data]="location"
+                                       (onSelect)="onItemSelect($event,'location')"
+                                       (onSelectAll)="onSelectAll($event,'location')"
+                                       [selectedValues]="locationSelectedValues"
+                                       [PlaceHolderText]="locationPlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Employee Type</label>
+                  <lib-ui-multi-select id="employeeTypeMultiSelect"
+                                       [data]="employeeType"
+                                       (onSelect)="onItemSelect($event,'employeeType')"
+                                       (onSelectAll)="onSelectAll($event,'employeeType')"
+                                       [selectedValues]="employeeTypeSelectedValues"
+                                       [PlaceHolderText]="employeeTypePlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Position</label>
+                  <lib-ui-multi-select id="positionMultiSelect"
+                                       [data]="position"
+                                       (onSelect)="onItemSelect($event,'position')"
+                                       (onSelectAll)="onSelectAll($event,'position')"
+                                       [selectedValues]="positionSelectedValues"
+                                       [PlaceHolderText]="positionPlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Cost Centre</label>
+                  <lib-ui-multi-select id="costCentreMultiSelect"
+                                       [data]="costCentre"
+                                       (onSelect)="onItemSelect($event,'costCentre')"
+                                       (onSelectAll)="onSelectAll($event,'costCentre')"
+                                       [selectedValues]="costCentreSelectedValues"
+                                       [PlaceHolderText]="costCentrePlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="h6 mb-1">Grade</label>
+                  <lib-ui-multi-select id="gradeMultiSelect"
+                                       [data]="grade"
+                                       (onSelect)="onItemSelect($event,'grade')"
+                                       (onSelectAll)="onSelectAll($event,'grade')"
+                                       [selectedValues]="gradeSelectedValues"
+                                       [PlaceHolderText]="gradePlaceHolderText">
+                  </lib-ui-multi-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="d-inline-block mr-5">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" name="gender" id="noticednu" [formControl]="NoticePeriodDetailForm.get('IsDoNotUse')" class="custom-control-input"
+                     value="male" checked="">
+              <label class="custom-control-label h5 pl-2" for="noticednu">Do Not Use</label>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
+          <button type="button" (click)="OnNoticePeriodDetailsOp();" class="btn btn-custom px-4 py-2">
+            {{isAddMode? 'Add' : 'Edit'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addSeparationReason"
+       tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content border-0">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalCenterTitle">{{popupHeading}}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="icon icon-wrong"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row form-fields">
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">
+                Separation Reason
+              </label>
+              <!--<input class="form-control" type="text" value="" placeholder="Enter Separation Reason">-->
+              <lib-text-box [FormInput]="SeperationReasonForm.get('SeparationReason')"
+              [maxLength]="100"     [Configuration]="{PlaceHolder:'Enter Separation Reason'}">
+              </lib-text-box>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">
+                Separation Type
+              </label>
+              <select class="form-control" (change)='onOptionsSelected($event)' [formControl]="SeperationReasonForm.get('SeparationTypeId')">
+                <option *ngFor="let item of separationtypename" value="{{item.Value}}">
+                  {{item.Text}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="d-inline-block mr-5">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" name="gender" id="srdnu" [formControl]="SeperationReasonForm.get('IsDoNotUse')" class="custom-control-input"
+                     value="male">
+              <label class="custom-control-label h5 pl-2" for="srdnu">Do Not Use</label>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
+          <button type="button" (click)="OnSeparationReasonOp();" class="btn btn-custom px-4 py-2">
+            {{isAddMode? 'Add' : 'Edit'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addSeparationTasks"
+       tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content border-0">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalCenterTitle">{{popupHeading}}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="icon icon-wrong"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row form-fields">
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">
+                Separation Tasks
+              </label>
+              <!--<input class="form-control" type="text" value="" placeholder="Enter Separation Tasks">-->
+              <lib-text-box [FormInput]="SeperationTaskForm.get('SeparationTask')"
+                            [Configuration]="{PlaceHolder:'Enter Separation Tasks'}">
+              </lib-text-box>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1"> Separation From </label>
+              <select class="form-control" (change)='onOptionsSelected($event)' [formControl]="SeperationTaskForm.get('SeparationTypeId')">
+                <option *ngFor="let item of separationtypename" value="{{item.Value}}">
+                  {{item.Text}}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">
+                Task Owner
+              </label>
+              <select class="form-control" (change)='onOptionsSelected($event)' [formControl]="SeperationTaskForm.get('TaskOwnerId')">
+                <option *ngFor="let item of taskownername" value="{{item.Value}}">
+                  {{item.Text}}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">
+                Escalate to
+              </label>
+              <select class="form-control" (change)='onOptionsSelected($event)' [formControl]="SeperationTaskForm.get('EscalateLevelId')">
+                <option *ngFor="let item of escaltelevel" value="{{item.Value}}">
+                  {{item.Text}}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-12 mb-3">
+              <div class="form-row align-items-center pt-3">
+                <div class="col-sm-3">
+                  <label class="h6 mb-1">Initiate Task</label>
+                </div>
+                <div class="col-sm-2">
+                  <!--<input class="form-control" type="text" value="" placeholder="">-->
+                  <lib-text-box [FormInput]="SeperationTaskForm.get('InitiateTaskDays')"
+                                [Configuration]="{PlaceHolder:'Enter Initiate Task Days'}">
+                  </lib-text-box>
+                </div>
+                <div class="col-sm-1">
+                  <label class="h6 mb-1 text-muted">Days</label>
+                </div>
+                <div class="col-sm-3">
+                  <select class="form-control" (change)='onOptionsSelected($event)' [formControl]="SeperationTaskForm.get('DayTypeId')">
+                    <option *ngFor="let item of daytype" value="{{item.Value}}">
+                      {{item.Text}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-sm-3">
+                  <select class="form-control" (change)='onOptionsSelected($event)' [formControl]="SeperationTaskForm.get('InterviewTypeId')">
+                    <option *ngFor="let item of interviewtype" value="{{item.Value}}">
+                      {{item.Text}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <div class="form-row align-items-center pt-3">
+                <div class="col-sm-3">
+                  <label class="h6 mb-1">Escalate post (in days)</label>
+                </div>
+                <div class="col-sm-2">
+                  <!--<input class="form-control" type="text" value="" placeholder="">-->
+                  <lib-text-box [FormInput]="SeperationTaskForm.get('EscalatePostDay')"
+                                [Configuration]="{PlaceHolder:'Enter Escalate PostDay'}">
+                  </lib-text-box>
+                </div>
+                <div class="col-sm-1">
+                  <label class="h6 mb-1 text-muted">Days</label>
+                </div>
+                <div class="col-sm-3">
+                  <select class="form-control" (change)='onOptionsSelected($event)' [formControl]="SeperationTaskForm.get('EscalateDayTypeId')">
+                    <option *ngFor="let item of daytype" value="{{item.Value}}">
+                      {{item.Text}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-sm-3">
+                  <select class="form-control" (change)='onOptionsSelected($event)' [formControl]="SeperationTaskForm.get('EscalateTypeId')">
+                    <option *ngFor="let item of interviewtype" value="{{item.Value}}">
+                      {{item.Text}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row mt-4">
+            <div class="col-12">
+              <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+                <div class="col-11">
+                  <h4 class="mb-0">Applicable To</h4>
+                </div>
+                <div class="col-1 text-right">
+                  <div class="btn-more ml-auto shadow btn-custom" data-toggle="collapse" href="#applicableTo"
+                       role="button" aria-expanded="false" aria-controls="applicableTo" data-tooltip="tooltip" title="" data-original-title="Attribute Filter">
+                    <i class="icon icon-down h3 mb-0"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row form-fields collapse" id="applicableTo">
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">Employee Group</label>
+              <lib-ui-multi-select id="employeegroupMultiSelect"
+                                   [data]="employeegroup"
+                                   (onSelect)="onItemSelect($event,'employeegroup')"
+                                   (onSelectAll)="onSelectAll($event,'employeegroup')"
+                                   [selectedValues]="employeegroupSelectedValues"
+                                   [PlaceHolderText]="employeegroupPlaceHolderText">
+              </lib-ui-multi-select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">Entity</label>
+              <lib-ui-multi-select id="entityMultiSelect"
+                                   [data]="entity"
+                                   (onSelect)="onItemSelect($event,'entity')"
+                                   (onSelectAll)="onSelectAll($event,'entity')"
+                                   [selectedValues]="entitySelectedValues"
+                                   [PlaceHolderText]="entityPlaceHolderText">
+              </lib-ui-multi-select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">Org Unit</label>
+              <lib-ui-multi-select id="orgunitMultiSelect"
+                                   [data]="orgunit"
+                                   (onSelect)="onItemSelect($event,'orgunit')"
+                                   (onSelectAll)="onSelectAll($event,'orgunit')"
+                                   [selectedValues]="orgunitSelectedValues"
+                                   [PlaceHolderText]="orgunitPlaceHolderText">
+              </lib-ui-multi-select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">Department</label>
+              <lib-ui-multi-select id="departmentMultiSelect"
+                                   [data]="department"
+                                   (onSelect)="onItemSelect($event,'department')"
+                                   (onSelectAll)="onSelectAll($event,'department')"
+                                   [selectedValues]="departmentSelectedValues"
+                                   [PlaceHolderText]="departmentPlaceHolderText">
+              </lib-ui-multi-select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">Designation</label>
+              <lib-ui-multi-select id="designationMultiSelect"
+                                   [data]="designation"
+                                   (onSelect)="onItemSelect($event,'designation')"
+                                   (onSelectAll)="onSelectAll($event,'designation')"
+                                   [selectedValues]="designationSelectedValues"
+                                   [PlaceHolderText]="designationPlaceHolderText">
+              </lib-ui-multi-select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">Location</label>
+              <lib-ui-multi-select id="locationMultiSelect"
+                                   [data]="location"
+                                   (onSelect)="onItemSelect($event,'location')"
+                                   (onSelectAll)="onSelectAll($event,'location')"
+                                   [selectedValues]="locationSelectedValues"
+                                   [PlaceHolderText]="locationPlaceHolderText">
+              </lib-ui-multi-select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">Employee Type</label>
+              <lib-ui-multi-select id="employeeTypeMultiSelect"
+                                   [data]="employeeType"
+                                   (onSelect)="onItemSelect($event,'employeeType')"
+                                   (onSelectAll)="onSelectAll($event,'employeeType')"
+                                   [selectedValues]="employeeTypeSelectedValues"
+                                   [PlaceHolderText]="employeeTypePlaceHolderText">
+              </lib-ui-multi-select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">Grade</label>
+              <lib-ui-multi-select id="gradeMultiSelect"
+                                   [data]="grade"
+                                   (onSelect)="onItemSelect($event,'grade')"
+                                   (onSelectAll)="onSelectAll($event,'grade')"
+                                   [selectedValues]="gradeSelectedValues"
+                                   [PlaceHolderText]="gradePlaceHolderText">
+              </lib-ui-multi-select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="d-inline-block mr-5">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" name="gender" id="srdnu" [formControl]="SeperationTaskForm.get('IsDoNotUse')" class="custom-control-input"
+                     value="male" checked="">
+              <label class="custom-control-label h5 pl-2" for="srdnu">Do Not Use</label>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
+          <button type="button" (click)="OnSeparationTaskOp();" class="btn btn-custom px-4 py-2">
+            {{isAddMode? 'Add' : 'Edit'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

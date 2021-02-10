@@ -22,7 +22,11 @@ namespace CliqueHR.Api.Application
             else
             {
                 // Log Error
+<<<<<<< HEAD
                 Log.Error("AppPresentationException", "Exception occured.", ex.InnerException != null ? ex.InnerException.Message : "", ex);
+=======
+               // Log.Error("AppPresentationException", "Exception occured.", ex.InnerException != null ? ex.InnerException.Message : "", ex);
+>>>>>>> change
             }
         }
         public HttpResponseMessage GetResponse(ApiController apiController)
