@@ -1,16 +1,16 @@
 import * as CliqueHRType from '../Types/types.api'
-import { OnInit, OnDestroy, ChangeDetectorRef, Renderer2, Component, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { OnInit, OnDestroy, ChangeDetectorRef, Renderer2, Component, ComponentFactoryResolver, ViewContainerRef, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { WebAppModels } from '../Models/models.api';
-import { Components, RequestTypes } from '../Types/Constants';
-import { componentFactoryService } from '../Types/types.api';
+import { Components, RequestTypes, ValidationType } from '../Types/Constants';
+import { componentFactoryService, WebInterface } from '../Types/types.api';
 import { ApplicationLoaderComponent } from './application-loader/application-loader.component';
 import { isNullOrUndefined } from 'util';
 declare var $: any;
 
 export namespace WebComponents {
-    export abstract class ApplicationComponent implements OnInit, OnDestroy {
+    export abstract class ApplicationComponent implements OnInit, AfterViewInit, OnDestroy {
         private m_componentName: string;
         private m_applicationService: CliqueHRType.WebInterface.IApplicationService;
         protected SubjectDestroy: Array<Subscription> = new Array<Subscription>();
@@ -21,23 +21,32 @@ export namespace WebComponents {
         public validationMessage: Array<string> = new Array<string>();
 
         constructor(
-            ComponentName: string,
+            ComponentName: string = null,
             applicationService: CliqueHRType.WebInterface.IApplicationService,
             changeDetection: ChangeDetectorRef,
             viewContainerRef: ViewContainerRef
         ) {
             this.m_applicationService = applicationService;
             this.m_changeDetector = changeDetection;
-            this.m_componentName = ComponentName;
             this.m_viewContainerRef = viewContainerRef;
-            this.m_applicationService.RegisterComponent(ComponentName);
-            this.SubjectDestroy.push(
-                this.m_applicationService.GetComponentSubscriber(ComponentName).subscribe(
-                    request => {
-                        this.TriggerCommand(request);
-                    }
-                )
-            );
+            if (!isNullOrUndefined(ComponentName)) {
+                this.m_componentName = ComponentName;
+                this.m_applicationService.RegisterComponent(ComponentName);
+                this.SubjectDestroy.push(
+                    this.m_applicationService.GetComponentSubscriber(ComponentName).subscribe(
+                        request => {
+                            this.TriggerCommand(request);
+                        }
+                    )
+                );
+            }
+        }
+        ngAfterViewInit(): void {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-tooltip="tooltip"]').tooltip()
+            $('[data-toggle="popover"]').popover({
+                trigger: 'focus'
+            });
         }
         protected abstract TriggerCommand(request: CliqueHRType.WebInterface.CommandRequest);
 
@@ -69,6 +78,22 @@ export namespace WebComponents {
             if (!isNullOrUndefined(this.m_applicationLoader)) {
                 this.m_applicationLoader.CloseLoader();
             }
+        }
+        protected ValidateFile(validationType: WebInterface.FileValidationConfig, file: any): string {
+            if (file) {
+                if (!isNullOrUndefined(validationType.MaxSizeInMb)) {
+                    let fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100);
+                    if (fileSize > validationType.MaxSizeInMb) {
+                        return ValidationType.InvalidFileSize;
+                    }
+                }
+                if (!isNullOrUndefined(validationType.AllowedExtentions) && validationType.AllowedExtentions.length != 0) {
+                    if (isNullOrUndefined(validationType.AllowedExtentions.find(x => x == file.type))) {
+                        return ValidationType.InvalidFile;
+                    }
+                }
+            }
+            return ValidationType.required;
         }
         public ngOnInit(): void {
 

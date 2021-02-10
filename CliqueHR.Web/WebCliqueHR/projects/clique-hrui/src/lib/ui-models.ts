@@ -19,7 +19,7 @@ export interface UiDatepicker extends UiConfig {
     max?: any;
     min?: any;
     disabled?: boolean;
-    plcaeholder?: string;
+    placeholder?: string;
     ReturnDateFormat?: DateFormat;
 }
 export interface UiMultiselect extends UiConfig {
@@ -29,17 +29,10 @@ export interface UiDropdownTemplate extends UiConfig {
     Placeholder?: string;
     HideSearch: boolean;
 }
-export class UiMultiSelectOutPut {
-    selectedItem: UiMultiselectData;
-    selectedValues: string;
-    placeHolderText: string;
-}
-
-export class UiMultiselectData {
-    Text:string;
-    Value:number;
-    isDisabled:boolean;
-    isCheckBoxSelected:boolean;
+export interface UiSingleselect extends UiConfig {
+    Placeholder?: string;
+    DisplayProperty:string;
+    ValueProperty?:string;
 }
 export interface UiLazySingleSelect extends UiSingleselect {
     pageNo: number;
@@ -52,18 +45,6 @@ export interface UiLazyLoadingRequest{
     StartIndex: number;
     EndIndex: number;
     SerchText?: string;
-}
-export class UiMultiSelectOptions{
-    OptionType:string;
-    Data: Array<UiMultiselectData>;
-    ControlId:string;
-    SelectedValues:string;
-}
-
-export interface UiSingleselect extends UiConfig {
-    Placeholder?: string;
-    DisplayProperty:string;
-    ValueProperty?:string;
 }
 export interface UiDataTableConfig extends UiConfig {
     Pagination?: boolean;

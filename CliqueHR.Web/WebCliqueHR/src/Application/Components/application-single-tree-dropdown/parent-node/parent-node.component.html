@@ -1,0 +1,14 @@
+<li class="ComboTreeItemParent">
+    <span class="comboTreeParentPlus" [class.collapsed]="!isShowChild">
+        <i (click)="toggleChild()" class="icon icon-plus-symbol"></i>
+        <i (click)="toggleChild()" class="icon icon-minus-symbol"></i>
+    </span>
+    <span [class.selected-value]="isSelected" (click)="OnNodeSelection()" class="comboTreeItemTitle selectable">
+        <label class="h5 mb-0">{{GetDisplayText}}</label>
+    </span>
+    <ul [class.show]="isShowChild" class="collapse">
+        <ng-container #parent>
+
+        </ng-container>
+    </ul>
+</li>

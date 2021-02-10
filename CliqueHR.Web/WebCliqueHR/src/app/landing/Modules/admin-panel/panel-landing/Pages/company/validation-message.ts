@@ -29,6 +29,51 @@ export class ValidationMessage {
             WebSite: {
                 [ValidationType.required]: "*"
             },
+        },
+        entityForm: {
+            Name: {
+                [ValidationType.required]: "*"
+            },
+            Code: {
+                [ValidationType.required]: "*"
+            },
+            Address: {
+                [ValidationType.required]: "*"
+            },
+            PinCode: {
+                [ValidationType.required]: "*"
+            },
+            ContcatNo: {
+                [ValidationType.required]: "*",
+                [ValidationType.maxlength]: "Invalid Contact No."
+            },
+            WebSite: {
+                [ValidationType.required]: "*"
+            },
+        },
+        AutoNoFormDept:{
+            Prefix: {
+                [ValidationType.required]: "Prefix required"
+            },
+            AppendNumber: {
+                [ValidationType.required]: "Append Number required"
+            }   
+        },
+        OrgUnitForm: {
+            Name: {
+                [ValidationType.required]: "Name required"
+            },
+            Code: {
+                [ValidationType.required]: "Code required"
+            } 
+        },
+        DepartmentForm: {
+            Name: {
+                [ValidationType.required]: "Name required"
+            },
+            Code: {
+                [ValidationType.required]: "Code required"
+            } 
         }
     }
 }

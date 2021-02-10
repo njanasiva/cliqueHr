@@ -15,9 +15,6 @@ import { UiDataTableComponent } from './ui-data-table/ui-data-table.component';
 import { UiSingleSelectComponent } from './ui-single-select/ui-single-select.component';
 import { UiDropdownTemplateComponent } from './ui-dropdown-template/ui-dropdown-template.component';
 import { UiLazySingleSelectComponent } from './ui-lazy-single-select/ui-lazy-single-select.component';
-import {  UiFilterPipe } from './ui-filter/ui-filter'
-import { UiAccordionMultiSelectComponent } from './ui-accordion-multi-select/ui-accordion-multi-select';
-
 
 
 @NgModule({
@@ -34,9 +31,7 @@ import { UiAccordionMultiSelectComponent } from './ui-accordion-multi-select/ui-
     UiDataTableComponent,
     UiSingleSelectComponent,
     UiDropdownTemplateComponent,
-    UiLazySingleSelectComponent,
-    UiFilterPipe,
-    UiAccordionMultiSelectComponent
+    UiLazySingleSelectComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -54,7 +49,7 @@ import { UiAccordionMultiSelectComponent } from './ui-accordion-multi-select/ui-
     UiDataTableComponent,
     UiSingleSelectComponent,
     UiDropdownTemplateComponent,
-    UiAccordionMultiSelectComponent
+    UiLazySingleSelectComponent
   ]
 })
 export class CliqueHRUiModule { }

@@ -5,13 +5,61 @@ import { Components } from 'src/Application/Types/Constants';
 import { WebAppModels } from 'src/Application/Models/models.api';
 import { QualificationComponent } from './Pages/qualification/qualification.component';
 import { CurrencyComponent } from './Pages/currency/currency.component';
+import { CenterTypeComponent } from './Pages/center-type/center-type.component';
+import { EmployeeTypeComponent } from './Pages/employee-type/employee-type.component';
+import { GradeComponent } from './Pages/grade/grade.component';
+import { BandComponent } from './Pages/band/band.component';
+import { FunctionalRoleComponent } from './Pages/functional-role/functional-role.component';
+import { DesignationComponent } from './Pages/designation/designation.component';
+import { LocationComponent } from './Pages/location/location.component';
+import { RegionComponent } from './Pages/region/region.component';
 
 const tabData:WebAppModels.TabData= {
   Hearder: [
     {
+      Name: 'Employee Type',
+      Component: EmployeeTypeComponent,
+      Selected:true
+    },
+    {
+      Name: 'Grade',
+      Component: GradeComponent,
+      Selected:false
+    },
+    {
+      Name: 'Band',
+      Component: BandComponent,
+      Selected:false
+    },
+    {
+      Name: 'Centre Type',
+      Component: CenterTypeComponent,
+      Selected:false
+    },
+    {
       Name: 'Currency',
       Component: CurrencyComponent,
-      Selected:true
+      Selected:false
+    },
+    {
+      Name: 'Designation',
+      Component: DesignationComponent,
+      Selected:false
+    },
+    {
+      Name: 'Location',
+      Component: LocationComponent,
+      Selected:false
+    },
+    {
+      Name: 'Region',
+      Component: RegionComponent,
+      Selected:false
+    },
+    {
+      Name: 'Functional Role',
+      Component: FunctionalRoleComponent,
+      Selected:false
     },
     {
       Name: 'Qualification',

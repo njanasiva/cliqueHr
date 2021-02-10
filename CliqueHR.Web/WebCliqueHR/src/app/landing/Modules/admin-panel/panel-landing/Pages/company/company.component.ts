@@ -6,6 +6,10 @@ import { GroupCompanyComponent } from './Pages/group-company/group-company.compo
 import { WebAppModels } from 'src/Application/Models/models.api';
 import { EntityComponent } from './Pages/entity/entity.component';
 import { SecuritySettingsComponent } from './Pages/security-settings/security-settings.component';
+import { AutoNumberingComponent } from './Pages/auto-numbering/auto-numbering.component';
+import { PageSettingsComponent } from './Pages/page-settings/page-settings.component';
+import { OrgUnitsComponent } from './Pages/org-units/org-units.component';
+import { DepartmentsComponent } from './Pages/departments/departments.component';
 
 const tabData:WebAppModels.TabData= {
   Hearder: [
@@ -20,8 +24,28 @@ const tabData:WebAppModels.TabData= {
       Selected:false
     },
     {
+      Name: 'Org Units',
+      Component: OrgUnitsComponent,
+      Selected:false
+    },
+    {
+      Name: 'Departments',
+      Component: DepartmentsComponent,
+      Selected:false
+    },
+    {
+      Name: 'Page Settings',
+      Component: PageSettingsComponent,
+      Selected:false
+    },
+    {
       Name: 'Security Settings',
       Component: SecuritySettingsComponent,
+      Selected:false
+    },
+    {
+      Name: 'Auto Numbering',
+      Component: AutoNumberingComponent,
       Selected:false
     }
   ]

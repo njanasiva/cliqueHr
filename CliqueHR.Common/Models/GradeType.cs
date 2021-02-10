@@ -11,8 +11,8 @@ namespace CliqueHR.Common.Models
     {
         public int Id { get; set; }
         public string TypeName { get; set; }
-        public double MinSalary { get; set; }
-        public double MaxSalary { get; set; }
+        public decimal MinSalary { get; set; }
+        public decimal MaxSalary { get; set; }
         public bool IsDoNotUse { get; set; }
         public int CreatedBy { get; set; }
         public string CreatedDate { get; set; }
@@ -49,12 +49,12 @@ namespace CliqueHR.Common.Models
                     Message = "Minimum Salary should be greater then 0."
                 });
             }
-            if (model.MaxSalary > 1000000)
+            if (model.MaxSalary < model.MinSalary)
             {
                 message.Add(new ValidationMessage
                 {
                     Property = "MaxSalary",
-                    Message = "Maximum salary less then 10,00,000"
+                    Message = "Maximum salary should be greater than Min salary"
                 });
             }
             return message;
@@ -86,12 +86,12 @@ namespace CliqueHR.Common.Models
                     Message = "Minimum Salary should be greater then 0."
                 });
             }
-            if (model.MaxSalary > 1000000)
+            if (model.MaxSalary < model.MinSalary)
             {
                 message.Add(new ValidationMessage
                 {
                     Property = "MaxSalary",
-                    Message = "Maximum salary less then 10,00,000"
+                    Message = "Maximum salary should be greater than Min salary"
                 });
             }
             return message;

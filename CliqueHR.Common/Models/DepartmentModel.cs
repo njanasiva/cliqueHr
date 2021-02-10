@@ -16,11 +16,24 @@ namespace CliqueHR.Common.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
+        public int ParentEntityId { get; set; }
+        public int ParentOrgUnitId { get; set; }
         public int ParentDepartmentId { get; set; }
-        public int HOD { get; set; }
+        public string HOD { get; set; }
+        public int HODId { get; set; }
+        public string ParentUnit { get; set; }
         public bool IsDoNotUse { get; set; }
         public int CreatedBy { get; set; }
         public int ModifiedBy { get; set; }
+    }
+
+    public class DepartmentGrid
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
+        public string ParentUnit { get; set; }
+        public string HOD { get; set; }
     }
 
     public class DepartmentValidation : AbstractValidator<Department>
@@ -34,7 +47,7 @@ namespace CliqueHR.Common.Models
         private List<ValidationMessage> ValidateAll(Department model)
         {
             var message = new List<ValidationMessage>();
-            if (string.IsNullOrEmpty(model.Name))
+            if (model.Id == 0 && string.IsNullOrEmpty(model.Name))
             {
                 message.Add(new ValidationMessage
                 {
@@ -42,17 +55,6 @@ namespace CliqueHR.Common.Models
                     Message = "Department name can not be blank."
                 });
             }
-
-            if (string.IsNullOrEmpty(model.Code))
-            {
-                message.Add(new ValidationMessage
-                {
-                    Property = "DepartmentCode",
-                    Message = "Department code can not be blank."
-                });
-            }
-
-
             return message;
         }
     }

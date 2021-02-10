@@ -25,7 +25,6 @@ namespace CliqueHR.BL
         {
             try
             {
-
                 var responseValidation = Validator.GetValidationResponseInstance();
                 string modelStr = request.Form["data"];
                 if (string.IsNullOrEmpty(modelStr))
@@ -40,7 +39,7 @@ namespace CliqueHR.BL
                     throw new ValidationException(validationResponse);
                 }
                 model.TransType = "SAVE";
-                model.CreatedBy = objUser.UserID;
+                model.CreatedBy = objUser.EmployeeId;
                 StorageRequest uploadRequest = null;
                 if (request.Files.Count != 0 && request.Files["file"] != null)
                 {
@@ -71,7 +70,6 @@ namespace CliqueHR.BL
                     if (!string.IsNullOrEmpty(OldLogo))
                         _storageService.DeleteFileData(OldLogo, false, objUser.CompanyCode);
                 }
-
                
             }
             catch (Exception ex)
@@ -98,7 +96,7 @@ namespace CliqueHR.BL
                     throw new ValidationException(validationResponse);
                 }
                 model.TransType = "SAVE";
-                model.CreatedBy = objUser.UserID;
+                model.CreatedBy = objUser.EmployeeId;
                 var data = _entityRepository.UpdateEntity(model, objUser.CompanyCode);
                 if (data.Code == 2)
                 {
@@ -133,9 +131,13 @@ namespace CliqueHR.BL
 
                 }
 
-             
-
-
+                // Update Cache
+                EntityCaching.Instance.UpdateCacheTimestamp(new EntityModelParams
+                {
+                    Company = objUser.CompanyCode,
+                    entity = model,
+                    Key = model.Id.ToString()
+                });
             }
             catch (Exception ex)
             {
