@@ -16,6 +16,5 @@ namespace CliqueHR.Common.Models
     {
         public int Code { get; set; }
         public string Message { get; set; }
-       
     }
 }

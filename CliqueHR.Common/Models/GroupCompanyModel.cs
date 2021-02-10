@@ -54,10 +54,7 @@ namespace CliqueHR.Common.Models
         {
             var message = new List<ValidationMessage>();
             string contactPattern = @"^[0-9]{10}$";
-            string panPattern = "/^([A-Z]){5}([0-9]){4}([A-Z]){1}$/";
-            string gstinPattern = "/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/";
-
-            bool isContactValid = false, isPanValid = false, isWebSite = false;
+            bool isWebSite = false, isContactValid=false;
 
 
 
@@ -150,8 +147,7 @@ namespace CliqueHR.Common.Models
                     Message = "Contcat Number can not be blank."
                 });
             }
-
-            if (!(string.IsNullOrEmpty(model.ContcatNo)))
+            else
             {
                 isContactValid = Regex.IsMatch(Convert.ToString(model.ContcatNo), contactPattern);
                 if (!isContactValid)
@@ -177,20 +173,7 @@ namespace CliqueHR.Common.Models
             }
 
 
-            //if (!(string.IsNullOrEmpty(model.PAN)))
-            //{
-            //    isPanValid = Regex.IsMatch(Convert.ToString(model.PAN), panPattern);
-            //    if (!isPanValid)
-            //    {
-            //        message.Add(new ValidationMessage
-            //        {
-            //            Property = "PAN",
-            //            Message = "Please enter proper PAN."
-            //        });
-            //    }
-            //}
-
-            return message;
+           return message;
         }
     }
 }

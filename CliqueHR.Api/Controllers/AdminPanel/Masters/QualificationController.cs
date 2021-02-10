@@ -27,7 +27,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:AddCourseType", "Add CourseType START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 _qualificationService.AddCourseType(model, objUser);
                 Log.Info("QualificationController:AddCourseType", "Add CourseType END", string.Empty);
@@ -46,7 +46,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:UpdateCourseType", "Update CourseType START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 _qualificationService.UpdateCourseType(model, objUser);
                 Log.Info("QualificationController:UpdateCourseType", "Update CourseType END", string.Empty);
@@ -65,7 +65,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:GetAllCourseType", "Get All CourseType START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 var data = _qualificationService.GetAllCourseType(objUser, paginationModel);
                 Log.Info("QualificationController:GetAllCourseType", "Get All CourseType END", string.Empty);
@@ -84,7 +84,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:GetCourseTypeById", "Get CourseType By Id START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 var data = _qualificationService.GetCourseTypeByID(Id, objUser);
                 Log.Info("QualificationController:GetCourseTypeById", "Get CourseType By Id END", string.Empty);
@@ -106,7 +106,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:AddCourseTitle", "Add CourseTitle START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 _qualificationService.AddCourseTitle(model, objUser);
                 Log.Info("QualificationController:AddCourseTitle", "Add CourseTitle END", string.Empty);
@@ -125,7 +125,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:UpdateCourseTitle", "Update CourseTitle START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 _qualificationService.UpdateCourseTitle(model, objUser);
                 Log.Info("QualificationController:UpdateCourseTitle", "Update CourseTitle END", string.Empty);
@@ -144,7 +144,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:GetAllCourseTitle", "Get All CourseTitle START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "DevDB";
                 var data = _qualificationService.GetAllCourseTitle(objUser, paginationModel);
                 Log.Info("QualificationController:GetAllCourseTitle", "Get All CourseTitle END", string.Empty);
@@ -163,7 +163,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:GetCourseTitleById", "Get CourseTitle By Id START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 var data = _qualificationService.GetCourseTitleByID(Id, objUser);
                 Log.Info("QualificationController:GetCourseTitleById", "Get CourseTitle By Id END", string.Empty);
@@ -185,7 +185,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:AddMajor", "Add Major START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 _qualificationService.AddMajor(model, objUser);
                 Log.Info("QualificationController:AddMajor", "Add Major END", string.Empty);
@@ -204,7 +204,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:UpdateMajor", "Update Major START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 _qualificationService.UpdateMajor(model, objUser);
                 Log.Info("QualificationController:UpdateMajor", "Update Major END", string.Empty);
@@ -223,7 +223,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:GetAllMajor", "Get All Major START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 var data = _qualificationService.GetAllMajor(objUser, paginationModel);
                 Log.Info("QualificationController:GetAllMajor", "Get All Major END", string.Empty);
@@ -242,7 +242,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:GetMajorById", "Get Major By Id START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 var data = _qualificationService.GetMajorByID(Id, objUser);
                 Log.Info("QualificationController:GetMajorById", "Get Major By Id END", string.Empty);
@@ -264,7 +264,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:AddUniversity", "Add University START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 _qualificationService.AddUniversity(model, objUser);
                 Log.Info("QualificationController:AddUniversity", "Add University END", string.Empty);
@@ -283,7 +283,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:UpdateUniversity", "Update University START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 _qualificationService.UpdateUniversity(model, objUser);
                 Log.Info("QualificationController:UpdateUniversity", "Update University END", string.Empty);
@@ -302,7 +302,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:GetAllUniversity", "Get All University START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 var data = _qualificationService.GetAllUniversity(objUser, paginationModel);
                 Log.Info("QualificationController:GetAllUniversity", "Get All University END", string.Empty);
@@ -321,7 +321,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:GetUniversityById", "Get University By Id START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 var data = _qualificationService.GetUniversityByID(Id, objUser);
                 Log.Info("QualificationController:GetUniversityById", "Get University By Id END", string.Empty);
@@ -342,7 +342,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:AddInstitute", "Add Institute START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 _qualificationService.AddInstitute(model, objUser);
                 Log.Info("QualificationController:AddInstitute", "Add Institute END", string.Empty);
@@ -361,7 +361,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:UpdateInstitute", "Update Institute START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 _qualificationService.UpdateInstitute(model, objUser);
                 Log.Info("QualificationController:UpdateInstitute", "Update Institute END", string.Empty);
@@ -380,7 +380,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:GetAllInstitute", "Get All Institute START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 var data = _qualificationService.GetAllInstitute(objUser, paginationModel);
                 Log.Info("QualificationController:GetAllInstitute", "Get All Institute END", string.Empty);
@@ -399,7 +399,7 @@ namespace CliqueHR.Api.Controllers
             {
                 Log.Info("QualificationController:GetInstituteById", "Get Institute By Id START", string.Empty);
                 UserContextModel objUser = new UserContextModel();
-                objUser.UserID = 1;
+                objUser.EmployeeId = 1;
                 objUser.CompanyCode = "devDB";
                 var data = _qualificationService.GetInstituteByID(Id, objUser);
                 Log.Info("QualificationController:GetInstituteById", "Get Institute By Id END", string.Empty);

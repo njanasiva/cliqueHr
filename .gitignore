@@ -348,6 +348,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-/CliqueHR.Api/DBScript/Tables.sql
-/CliqueHR.Api/DBScript/StoredProcedures.sql
-/CliqueHR.Api/DBScript/Insert.sql

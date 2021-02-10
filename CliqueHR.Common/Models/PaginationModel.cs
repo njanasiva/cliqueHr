@@ -12,22 +12,6 @@ namespace CliqueHR.Common.Models
 
 
     }
-
-    public class ListModel
-    {
-        public int StartRow { get; set; }
-        public int EndRow { get; set; }
-        public int UserId { get; set; }
-        public int Start { get; set; }
-        public int NoofData { get; set; }
-        public SortType Sort { get; set; }
-        public string SearchText { get; set; }
-        public int Action { get; set; }
-        public int ProbationDetailId { get; set; }
-
-        
-    }
-
     public class SortType
     {
         public string PropertyName { get; set; }
@@ -54,6 +38,9 @@ namespace CliqueHR.Common.Models
             return messages;
         }
     }
-
-
+   public class EmployeeFilter:PaginationModel
+    {
+        public string ScreenType { get; set; }
+        public int TransactionId { get; set; }
+    }
 }

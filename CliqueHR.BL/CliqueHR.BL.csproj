@@ -33,7 +33,20 @@
   <ItemGroup>
     <Reference Include="CliqueHR.Helpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\CliqueHR.Helpers.dll</HintPath>
+      <HintPath>bin\Debug\CliqueHR.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics.Web.Documents.Core, Version=20.1.20201.215, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.Web.Documents.Core.20.1.215\lib\net40\Infragistics.Web.Documents.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics.Web.Documents.Excel, Version=20.1.20201.215, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL">
+      <HintPath>..\packages\Infragistics.Web.Documents.Excel.20.1.215\lib\net40\Infragistics.Web.Documents.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Registry, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Registry.4.6.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
+    </Reference>
+    <Reference Include="CliqueHR.DL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CliqueHR.DL\bin\Debug\CliqueHR.DL.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -41,6 +54,27 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.6.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.AccessControl, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.6.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.6.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.4.6.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,19 +82,60 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminPanelService\CompanyService\AutoNumberingService.cs" />
+    <Compile Include="AdminPanelService\CompanyService\DepartmentService.cs" />
+    <Compile Include="AdminPanelService\CompanyService\EntityOrgUnitTree.cs" />
     <Compile Include="AdminPanelService\CompanyService\EntityService.cs" />
-    <Compile Include="AdminPanelService\EngagementService\EngagementService.cs" />
-    <Compile Include="AdminPanelService\HelpDeskService\HelpDeskService.cs" />
-    <Compile Include="AdminPanelService\LifeCycleService\LifeCycleService.cs" />
+    <Compile Include="AdminPanelService\CompanyService\GroupCompanyService.cs" />
+    <Compile Include="AdminPanelService\CompanyService\OrgUnitsService.cs" />
+    <Compile Include="AdminPanelService\CompanyService\PageSettingsService.cs" />
+    <Compile Include="AdminPanelService\CompanyService\SecuritySettingsService.cs" />
+    <Compile Include="AdminPanelService\EmployeeService\ApprovalWorkFlowService.cs" />
+    <Compile Include="AdminPanelService\EmployeeService\EmployeeGroupService.cs" />
+    <Compile Include="AdminPanelService\MastersService\AutoNumberingService.cs" />
+    <Compile Include="AdminPanelService\MastersService\MasterService.cs" />
+    <Compile Include="Application\Cryptography.cs" />
+    <Compile Include="Application\FileValidators.cs" />
+    <Compile Include="AdminPanelService\SetupService\SetupService.cs" />
     <Compile Include="Application\Utility.cs" />
+    <Compile Include="CachingService\BaseCachingService.cs" />
+    <Compile Include="CachingService\BaseNonPersistCachingService.cs" />
+    <Compile Include="CachingService\CompanyCaching.cs" />
+    <Compile Include="CachingService\EmployeeGeneralInfoCaching.cs" />
+    <Compile Include="CachingService\EntityCaching.cs" />
+    <Compile Include="CachingService\TimeStampCaching.cs" />
+    <Compile Include="CommonService\AuthService.cs" />
+    <Compile Include="CommonService\CacheDbService.cs" />
     <Compile Include="CommonService\CommonService.cs" />
+    <Compile Include="EmployeeService\EmployeeCreation\EmployeeCreationService.cs" />
+    <Compile Include="Implementation\AdminPanel\CompanyService\IAutoNumberingService.cs" />
+    <Compile Include="Implementation\AdminPanel\CompanyService\IDepartmentService.cs" />
+    <Compile Include="Implementation\AdminPanel\CompanyService\IEntityOrgUnitTree.cs" />
     <Compile Include="Implementation\AdminPanel\CompanyService\IEntityService.cs" />
-    <Compile Include="Implementation\AdminPanel\EngagementService\IEngagementService.cs" />
-    <Compile Include="Implementation\AdminPanel\HelpDeskService\IHelpDeskService.cs" />
-    <Compile Include="Implementation\AdminPanel\LifeCycleService\ILifeCycleService.cs" />
+    <Compile Include="Implementation\AdminPanel\CompanyService\IGroupCompanyService.cs" />
+    <Compile Include="AdminPanelService\MastersService\EmployeeService.cs" />
+    <Compile Include="Implementation\AdminPanel\CompanyService\IOrgUnitsService.cs" />
+    <Compile Include="Implementation\AdminPanel\CompanyService\IPageSettingService.cs" />
+    <Compile Include="Implementation\AdminPanel\CompanyService\ISecuritySettingService.cs" />
+    <Compile Include="AdminPanelService\EmployeeService\GlobalProfileService.cs" />
+    <Compile Include="AdminPanelService\EmployeeService\UserDefinedFieldService.cs" />
+    <Compile Include="Implementation\AdminPanel\EmployeeService\IApprovalWorkFlowService.cs" />
+    <Compile Include="Implementation\AdminPanel\EmployeeService\IEmployeeGroupService.cs" />
+    <Compile Include="Implementation\AdminPanel\EmployeeService\IGlobalProfileService.cs" />
+    <Compile Include="Implementation\AdminPanel\EmployeeService\IUserDefinedFieldService.cs" />
+    <Compile Include="Implementation\AdminPanel\MastersService\IAutoNumberingService.cs" />
+    <Compile Include="Implementation\AdminPanel\MastersService\IEmployeeService.cs" />
+    <Compile Include="Implementation\AdminPanel\MastersService\IMasterService.cs" />
+    <Compile Include="Implementation\Caching\ICachingService.cs" />
+    <Compile Include="Implementation\Common\IAuthService.cs" />
+    <Compile Include="Implementation\Common\ICacheDbService.cs" />
+    <Compile Include="Implementation\AdminPanel\SetupService\ISetupService.cs" />
     <Compile Include="Implementation\Common\ICommonService.cs" />
+    <Compile Include="Implementation\Employee\EmployeeCreation\IEmployeeCreationService.cs" />
+    <Compile Include="Implementation\ITestService.cs" />
     <Compile Include="Implementation\AdminPanel\MastersService\IQualificationService.cs" />
     <Compile Include="AdminPanelService\MastersService\QualificationService.cs" />
     <Compile Include="Implementation\StorageService\IStorageService.cs" />
@@ -72,17 +147,9 @@
       <Project>{6724215F-12BE-4F9E-BBAA-5E5DD183AA2D}</Project>
       <Name>CliqueHR.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CliqueHR.DL\CliqueHR.DL.csproj">
-      <Project>{6fa4186a-6ce0-4d43-9de4-a575c252104b}</Project>
-      <Name>CliqueHR.DL</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AdminPanelService\EmployeeService\" />
-    <Folder Include="Implementation\AdminPanel\EmployeeService\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -42,6 +42,20 @@ namespace CliqueHR.DL
             }
         }
 
+        public List<Entity> GetEntity(string CompanyCode)
+        {
+            try
+            {
+               
+                return _dbHelper.GetDataTableToList<Entity>(CompanyCode, "[Company].[GetEntities]");
+            }
+            catch (Exception ex)
+            {
+                var helper = new Helpers.ExceptionHelper.DataException(ex);
+                throw helper.GetException();
+            }
+        }
+
         public Entity GetEntityById(int Id, string CompanyCode)
         {
             try
@@ -58,7 +72,7 @@ namespace CliqueHR.DL
                         Name = Convert.ToString(dt.Rows[0]["Name"]),
                         Code = Convert.ToString(dt.Rows[0]["Code"]),
                         TypeId = Convert.ToInt32(dt.Rows[0]["TypeId"]),
-                        IncorporationDate = Convert.ToString(dt.Rows[0]["IncorporationDate"]),
+                        IncorporationDate = Convert.ToDateTime(dt.Rows[0]["IncorporationDate"]),
                         Address = Convert.ToString(dt.Rows[0]["Address"]),
                         CountryId = Convert.ToInt32(dt.Rows[0]["CountryId"]),
                         StateId = Convert.ToInt32(dt.Rows[0]["StateId"]),

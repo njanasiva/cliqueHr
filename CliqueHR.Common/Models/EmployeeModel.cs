@@ -1,5 +1,6 @@
 ﻿using CliqueHR.Helpers.Validation;
 using System.Collections.Generic;
+using System.Data;
 using System.Xml.Serialization;
 
 namespace CliqueHR.Common.Models
@@ -84,6 +85,7 @@ namespace CliqueHR.Common.Models
         public string FieldType { get; set; }
         public string FieldTypeValue { get; set; }
         public long CreatedBy { get; set; }
+        public bool IsSectionEditable { get; set; }
     }
 
     public class FieldType
@@ -183,4 +185,39 @@ namespace CliqueHR.Common.Models
     {
         public string userprofilexml { get; set; }
     }
+
+    public class ProfileFieldSetting
+    {
+        public int CreatedBy { get; set; }
+        public DataTable ProfileFieldSettings { get; set; }
+    }
+
+    public class ProfileFieldSettingValidation : AbstractValidator<ProfileFieldSetting>
+    {
+        public static readonly string ValidateAll_key = "ValidateAll_key";
+
+        public ProfileFieldSettingValidation()
+        {
+            this[ValidateAll_key] = ValidateAll;
+        }
+
+        private List<ValidationMessage> ValidateAll(ProfileFieldSetting model)
+        {
+            var message = new List<ValidationMessage>();
+           
+          
+            if (model.CreatedBy < 0)
+            {
+                message.Add(new ValidationMessage
+                {
+                    Property = "CreatedBy",
+                    Message = "CreatedBy is greter than zero"
+                });
+            }
+            return message;
+        }
+
+
+    }
+
 }

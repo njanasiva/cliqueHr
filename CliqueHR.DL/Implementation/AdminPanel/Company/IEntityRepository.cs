@@ -12,6 +12,7 @@ namespace CliqueHR.DL
         ApplicationResponse AddEntity(Entity model, string CompanyCode);
         ApplicationResponse UpdateEntity(Entity model, string CompanyCode);
         PaginationData<Entity> GetEntity(PaginationModel model, string CompanyCode);
+        List<Entity> GetEntity(string CompanyCode);
         Entity GetEntityById(int Id, string CompanyCode);
         string UpdateLogo(int EntityId, string Logo, string CompanyCode);
 
