@@ -4,10 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-<<<<<<< HEAD
-using System.Web;
-=======
->>>>>>> change
 
 namespace CliqueHR.BL
 {
@@ -23,9 +19,5 @@ namespace CliqueHR.BL
             }
             return path;
         }
-<<<<<<< HEAD
-       
-=======
->>>>>>> change
     }
 }

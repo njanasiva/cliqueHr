@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-<<<<<<< HEAD
 import { ApplicationVeriable } from 'src/Application/Types/Constants';
 import { EntityOrgunitTreeVM } from './common-model';
-=======
->>>>>>> change
 
 @Injectable()
 export class CommonService {
@@ -46,7 +43,6 @@ export class CommonService {
       }
     });
   }
-<<<<<<< HEAD
 
   /**
    * Logout
@@ -72,6 +68,4 @@ export class CommonService {
       });
   }
   
-=======
->>>>>>> change
 }

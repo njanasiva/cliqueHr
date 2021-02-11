@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Component, OnInit, Inject, ChangeDetectorRef, ViewContainerRef, ViewChild, AfterViewInit } from '@angular/core';
 import { WebComponents } from 'src/Application/Components/componenets.api';
 import { WebInterface, WebTokens } from 'src/Application/Types/types.api';
@@ -13,16 +12,12 @@ import { ValidationMessage } from '../../validation-message';
 import { Observer, Observable } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { ValidationBuilder } from 'src/Application/Utilitis/ApplicationUtility';
-=======
-import { Component, OnInit } from '@angular/core';
->>>>>>> change
 
 @Component({
   selector: 'app-employee-type',
   templateUrl: './employee-type.component.html',
   styleUrls: ['./employee-type.component.css']
 })
-<<<<<<< HEAD
 export class EmployeeTypeComponent extends WebComponents.ApplicationComponent implements OnInit, AfterViewInit {
   @ViewChild(UiDataTableComponent, { read: UiDataTableComponent, static: true })
   private uiDataTableComponent: UiDataTableComponent;
@@ -155,13 +150,6 @@ export class EmployeeTypeComponent extends WebComponents.ApplicationComponent im
         this.validationMessage = ValidationBuilder.build(error);
         this.uiSweetAlertService.ShowMultipleMessageAlert(this.validationMessage);
       });
-=======
-export class EmployeeTypeComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
->>>>>>> change
   }
 
 }

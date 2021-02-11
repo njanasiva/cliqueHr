@@ -1,14 +1,9 @@
 import { Component, OnInit, Output, Input, ContentChild, TemplateRef, EventEmitter, ViewChild, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { UiBaseComponent } from '../Common/ui-base-component';
 import { FormControl } from '@angular/forms';
-<<<<<<< HEAD
 import { UiLazySingleSelect, UiLazyLoadingData, UiLazyLoadingRequest } from '../ui-models';
 import { isNullOrUndefined } from 'util';
 import { filter, debounceTime, switchMap } from 'rxjs/operators';
-=======
-import { UiSingleselect, UiLazySingleSelect, UiLazyLoadingData, UiLazyLoadingRequest } from '../ui-models';
-import { isNullOrUndefined } from 'util';
->>>>>>> change
 
 
 @Component({
@@ -20,20 +15,11 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
 
   private displayText: string;
   public formControl: FormControl = new FormControl('');
-<<<<<<< HEAD
   @Output("FetchRequest")
   private fetchRequest: EventEmitter<UiLazyLoadingRequest> = new EventEmitter<UiLazyLoadingRequest>();
   @Output("OnChange")
   private onOptionSelect: EventEmitter<any> = new EventEmitter<any>();
   public selectedValue: any;
-=======
-  @Output("OnSelect")
-  private onSelect: EventEmitter<any> = new EventEmitter<any>();
-  @Output("FetchRequest")
-  private fetchRequest: EventEmitter<UiLazyLoadingRequest> = new EventEmitter<UiLazyLoadingRequest>();
-  @Input("Selected")
-  private selectedValue: any;
->>>>>>> change
   @Input('Configuration')
   public config: UiLazySingleSelect;
   public multiDdOpen: boolean = false;
@@ -41,13 +27,8 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
   private optionContainer: ViewContainerRef;
   private ActualOptions: any[] = [];
   private m_startIndex: number = 0;
-<<<<<<< HEAD
   private m_isLastRecord: boolean = false;
   private m_isLoading: boolean = false;
-=======
-  private m_isLastRecord: boolean = true;
-  private m_isLoading: boolean = true;
->>>>>>> change
 
   @ViewChild('options', { read: TemplateRef, static: true })
   optionsContent: TemplateRef<any>;
@@ -55,7 +36,6 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
     private changeDetection: ChangeDetectorRef
   ) {
     super();
-<<<<<<< HEAD
     this.formControl.valueChanges.
     pipe(
       switchMap(x => x == '' ? ' ': x),
@@ -72,11 +52,6 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
     if (!isNullOrUndefined(this.selectedValue)) {
       this.OnSelect(this.selectedValue);
     }
-=======
-  }
-
-  ngOnInit() {
->>>>>>> change
   }
   public toggleDdl(event) {
     event.stopPropagation();
@@ -90,22 +65,10 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
     }
   }
   private ConstructOptions(options: Array<any>) {
-<<<<<<< HEAD
-=======
-    this.optionContainer.clear();
->>>>>>> change
     this.changeDetection.detach();
     if (!isNullOrUndefined(options)) {
       let i = 0;
       for (let opt of options) {
-<<<<<<< HEAD
-=======
-        if (!isNullOrUndefined(this.selectedValue)) {
-          if (opt[this.ValueProperty] == this.selectedValue) {
-            this.OnSelect(opt);
-          }
-        }
->>>>>>> change
         this.optionContainer.createEmbeddedView(this.optionsContent,
           { $implicit: { index: i, data: opt } });
         i++;
@@ -119,7 +82,6 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
   private FetchRecord(event: any) {
     if (!this.m_isLastRecord && !this.m_isLoading && (((event.srcElement.scrollHeight - event.srcElement.offsetHeight) - 26) < event.srcElement.scrollTop))
     {
-<<<<<<< HEAD
       this.LoadOptions();
     }
   }
@@ -133,27 +95,12 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
       SerchText: this.formControl.value
     });
   }
-=======
-      this.m_isLoading = true;
-      let prevStartIndex = this.m_startIndex;
-      this.m_startIndex = this.m_startIndex + this.config.pageNo;
-      this.fetchRequest.emit({
-        StartIndex: (prevStartIndex + 1),
-        EndIndex: this.m_startIndex
-      });
-    }
-  }
->>>>>>> change
   public OnScroll(event: any) {
     this.FetchRecord(event);
   }
   public GenerateDropDown(value: UiLazyLoadingData) {
     if (!isNullOrUndefined(value) && !isNullOrUndefined(value.Data)) {
-<<<<<<< HEAD
       this.ActualOptions = this.ActualOptions.concat(value.Data);
-=======
-      this.ActualOptions.concat(value.Data);
->>>>>>> change
       if (this.ActualOptions.length == value.Total) {
         this.m_isLastRecord = true;
       }
@@ -164,7 +111,6 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
       this.m_isLoading = false;
     }
   }
-<<<<<<< HEAD
   public HideLoading() {
     this.m_isLoading = false;
   }
@@ -186,22 +132,6 @@ export class UiLazySingleSelectComponent extends UiBaseComponent implements OnIn
   public OnSelectEvent(data: any) {
     this.OnSelect(data);
     this.onOptionSelect.emit(data);
-=======
-  public ResetDropdown() {
-    this.m_isLastRecord = false;
-    this.ActualOptions = [];
-    this.m_isLoading = true;
-    this.m_startIndex = 0;
-  }
-  public SelectValue(text: string, value: any) {
-    this.displayText = text;
-    this.selectedValue = value;
-  }
-  public OnSelect(data: any) {
-    this.displayText = data[this.displayProperty];
-    this.selectedValue = data[this.ValueProperty];
-    this.onSelect.emit(data);
->>>>>>> change
   }
   public get DisplayText() {
     if (!isNullOrUndefined(this.displayText)) {

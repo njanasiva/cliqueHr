@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
-<<<<<<< HEAD
-=======
 using System.Web.Http.Cors;
->>>>>>> change
 
 namespace CliqueHR.Api
 {
@@ -15,11 +12,8 @@ namespace CliqueHR.Api
     {
         public static void Register(HttpConfiguration config)
         {
-<<<<<<< HEAD
-=======
             var cors = new EnableCorsAttribute("*", "*", "*"); // origins, headers, methods
             config.EnableCors(cors);
->>>>>>> change
             // Web API configuration and services
 
             // Web API routes
@@ -30,13 +24,8 @@ namespace CliqueHR.Api
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-<<<<<<< HEAD
-        
-    }
-=======
 
         }
->>>>>>> change
     }
 
 }

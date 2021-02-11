@@ -4,34 +4,22 @@ import { WebInterface, WebTokens } from 'src/Application/Types/types.api';
 import { Components } from 'src/Application/Types/Constants';
 import { WebAppModels } from 'src/Application/Models/models.api';
 import { CompanyComponent } from './Pages/company/company.component';
-<<<<<<< HEAD
 import { EmployeeComponent } from './Pages/employee/employee.component';
 import { isNullOrUndefined } from 'util';
 import { MasterComponent } from './Pages/master/master.component';
 import { EmployeeTypeComponent } from './Pages/master/Pages/employee-type/employee-type.component';
 import { RolesComponent } from './Pages/roles/roles.component';
 import { AppSetings } from 'src/Application/Loader/runtime-function';
-=======
-import { isNullOrUndefined } from 'util';
-import { MasterComponent } from './Pages/master/master.component';
-import { LifecycleComponent } from './Pages/lifecycle/lifecycle.component';
-import { EngagementComponent } from './Pages/engagement/engagement.component';
->>>>>>> change
 
 const tabData = {
   Hearder: [
     {
       Name: 'Company',
-<<<<<<< HEAD
       Path: import('./Pages/company/company.module'),
-=======
-      Component: CompanyComponent,
->>>>>>> change
       Selected:true,
       Icon: 'icon icon-business mr-2'
     },
     {
-<<<<<<< HEAD
       Name: 'Employee',
       Path: import('./Pages/employee/employee.module'),
       Selected:false,
@@ -40,31 +28,14 @@ const tabData = {
     {
       Name: 'Master',
       Path: import('./Pages/master/master.module'),
-=======
-      Name: 'Master',
-      Component: MasterComponent,
->>>>>>> change
       Selected:false,
       Icon: 'icon icon-manager mr-2'
     },
     {
-<<<<<<< HEAD
       Name: 'Roles',
       Path: import('./Pages/roles/roles.module'),
       Selected:false,
       Icon: 'icon icon-user-group mr-2'
-=======
-      Name: 'Life Cycle',
-      Component: LifecycleComponent,
-      Selected: false,
-      Icon: 'icon icon-user-group mr-2'
-    },
-    {
-      Name: 'Engagemant',
-      Component: EngagementComponent,
-      Selected: false,
-      Icon: 'icon icon-meeting mr-2'
->>>>>>> change
     }
   ]
 };
@@ -132,14 +103,8 @@ export class PanelLandingComponent extends WebComponents.ApplicationComponent im
     this.tabHeader.createEmbeddedView(this.tabItem, { $implicit: data });
   }
   private LoadContent(data: any) {
-<<<<<<< HEAD
     this.tabContent.clear();
     AppSetings.GetModuleFromImport(data.Path, this.tabContent);
-=======
-    let component = this.componentResolver.resolveComponentFactory(data.Component);
-    this.tabContent.clear();
-    this.tabContent.createComponent(component);
->>>>>>> change
   }
   public OnLeftItemSelect(index: number) {
     if(!this.tabData.Hearder[index].Selected){

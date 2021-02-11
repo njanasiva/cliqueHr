@@ -1,25 +1,15 @@
-<<<<<<< HEAD
 <div class="tab-pane fade show active" id="entity" role="tabpanel" aria-labelledby="entity-tab">
-=======
-<div class="tab-pane fade show active">
->>>>>>> change
     <div class="form-row align-items-end mb-3 pb-3 border-bottom">
         <div class="col-11">
             <h4 class="mb-0">Entity Details</h4>
         </div>
         <div class="col-1 text-right">
-<<<<<<< HEAD
             <div class="btn-more ml-auto shadow btn-custom" (click)="OnAddClick()" data-tooltip="tooltip"
                 data-placement="top" title="Add Entity">
-=======
-            <div class="btn-more ml-auto shadow btn-custom" data-toggle="modal" data-target="#addEntity"
-                data-tooltip="tooltip" data-placement="top" title="Add Entity">
->>>>>>> change
                 <i class="icon icon-plus-symbol h3 mb-0"></i>
             </div>
         </div>
     </div>
-<<<<<<< HEAD
     <div class="form-row">
         <div class="col-12 table-responsive mb-3">
             <lib-ui-data-table [Configuration]="restoGridConfig">
@@ -48,40 +38,6 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="exampleModalCenterTitle">{{isAddMode ? 'Add Entity' : 'Edit Entity'}}
                     </h4>
-=======
-
-
-    <lib-ui-data-table [Configuration]="restoGridConfig">
-        <ng-template let-data>
-            <tr>
-                <td class="text-nowrap">
-                    <div class="btn-more d-inline-block shadow btn-blue" data-tooltip="tooltip" 
-                        data-placement="top" title="" data-original-title="Edit Entity">
-                        <i class="icon icon-edit h3 mb-0"></i>
-                    </div>
-                </td>
-                <td class="text-nowrap">Entity - 1</td>
-                <td class="text-nowrap">ET-0098</td>
-                <td>Lokhandwala Complex, Andheri(E),Mumbai, India. 123456</td>
-                <td class="text-nowrap">www.google.com</td>
-                <td>Private</td>
-                <td class="text-nowrap">01-01-2020</td>
-                <td class="text-nowrap">XXXXX1234X</td>
-                <td class="text-nowrap">XXXX12345X</td>
-                <td class="text-nowrap">12XXXXX12345X1</td>
-                <td class="text-nowrap">XX/XXX/1234567/000/1234567</td>
-                <td class="text-nowrap">12-12-123456-000-1234</td>
-            </tr>
-        </ng-template>
-    </lib-ui-data-table>
-
-
-    <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addEntity" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-            <div class="modal-content border-0">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalCenterTitle">Add Entity</h4>
->>>>>>> change
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i class="icon icon-wrong"></i>
                     </button>
@@ -90,7 +46,6 @@
                     <div class="form-row form-fields">
                         <div class="col-md-3 mb-3">
                             <label class="h6 mb-1">
-<<<<<<< HEAD
                                 Entity Name
                             </label>
                             <lib-text-box [FormInput]="entityForm.get('Name')"
@@ -112,17 +67,6 @@
                                     <div class="error-message">{{validation}}</div>
                                 </ng-template>
                             </lib-text-box>
-=======
-                                Group Company Name
-                            </label>
-                            <input class="form-control" type="text" value="" placeholder="Enter Company Name">
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label class="h6 mb-1">
-                                Group Company Code
-                            </label>
-                            <input class="form-control" type="text" value="" placeholder="Enter Company Code">
->>>>>>> change
                         </div>
                     </div>
                     <div class="form-row form-fields">
@@ -130,7 +74,6 @@
                             <label class="h6 mb-1">
                                 Address
                             </label>
-<<<<<<< HEAD
                             <lib-text-area [FormInput]="entityForm.get('Address')"
                                 [ValidationMessages]="validationMassages.entityForm.Address"
                                 [Configuration]="{PlaceHolder:'Enter Address', Rows:4 }">
@@ -138,9 +81,6 @@
                                     <div class="error-message">{{validation}}</div>
                                 </ng-template>
                             </lib-text-area>
-=======
-                            <textarea class="form-control" rows="4" type="text" value="" placeholder="Enter Address"></textarea>
->>>>>>> change
                         </div>
                         <div class="col-md-6">
                             <div class="form-row form-fields">
@@ -148,66 +88,34 @@
                                     <label class="h6 mb-1">
                                         Country
                                     </label>
-<<<<<<< HEAD
                                     <lib-ui-single-select (OnSelect)="OnCountrySelect($event)"
                                         [Selected]="LocationData.CountryValue"
                                         [Configuration]="LocationData.CountryConfig"
                                         [Options]="LocationData.CountryList">
                                     </lib-ui-single-select>
-=======
-                                    <select class="form-control">
-                                        <option value="AL">India</option>
-                                        <option value="WY">Japan</option>
-                                        <option value="WY">USA</option>
-                                        <option value="WY">UK</option>
-                                        <option value="WY">China</option>
-                                    </select>
->>>>>>> change
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label class="h6 mb-1">
                                         State
                                     </label>
-<<<<<<< HEAD
                                     <lib-ui-single-select (OnSelect)="OnStateSelect($event)"
                                         [Selected]="LocationData.StateValue" [Configuration]="LocationData.StateConfig"
                                         [Options]="LocationData.StateList">
                                     </lib-ui-single-select>
-=======
-                                    <select class="form-control">
-                                        <option value="AL">Maharastra</option>
-                                        <option value="WY">Gujrat</option>
-                                        <option value="WY">Rajasthan</option>
-                                        <option value="WY">Madhya Pradesh</option>
-                                        <option value="WY">Uttar Pradesh</option>
-                                    </select>
->>>>>>> change
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <label class="h6 mb-1">
                                         City
                                     </label>
-<<<<<<< HEAD
                                     <lib-ui-single-select (OnSelect)="OnCitySelect($event)"
                                         [Selected]="LocationData.CityValue" [Configuration]="LocationData.CityConfig"
                                         [Options]="LocationData.CityList">
                                     </lib-ui-single-select>
-=======
-                                    <select class="form-control">
-                                        <option value="AL">Mumbai</option>
-                                        <option value="WY">Delhi</option>
-                                        <option value="WY">Ahmedabad</option>
-                                        <option value="WY">Hydrabad</option>
-                                        <option value="WY">Pune</option>
-                                        <option value="WY">Chennai</option>
-                                    </select>
->>>>>>> change
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="h6 mb-1">
                                         Pin Code
                                     </label>
-<<<<<<< HEAD
                                     <lib-text-box [FormInput]="entityForm.get('PinCode')"
                                         [ValidationMessages]="validationMassages.entityForm.PinCode"
                                         [Configuration]="{PlaceHolder:'Enter Pin Code', isNumeric:true}">
@@ -215,9 +123,6 @@
                                             <div class="error-message">{{validation}}</div>
                                         </ng-template>
                                     </lib-text-box>
-=======
-                                    <input class="form-control" type="text" value="397891">
->>>>>>> change
                                 </div>
                             </div>
                         </div>
@@ -227,39 +132,26 @@
                             <label class="h6 mb-1">
                                 Company Type
                             </label>
-<<<<<<< HEAD
                             <lib-drop-down [FormInput]="entityForm.get('TypeId')" [Configuration]='{}'>
                                 <ng-template let-selectedvalue #options>
                                     <option *ngFor="let ctype of CompanyType" [selected]="selectedvalue == ctype.TypeId"
                                         [value]="ctype.TypeId">{{ctype.Name}}</option>
                                 </ng-template>
                             </lib-drop-down>
-=======
-                            <select class="form-control">
-                                <option value="AL" selected="">Private</option>
-                                <option value="WY">PSU</option>
-                                <option value="WY">Government</option>
-                            </select>
->>>>>>> change
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="h6 mb-1">
                                 Incorporation Date
                             </label>
-<<<<<<< HEAD
                             <lib-ui-datepicker [Configuration]="incorporationDateConfig"
                                 [FormInput]="entityForm.get('IncorporationDate')">
                             </lib-ui-datepicker>
                             <div class="error-message">{{DateValidation}}</div>
-=======
-                            <input class="form-control custom_date_picker" size="16" type="text" value="02 Oct 2020">
->>>>>>> change
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="h6 mb-1">
                                 Contact No.
                             </label>
-<<<<<<< HEAD
                             <lib-text-box [FormInput]="entityForm.get('ContcatNo')"
                                 [ValidationMessages]="validationMassages.entityForm.ContcatNo"
                                 [Configuration]="{PlaceHolder:'Enter Contact number...', isNumeric:true}">
@@ -267,15 +159,11 @@
                                     <div class="error-message">{{validation}}</div>
                                 </ng-template>
                             </lib-text-box>
-=======
-                            <input class="form-control" type="text" value="" placeholder="Enter Contact number...">
->>>>>>> change
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="h6 mb-1">
                                 Website
                             </label>
-<<<<<<< HEAD
                             <lib-text-box [FormInput]="entityForm.get('WebSite')"
                                 [ValidationMessages]="validationMassages.entityForm.WebSite"
                                 [Configuration]="{PlaceHolder:'Enter Website...'}">
@@ -283,9 +171,6 @@
                                     <div class="error-message">{{validation}}</div>
                                 </ng-template>
                             </lib-text-box>
-=======
-                            <input class="form-control" type="text" value="" placeholder="Enter Website...">
->>>>>>> change
                         </div>
                     </div>
                     <div class="form-row form-fields">
@@ -293,104 +178,70 @@
                             <label class="h6 mb-1">
                                 PAN
                             </label>
-<<<<<<< HEAD
                             <lib-text-box [FormInput]="entityForm.get('PAN')"
                                 [Configuration]="{PlaceHolder:'Enter PAN'}">
                                 <ng-template let-validation>
                                     <div class="error-message">{{validation}}</div>
                                 </ng-template>
                             </lib-text-box>
-=======
-                            <input class="form-control" type="text" value="" placeholder="Enter PAN">
->>>>>>> change
                         </div>
                         <div class="col-md-2 mb-3">
                             <label class="h6 mb-1">
                                 TAN
                             </label>
-<<<<<<< HEAD
                             <lib-text-box [FormInput]="entityForm.get('TAN')"
                                 [Configuration]="{PlaceHolder:'Enter TAN'}">
                                 <ng-template let-validation>
                                     <div class="error-message">{{validation}}</div>
                                 </ng-template>
                             </lib-text-box>
-=======
-                            <input class="form-control" type="text" value="" placeholder="Enter TAN">
->>>>>>> change
                         </div>
                         <div class="col-md-2 mb-3">
                             <label class="h6 mb-1">
                                 GSTIN
                             </label>
-<<<<<<< HEAD
                             <lib-text-box [FormInput]="entityForm.get('GSTIN')"
                                 [Configuration]="{PlaceHolder:'Enter GSTIN'}">
                                 <ng-template let-validation>
                                     <div class="error-message">{{validation}}</div>
                                 </ng-template>
                             </lib-text-box>
-=======
-                            <input class="form-control" type="text" value="" placeholder="Enter GSTIN">
->>>>>>> change
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="h6 mb-1">
                                 PF
                             </label>
-<<<<<<< HEAD
                             <lib-text-box [FormInput]="entityForm.get('PF')" [Configuration]="{PlaceHolder:'Enter PF'}">
                                 <ng-template let-validation>
                                     <div class="error-message">{{validation}}</div>
                                 </ng-template>
                             </lib-text-box>
-=======
-                            <input class="form-control" type="text" value="" placeholder="Enter PF">
->>>>>>> change
                         </div>
                         <div class="col-md-3 mb-3">
                             <label class="h6 mb-1">
                                 ESIC
                             </label>
-<<<<<<< HEAD
                             <lib-text-box [FormInput]="entityForm.get('ESIC')"
                                 [Configuration]="{PlaceHolder:'Enter ESIC'}">
                                 <ng-template let-validation>
                                     <div class="error-message">{{validation}}</div>
                                 </ng-template>
                             </lib-text-box>
-=======
-                            <input class="form-control" type="text" value="" placeholder="Enter ESIC">
->>>>>>> change
                         </div>
                     </div>
                     <div class="form-row form-fields">
                         <div class="col-md-12">
-<<<<<<< HEAD
                             <div class="form-row align-items-center">
                                 <div class="col-3">
                                     <div class="custom-file custom-file-btn btn btn-custom">
                                         <input type="file" (change)="SelectImage($event)" class="custom-file-input">
                                         <span class="mb-0" for="customFile">{{editData.Logo && editData.Logo != '' ? 'Change Logo' : 'Add Logo'}}</span>
-=======
-                            <label class="h6 mb-1">
-                                Add Proof
-                            </label>
-                            <div class="form-row align-items-center">
-                                <div class="col-3">
-                                    <div class="custom-file custom-file-btn btn btn-custom">
-                                        <input type="file" class="custom-file-input">
-                                        <span class="mb-0" for="customFile">Add Logo</span>
->>>>>>> change
                                     </div>
                                 </div>
                                 <div class="col-9">
                                     <div class="h5 d-block file-name text-break mb-2"></div>
                                 </div>
-<<<<<<< HEAD
                                 <div class="error-message">{{fileValidations}}</div>
-=======
->>>>>>> change
                                 <div class="col-12 mt-2">
                                     <div class="text-small d-block text-danger text-break mb-0">
                                         Note: Only JPG, PNG and GIF files are allowed.
@@ -403,21 +254,12 @@
                 <div class="modal-footer">
                     <div class="d-inline-block mr-5">
                         <div class="custom-control custom-checkbox">
-<<<<<<< HEAD
                             <input type="checkbox" name="gender" id="dnu" class="custom-control-input" [formControl]="entityForm.get('IsDoNotUse')">
-=======
-                            <input type="checkbox" name="gender" id="dnu" class="custom-control-input" 
-                                value="male" checked="">
->>>>>>> change
                             <label class="custom-control-label h5 pl-2" for="dnu">Do Not Use</label>
                         </div>
                     </div>
                     <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
-<<<<<<< HEAD
                     <button type="button" (click)="isAddMode? OnAddEntity() : OnEditEntity()" class="btn btn-custom px-4 py-2">{{isAddMode ? 'Add' : 'Edit'}}</button>
-=======
-                    <button type="button" class="btn btn-custom px-4 py-2">Add</button>
->>>>>>> change
                 </div>
             </div>
         </div>

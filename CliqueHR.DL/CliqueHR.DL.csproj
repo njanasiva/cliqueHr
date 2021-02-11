@@ -33,14 +33,7 @@
   <ItemGroup>
     <Reference Include="CliqueHR.Helpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-<<<<<<< HEAD
       <HintPath>bin\Debug\CliqueHR.Helpers.dll</HintPath>
-=======
-      <HintPath>..\References\CliqueHR.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
->>>>>>> change
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="AdminPanel\Company\AutoNumberingRepository.cs" />
     <Compile Include="AdminPanel\Company\DepartmentRepository.cs" />
     <Compile Include="AdminPanel\Employee\EmployeeGroupRepository.cs" />
@@ -92,19 +84,6 @@
     <Compile Include="Implementation\Common\ICommonRepository.cs" />
     <Compile Include="Implementation\Employee\EmployeeCreation\IEmployeeCreationRepository.cs" />
     <Compile Include="Implementation\ITestRepository.cs" />
-=======
-    <Compile Include="AdminPanel\Company\EntityRepository.cs" />
-    <Compile Include="AdminPanel\Engagement\EngagementRepository.cs" />
-    <Compile Include="AdminPanel\HelpDesk\HelpDeskRepository.cs" />
-    <Compile Include="AdminPanel\LifeCycle\LifeCycleRepository.cs" />
-    <Compile Include="Common\CommonRepository.cs" />
-    <Compile Include="Helper\CliqueHRExtensions.cs" />
-    <Compile Include="Implementation\AdminPanel\Company\IEntityRepository.cs" />
-    <Compile Include="Implementation\AdminPanel\Engagement\IEngagementRepository.cs" />
-    <Compile Include="Implementation\AdminPanel\HelpDesk\IHelpDeskRepository.cs" />
-    <Compile Include="Implementation\AdminPanel\LifeCycle\ILifeCycleRepository.cs" />
-    <Compile Include="Implementation\Common\ICommonRepository.cs" />
->>>>>>> change
     <Compile Include="Implementation\AdminPanel\Masters\IQualificationRepository.cs" />
     <Compile Include="AdminPanel\Masters\QualificationRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,16 +94,6 @@
       <Name>CliqueHR.Common</Name>
     </ProjectReference>
   </ItemGroup>
-<<<<<<< HEAD
   <ItemGroup />
-=======
-  <ItemGroup>
-    <Folder Include="AdminPanel\Employee\" />
-    <Folder Include="Implementation\AdminPanel\Employee\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
->>>>>>> change
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

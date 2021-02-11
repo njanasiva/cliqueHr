@@ -9,7 +9,6 @@ import { LifeCycleService } from 'src/app/landing/Modules/admin-panel/admin-pane
 import { Components } from 'src/Application/Types/Constants';
 import { isNullOrUndefined } from 'util';
 import { forkJoin, Observable, of } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UiSweetAlertService } from 'projects/clique-hrui/src/public-api';
 import { ValidationBuilder } from 'src/Application/Utilitis/ApplicationUtility';

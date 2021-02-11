@@ -36,12 +36,8 @@
               "src/assets/js/bootstrap/bootstrap.min.js",
               "src/assets/js/bootstrap/moment.min.js",
               "src/assets/js/plugins/sweetalert.min.js",
-<<<<<<< HEAD
               "src/assets/js/phoenix-main.js",
               "node_modules/systemjs/dist/system.src.js"
-=======
-              "src/assets/js/phoenix-main.js"
->>>>>>> change
             ]
           },
           "configurations": {

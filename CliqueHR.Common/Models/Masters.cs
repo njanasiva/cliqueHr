@@ -22,16 +22,12 @@ namespace CliqueHR.Common.Models
         public int Id { get; set; }
         public int CurrencyId { get; set; }
         public string CurrencyCode { get; set; }
-<<<<<<< HEAD
         public string CurrencyDesc { get; set; }
-=======
->>>>>>> change
         public bool IsDefault { get; set; }
         public bool IsDoNotUse { get; set; }
         public int CreatedBy { get; set; }
         public string CreatedDate { get; set; }
     }
-<<<<<<< HEAD
     public class Location
     {
         public int Id { get; set; }
@@ -52,8 +48,6 @@ namespace CliqueHR.Common.Models
         public int CreatedBy { get; set; }
         public string CreatedDate { get; set; }
     }
-=======
->>>>>>> change
     public class CurrencyMappingValidation : AbstractValidator<CurrancyMapping>
     {
         public static readonly string ValidateAll_key = "ValidateAll_key";
@@ -99,7 +93,6 @@ namespace CliqueHR.Common.Models
         }
     }
 
-<<<<<<< HEAD
     public class LocationValidation :AbstractValidator<Location>
     {
         public static readonly string ValidateAll_key = "ValidateAll_key";
@@ -179,6 +172,4 @@ namespace CliqueHR.Common.Models
         }
     }
 
-=======
->>>>>>> change
 }

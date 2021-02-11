@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-<<<<<<< HEAD
 import { GroupCompany, SecuritySettings, Entity, AutoNumbering, OrgUnits, Department } from './company-model';
 import { WebInterface } from 'src/Application/Types/types.api';
 import { PageSettings, PageSettingImages } from '../master/master-model';
 import { isNullOrUndefined } from 'util';
 import { EntityOrgunitTreeVM } from 'src/app/landing/Modules/common-model';
-=======
-import { GroupCompany, SecuritySettings } from './company-model';
->>>>>>> change
 
 @Injectable()
 export class CompanyService {
@@ -26,7 +22,6 @@ export class CompanyService {
   public GetGroupCompany() {
     return this.httpClient.get<GroupCompany>(environment.api_baseurl + "api/GroupCompany/GetGroupCompany");
   }
-<<<<<<< HEAD
   public AddUpdateGroupCompany(model: GroupCompany) {
     return this.httpClient.post(environment.api_baseurl + "api/GroupCompany/AddUpdateGroupCompany", model);
   }
@@ -152,9 +147,4 @@ export class CompanyService {
   public GetDepartmentCode() {
     return this.httpClient.get(environment.api_baseurl + "api/Department/GetDepartmentCode");
   }
-=======
-  public AddUpdateGroupCompany(model:GroupCompany) {
-    return this.httpClient.post(environment.api_baseurl + "api/GroupCompany/AddUpdateGroupCompany", model);
-  }
->>>>>>> change
 }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Subject, Subscription } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import * as CliqueHRInterface from './AppInterface';
@@ -6,12 +5,6 @@ import { Renderer2, ComponentFactoryResolver, TemplateRef, ViewContainerRef, Typ
 import { WebInterface } from './AppInterface';
 import { ParentNodeComponent } from '../Components/application-single-tree-dropdown/parent-node/parent-node.component';
 import { ChildNodeComponent } from '../Components/application-single-tree-dropdown/child-node/child-node.component';
-=======
-import { Subject } from 'rxjs';
-import { isNullOrUndefined } from 'util';
-import * as CliqueHRInterface from './AppInterface';
-import { Renderer2, ComponentFactoryResolver } from '@angular/core';
->>>>>>> change
 
 export const rendererService = 'renderer';
 export const componentFactoryService = 'componentFactory';
@@ -59,7 +52,6 @@ export namespace WebAppService {
             }
         }
     }
-<<<<<<< HEAD
 
     export abstract class BaseTreeDropdown implements OnDestroy {
         protected abstract data: any;
@@ -207,6 +199,4 @@ export namespace WebAppService {
             this.cd.markForCheck();
         }
     }
-=======
->>>>>>> change
 }

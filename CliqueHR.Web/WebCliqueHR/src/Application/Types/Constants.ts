@@ -1,18 +1,13 @@
 export class ApplicationVeriable {
-<<<<<<< HEAD
     public static AuthTokenKey: string = '**clhrtkn**';
     public static RefreshTokenKey: string = '**clhrrtkn**';
     public static AccessFactorKey: string = '**clhraf**';
     public static InvalidRefreshTokenError: string = 'invalid_grant';
-=======
-    public static AuthTokenKey: string = '';
->>>>>>> change
 }
 export class ValidationType {
     public static required: string = "required";
     public static minlength: string = "minlength";
     public static maxlength: string = "maxlength";
-<<<<<<< HEAD
     public static min: string = "min";
     public static max: string = "max";
     public static pattern: string = "pattern";
@@ -28,11 +23,6 @@ export class FileType{
     public static PNG = "image/png";
     public static GIF = "image/gif";
     public static PDF = "application/pdf";
-=======
-    public static pattern: string = "pattern";
-    public static valueMismatch: string = "valueMismatch";
-    public static email: string = "email";
->>>>>>> change
 }
 export class Components {
     public static LandingComponent = "LandingComponent";
@@ -47,8 +37,13 @@ export class Components {
     public static SecuritySettingsComponent = "SecuritySettingsComponent";
     public static QualificationComponent = "QualificationComponent";
     public static CurrencyComponent = "CurrencyComponent";
-<<<<<<< HEAD
     public static CenterTypeComponent = "CenterTypeComponent";
+    public static SeperationComponent = "SeperationComponent";
+    public static ConfirmationComponent = "ConfirmationComponent";
+    public static SettingsComponent = "SettingsComponent";
+    public static MovementComponent = "MovementComponent";
+    public static ExitinterviewComponent = "ExitinterviewComponent";
+    public static LifecycleComponent = "LifecycleComponent";
     public static EmployeeTypeComponent = "EmployeeTypeComponent";
     public static AutoNumberingComponent = "AutoNumberingComponent";
     public static GradeComponent = "GradeComponent";
@@ -59,15 +54,6 @@ export class Components {
     public static OrgUnitsComponent = "OrgUnitsComponent";
     public static DepartmentsComponent = "DepartmentsComponent";
     public static DesignationComponent = "DesignationComponent";
-=======
-    public static LifecycleComponent = "LifecycleComponent";
-    public static ConfirmationComponent = "ConfirmationComponent";
-    public static SeperationComponent = "SeperationComponent";
-    public static MovementComponent = "MovementComponent";
-    public static ExitinterviewComponent = "ExitinterviewComponent";
-    public static SettingsComponent = "SettingsComponent";
-    public static SurveyComponent = "SurveyComponent";
->>>>>>> change
 }
 
 export class Dashboard {

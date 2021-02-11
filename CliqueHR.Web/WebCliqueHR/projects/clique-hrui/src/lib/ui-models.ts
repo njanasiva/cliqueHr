@@ -19,11 +19,7 @@ export interface UiDatepicker extends UiConfig {
     max?: any;
     min?: any;
     disabled?: boolean;
-<<<<<<< HEAD
     placeholder?: string;
-=======
-    plcaeholder?: string;
->>>>>>> change
     ReturnDateFormat?: DateFormat;
 }
 export interface UiMultiselect extends UiConfig {
@@ -33,24 +29,10 @@ export interface UiDropdownTemplate extends UiConfig {
     Placeholder?: string;
     HideSearch: boolean;
 }
-<<<<<<< HEAD
 export interface UiSingleselect extends UiConfig {
     Placeholder?: string;
     DisplayProperty:string;
     ValueProperty?:string;
-=======
-export class UiMultiSelectOutPut {
-    selectedItem: UiMultiselectData;
-    selectedValues: string;
-    placeHolderText: string;
-}
-
-export class UiMultiselectData {
-    Text:string;
-    Value:number;
-    isDisabled:boolean;
-    isCheckBoxSelected:boolean;
->>>>>>> change
 }
 export interface UiLazySingleSelect extends UiSingleselect {
     pageNo: number;
@@ -64,21 +46,6 @@ export interface UiLazyLoadingRequest{
     EndIndex: number;
     SerchText?: string;
 }
-<<<<<<< HEAD
-=======
-export class UiMultiSelectOptions{
-    OptionType:string;
-    Data: Array<UiMultiselectData>;
-    ControlId:string;
-    SelectedValues:string;
-}
-
-export interface UiSingleselect extends UiConfig {
-    Placeholder?: string;
-    DisplayProperty:string;
-    ValueProperty?:string;
-}
->>>>>>> change
 export interface UiDataTableConfig extends UiConfig {
     Pagination?: boolean;
     PaginationPageSize?: number;
@@ -99,6 +66,12 @@ export interface RequestParam {
     Sort: SortType;
     searchText: string;
 }
+export class UiMultiselectData {
+    Text:string;
+    Value:number;
+    isDisabled:boolean;
+    isCheckBoxSelected:boolean;
+}
 export interface SortType {
     fieldId: string;
     direction: string;
@@ -106,4 +79,15 @@ export interface SortType {
 export enum DateFormat {
     STRING = 0,
     DATE_OBJECT
+}
+export class UiMultiSelectOutPut {
+    selectedItem: UiMultiselectData;
+    selectedValues: string;
+    placeHolderText: string;
+}
+export class UiMultiSelectOptions{
+    OptionType:string;
+    Data: Array<UiMultiselectData>;
+    ControlId:string;
+    SelectedValues:string;
 }

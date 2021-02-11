@@ -39,11 +39,6 @@ export abstract class GroupCompanyBase {
         disabled: !this.isEditable,
         max: GetDateInString(new Date())
     }
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> change
     constructor(formGroup: FormGroup) {
         this.formGroup = formGroup;
     }
@@ -113,7 +108,6 @@ export class EditGroupCompany extends GroupCompanyBase {
         this.m_isSaveActivated = true;
         this.ExecuteReadonlyStrategy();
     }
-<<<<<<< HEAD
 }
 
 export class Entity {
@@ -250,6 +244,4 @@ export class Department {
     public ParentUnit: string;
     public HODId: number;
     public IsDoNotUse: boolean;
-=======
->>>>>>> change
 }

@@ -21,10 +21,7 @@
     "@angular/router": "~8.2.3",
     "ng2-date-picker": "^10.0.1",
     "rxjs": "~6.4.0",
-<<<<<<< HEAD
     "systemjs": "^0.21.5",
-=======
->>>>>>> change
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },

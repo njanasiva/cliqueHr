@@ -66,10 +66,7 @@ export class QualificationComponent extends WebComponents.ApplicationComponent i
     this.CreateLoaction();
   }
   public ngAfterViewInit(): void {
-<<<<<<< HEAD
     super.ngAfterViewInit();
-=======
->>>>>>> change
     //CourceType
     this.SubjectDestroy.push(
       this.uiDataTableComponent.toArray()[0].fetchObs.subscribe(x => {

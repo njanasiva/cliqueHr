@@ -27,11 +27,7 @@
                 </span>
                 <input class="c-input form-control ng-pristine ng-valid ng-touched" style="box-shadow: none;" type="text" [formControl]="formControl" placeholder="Search" />
             </div>
-<<<<<<< HEAD
             <div id="closable-sec" (scroll)="OnScroll($event)" style="overflow: auto; max-height: 250px;">
-=======
-            <div id="closable-sec" (scroll)="OnScroll($event)" style="overflow: auto; max-height: 300px;">
->>>>>>> change
                 <ul class="lazyContainer">
                     <ng-container #optioncnt>
                     </ng-container>
@@ -41,11 +37,7 @@
     </div>
 </div>
 <ng-template let-data #options>
-<<<<<<< HEAD
     <li (click)="OnSelectEvent(data.data)"class="pure-checkbox padding-left-10">
-=======
-    <li (click)="OnSelect(data.data)"class="pure-checkbox padding-left-10">
->>>>>>> change
         <label>{{data.data[displayProperty]}}</label>
     </li>
 </ng-template>

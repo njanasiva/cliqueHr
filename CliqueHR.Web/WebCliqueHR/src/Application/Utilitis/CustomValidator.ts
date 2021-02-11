@@ -23,7 +23,6 @@ export class CustomValidator {
 
         }
     }
-<<<<<<< HEAD
     public static MinMaxControlValue(source: string, destination: string) {
         return (formGroup: FormGroup) => {
             const sourceControl = formGroup.controls[source];
@@ -44,8 +43,6 @@ export class CustomValidator {
 
         }
     }
-=======
->>>>>>> change
     public static DropdownValidation(control: AbstractControl) {
         if (control.value == '' || control.value == '0' || control.value == 'select') {
             return { required: true };

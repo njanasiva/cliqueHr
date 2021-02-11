@@ -8,7 +8,6 @@ namespace CliqueHR.Common.Models
 {
     public class UserContextModel
     {
-<<<<<<< HEAD
         public int EmployeeId { get; set; }
         public int EntityId { get; set; }
         public string CompanyCode { get; set; }
@@ -16,9 +15,5 @@ namespace CliqueHR.Common.Models
         public long EmployeeGeneralInfoTimeStamp { get; set; }
         public int EntityTimeStamp { get; set; }
         public string AccessParameters { get; set; }
-=======
-        public int UserID { get; set; }
-        public string CompanyCode { get; set; }
->>>>>>> change
     }
 }

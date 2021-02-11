@@ -9,7 +9,6 @@ import { AppCodeDirective } from 'src/Application/Directives/app-code.directive'
 import { CliqueHRUiModule, UiSweetAlertService } from 'projects/clique-hrui/src/public-api';
 import { DpDatePickerModule } from "ng2-date-picker";
 import { ApplicationLoaderComponent } from 'src/Application/Components/application-loader/application-loader.component';
-<<<<<<< HEAD
 import { SecureimageDirective } from 'src/Application/Directives/secureimage.directive';
 import { ApplicationMultiselectComponent } from 'src/Application/Components/application-multiselect/application-multiselect.component';
 import { ApplicationMultiTreeDropdownComponent } from 'src/Application/Components/application-multi-tree-dropdown/application-multi-tree-dropdown.component';
@@ -21,14 +20,11 @@ import { MChildNodeComponent } from 'src/Application/Components/application-mult
 import { ApplicationEmpSingleDDComponent } from 'src/Application/Components/application-emp-single-dd/application-emp-single-dd.component';
 import { ApplicationBreadCrumbComponent } from 'src/Application/Components/application-bread-crumb/application-bread-crumb.component';
 import { ApplicationTabComponent } from 'src/Application/Components/application-tab/application-tab.component';
-=======
->>>>>>> change
 
 
 @NgModule({
   declarations: [
     UsecimageDirective,
-<<<<<<< HEAD
     SecureimageDirective,
     AppCodeDirective,
     ApplicationLoaderComponent,
@@ -41,11 +37,6 @@ import { ApplicationTabComponent } from 'src/Application/Components/application-
     MChildNodeComponent,
     ApplicationEmpSingleDDComponent,
     ApplicationTabComponent,
-=======
-    UsecimageDirective,
-    AppCodeDirective,
-    ApplicationLoaderComponent
->>>>>>> change
   ],
   imports: [
     CommonModule,
@@ -61,7 +52,6 @@ import { ApplicationTabComponent } from 'src/Application/Components/application-
     ReactiveFormsModule,
     HttpClientModule,
     UsecimageDirective,
-<<<<<<< HEAD
     SecureimageDirective,
     AppCodeDirective,
     ApplicationLoaderComponent,
@@ -83,16 +73,6 @@ import { ApplicationTabComponent } from 'src/Application/Components/application-
     ChildNodeComponent,
     MParentNodeComponent,
     MChildNodeComponent
-=======
-    UsecimageDirective,
-    AppCodeDirective,
-    ApplicationLoaderComponent,
-    CliqueHRUiModule,
-    DpDatePickerModule
-  ],
-  entryComponents:[
-    ApplicationLoaderComponent
->>>>>>> change
   ],
   providers:[
     UiSweetAlertService

@@ -6,13 +6,10 @@ import { GroupCompanyComponent } from './Pages/group-company/group-company.compo
 import { WebAppModels } from 'src/Application/Models/models.api';
 import { EntityComponent } from './Pages/entity/entity.component';
 import { SecuritySettingsComponent } from './Pages/security-settings/security-settings.component';
-<<<<<<< HEAD
 import { AutoNumberingComponent } from './Pages/auto-numbering/auto-numbering.component';
 import { PageSettingsComponent } from './Pages/page-settings/page-settings.component';
 import { OrgUnitsComponent } from './Pages/org-units/org-units.component';
 import { DepartmentsComponent } from './Pages/departments/departments.component';
-=======
->>>>>>> change
 
 const tabData:WebAppModels.TabData= {
   Hearder: [
@@ -27,7 +24,6 @@ const tabData:WebAppModels.TabData= {
       Selected:false
     },
     {
-<<<<<<< HEAD
       Name: 'Org Units',
       Component: OrgUnitsComponent,
       Selected:false
@@ -51,11 +47,6 @@ const tabData:WebAppModels.TabData= {
       Name: 'Auto Numbering',
       Component: AutoNumberingComponent,
       Selected:false
-=======
-      Name: 'Security Settings',
-      Component: SecuritySettingsComponent,
-      Selected:false
->>>>>>> change
     }
   ]
 }

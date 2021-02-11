@@ -1,41 +1,8 @@
 $(document).ready(function () {
-<<<<<<< HEAD
     buttonRipple();
     $('.carousel').carousel('pause');
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-tooltip="tooltip"]').tooltip();
-=======
-    if (document.fullscreenEnabled) {
-        var fullScreen = document.getElementById("fullScreen");
-        fullScreen.addEventListener("click", function (event) {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-            } else {
-                document.exitFullscreen();
-            }
-        }, false);
-        // document.addEventListener("fullscreenchange", function (event) {
-        //     console.log(event);
-        //     if (!document.fullscreenElement) {
-        //         fullScreen.innerText = "Activate fullscreen";
-        //     } else {
-        //         fullScreen.innerText = "Exit fullscreen";
-        //     }
-        // });
-        document.addEventListener("fullscreenerror", function (event) {
-            console.log(event);
-        });
-    }
-    
-
-    buttonRipple();
-    $('.carousel').carousel('pause');
-    $('[data-toggle="tooltip"]').tooltip();
-    $('[data-tooltip="tooltip"]').tooltip()
-    $('[data-toggle="popover"]').popover({
-        trigger: 'focus'
-    });
->>>>>>> change
 
     $(".image-list > .image-item").click(function(){
         $(this).parent().find(".selected-image").removeClass("selected-image");
@@ -81,58 +48,6 @@ $(document).ready(function () {
     // $('link[rel=stylesheet][href="css/phoenix-theme.css"]').remove();
     // $('head').append('<link rel="stylesheet" href="css/phoenix-dark-theme.css" type="text/css" />');
 
-<<<<<<< HEAD
-=======
-    $(".multiple-select").multiselect({
-        //buttonContainer: '<div class="mt-1"></div>',
-        includeSelectAllOption: true,
-        selectAllText: 'Select All',
-        enableFiltering: true,
-        buttonWidth: '100%',
-        numberDisplayed: 2,
-        enableCaseInsensitiveFiltering: true,
-        // templates: { // Use the Awesome Bootstrap Checkbox structure
-        //     li: '<li class="checkList"><a tabindex="0"><div class="aweCheckbox aweCheckbox-danger"><label for=""></label></div></a></li>'
-        // }
-    });
-    $(".single-select").multiselect({
-        //buttonContainer: '<div class="mt-1"></div>',
-        includeSelectAllOption: true,
-        selectAllText: 'Select All',
-        enableFiltering: true,
-        buttonWidth: '100%',
-        numberDisplayed: 2,
-        enableCaseInsensitiveFiltering: true
-    });
-
-    $('.multiselect-tree').multiselect({
-        selectAllText: 'Select All',
-        enableFiltering: true,
-        numberDisplayed: 2,
-        buttonWidth: '100%'
-    });
-    var optgroups = [
-        {
-            label: 'Group 1', children: [
-                {label: 'Option 1.1', value: '1-1', selected: true},
-                {label: 'Option 1.2', value: '1-2'},
-                {label: 'Option 1.3', value: '1-3'}
-            ]
-        },
-        {
-            label: 'Group 2', children: [
-                {label: 'Option 2.1', value: '1'},
-                {label: 'Option 2.2', value: '2'},
-                {label: 'Option 2.3', children: [
-                    {label: 'Option 2.3.1', value: '2-1'},
-                    {label: 'Option 2.3.2', value: '2-2'}
-                ]}
-            ]
-        }
-    ];
-    $('.multiselect-tree').multiselect('dataprovider', optgroups);
-
->>>>>>> change
     /* menu open close wrapper screen click close menu */
     $('.menu-btn').on('click', function (e) {
         e.stopPropagation();
@@ -196,102 +111,9 @@ $(document).ready(function () {
             }
         }
     });
-<<<<<<< HEAD
     
 });
 
-=======
-
-    /* Telphone Number JS */
-
-    // var telInput = $(".phone-number");
-    // // initialise plugin
-    // telInput.intlTelInput({
-
-    //     allowExtensions: true,
-    //     formatOnDisplay: true,
-    //     autoFormat: true,
-    //     autoHideDialCode: true,
-    //     autoPlaceholder: true,
-    //     defaultCountry: "in",
-    //     ipinfoToken: "yolo",
-
-    //     nationalMode: false,
-    //     numberType: "MOBILE",
-    //     //onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-    //     preferredCountries: ['in', 'ae', 'qa','om','bh','kw','ma'],
-    //     preventInvalidNumbers: true,
-    //     separateDialCode: true,
-    //     initialCountry: "auto",
-    //     geoIpLookup: function(callback) {
-    //         $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
-    //             var countryCode = (resp && resp.country) ? resp.country : "";
-    //             callback(countryCode);
-    //         });
-    //     },
-    //     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/js/utils.js"
-    // });
-    // var reset = function() {
-    //     telInput.removeClass("error");
-    // };
-    // // on keyup / change flag: reset
-    // telInput.on("keyup change", reset);
-
-
-    var telInput = $(".phone-number");
-    // initialise plugin
-    telInput.intlTelInput({
-        separateDialCode: true,
-        defaultCountry: "in",
-        initialCountry: "in",
-        preferredCountries: ['in','us', 'gb', 'ch', 'ca', 'do'],
-        // Note that the callback must still be called in the event of an error, hence the use of always in this example. Tip: store the result in a cookie to avoid repeat lookups!
-        // initialCountry: "auto", 
-        // geoIpLookup: function(success, failure) {
-        //     $.get("https://ipinfo.io", function() {}, "jsonp").always(function(resp) {
-        //     var countryCode = (resp && resp.country) ? resp.country : "us";
-        //     success(countryCode);
-        //     });
-        // },
-        utilsScript:"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.4/js/utils.js"
-    });
-        
-    var reset = function() {
-        telInput.removeClass("error");
-    };
-        
-    // on keyup / change flag: reset
-    telInput.on("keyup change", reset);
-});
-
-
-function colorPicker(){
-    var colorList = ['000000', '1AAF42', '007B87', '001D4B', '57C158', 'F4C507', 'E2585A', 'E85FA3', '298FF4', '20c997', '17a2b8','118cf5'];
-    var picker = $('.color-picker');
-
-    for (var i = 0; i < colorList.length; i++) {
-        picker.append('<li class="color-item" data-hex="' + '#' + colorList[i] + '" style="background-color:' + '#' +
-            colorList[i] + ';"></li>');
-    }
-    // $('body').click(function () {
-    //     picker.fadeOut();
-    // });
-    picker.children('li').click(function () {
-        $(this).parent().find(".selected-color").removeClass("selected-color");
-        var codeHex = $(this).data('hex');        
-        $('.color-holder').css('background-color', codeHex);
-        if($('head #primaryFill').length > 0){
-            $('head #primaryFill').remove();            
-        }
-        $("<style id='primaryFill'>:root .body{ --theme-icon-color:"+ codeHex + "!important;}  </style>" ).appendTo( "head" ); // .navbar{ background: "+ codeHex + "!important; }
-        $(this).addClass("selected-color");        
-        document.querySelectorAll('object').forEach(function(e){
-            e.contentDocument && e.contentDocument.querySelectorAll("[class='icon-fill']").forEach(function(f){f.style.fill= codeHex });
-        });
-    });
-}
-
->>>>>>> change
 /* Button Animation Effect Start */
 function buttonRipple(e){
     $(".btn").click(function (e) {
@@ -364,53 +186,3 @@ function matchStart(params, data) {
     // Return `null` if the term should not be displayed
     return null;
 }
-<<<<<<< HEAD
-=======
-
-$(function () {
-    $('.custom_date_picker').datetimepicker(
-        {
-            format: 'DD MMM YYYY',
-            icons: {
-                up: "icon icon-up",
-                down: "icon icon-down",
-                previous: 'icon icon-back',
-                next: 'icon icon-next',
-            }
-        }
-    );
-    $('.custom_month_picker').datetimepicker(
-        {
-            format: 'MMM YYYY',
-            icons: {
-                up: "icon icon-up",
-                down: "icon icon-down",
-                previous: 'icon icon-back',
-                next: 'icon icon-next',
-            }
-        }
-    );
-    $('.custom_year_picker').datetimepicker(
-        {
-            format: 'YYYY',
-            icons: {
-                up: "icon icon-up",
-                down: "icon icon-down",
-                previous: 'icon icon-back',
-                next: 'icon icon-next',
-            }
-        }
-    );
-    $('.custom_time_picker').datetimepicker(
-        {
-            format: 'LT',
-            icons: {
-                up: "icon icon-up",
-                down: "icon icon-down",
-                previous: 'icon icon-back',
-                next: 'icon icon-next',
-            }
-        }
-    );
-});
->>>>>>> change

@@ -42,7 +42,6 @@ namespace CliqueHR.DL
             }
         }
 
-<<<<<<< HEAD
         public List<Entity> GetEntity(string CompanyCode)
         {
             try
@@ -57,8 +56,6 @@ namespace CliqueHR.DL
             }
         }
 
-=======
->>>>>>> change
         public Entity GetEntityById(int Id, string CompanyCode)
         {
             try
@@ -75,11 +72,7 @@ namespace CliqueHR.DL
                         Name = Convert.ToString(dt.Rows[0]["Name"]),
                         Code = Convert.ToString(dt.Rows[0]["Code"]),
                         TypeId = Convert.ToInt32(dt.Rows[0]["TypeId"]),
-<<<<<<< HEAD
                         IncorporationDate = Convert.ToDateTime(dt.Rows[0]["IncorporationDate"]),
-=======
-                        IncorporationDate = Convert.ToString(dt.Rows[0]["IncorporationDate"]),
->>>>>>> change
                         Address = Convert.ToString(dt.Rows[0]["Address"]),
                         CountryId = Convert.ToInt32(dt.Rows[0]["CountryId"]),
                         StateId = Convert.ToInt32(dt.Rows[0]["StateId"]),
