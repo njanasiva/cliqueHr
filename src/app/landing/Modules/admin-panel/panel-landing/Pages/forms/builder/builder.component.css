@@ -1,0 +1,26 @@
+/* ::ng-deep .builder-component .formio-component-submit {
+    visibility: hidden;
+} */
+
+::ng-deep .accordion .btn-primary.formcomponent.drag-copy {
+    background-color: var(--custom)!important;
+    border-color: var(--custom)!important;
+    color: #fff!important;
+}
+
+.bottom-space {
+    margin-bottom: 15px;
+}
+
+.modal-body{
+    height: 61%!important;
+}
+
+::ng-deep.modal-dialog.builder-template {
+    max-width: 80%!important;
+}
+
+
+::ng-deep .modal-body .formio.builder.row.formbuilder{
+    max-height: calc(100vh - 5rem);
+}

@@ -1,0 +1,14 @@
+
+::ng-deep .builder-component .formio-component-submit {
+    visibility: hidden;
+}
+
+::ng-deep .accordion .btn-primary.formcomponent.drag-copy {
+    background-color: var(--custom)!important;
+    border-color: var(--custom)!important;
+    color: #fff!important;
+}
+
+.bottom-space {
+    margin-bottom: 15px;
+}

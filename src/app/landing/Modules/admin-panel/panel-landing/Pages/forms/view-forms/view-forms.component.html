@@ -1,0 +1,32 @@
+<div class="tab-pane fade show active" id="confirmation" role="tabpanel" aria-labelledby="confirmation-tab">
+    <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+      <div class="col-11">
+        <h4 class="mb-0">Form Details</h4>
+      </div>
+      <div class="col-1 text-right">
+        <div class="btn-more ml-auto shadow btn-custom" (click)="OnOpenPopup(0,'Add')"
+             data-tooltip="tooltip" data-placement="top" title="Add Form">
+          <i class="icon icon-plus-symbol h3 mb-0"></i>
+        </div>
+      </div>
+    </div>
+  
+    <div class="form-row">
+      <div class="col-12 table-responsive mb-3">
+        <lib-ui-data-table [Configuration]="formsConfig">
+          <ng-template let-data>
+            <tr>
+              <td class="text-nowrap">
+                <div class="btn-more d-inline-block shadow btn-blue" (click)="OnOpenPopup(data.index,'Edit')"
+                     data-tooltip="tooltip" data-placement="top" title="Edit Form">
+                  <i class="icon icon-edit h3 mb-0"></i>
+                </div>
+              </td>
+              <td class="text-nowrap"> {{data.data.Form}}</td>
+              <td class="text-nowrap"> {{data.data.Descripction}}</td>
+            </tr>
+          </ng-template>
+        </lib-ui-data-table>
+      </div>
+    </div>
+  </div>

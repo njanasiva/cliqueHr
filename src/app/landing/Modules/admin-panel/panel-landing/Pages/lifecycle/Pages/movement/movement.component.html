@@ -1,0 +1,244 @@
+<div class="tab-pane fade show active" id="movement" role="tabpanel" aria-labelledby="movement-tab">
+  <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+    <div class="col-11">
+      <h4 class="mb-0">Movement Reasons</h4>
+    </div>
+    <div class="col-1 text-right">
+      <div class="btn-more ml-auto shadow btn-custom" data-toggle="modal" (click)="OnOpenPopup(0,'Add')" data-target="#addReason"
+           data-tooltip="tooltip" data-placement="top" title="Add Reason">
+        <i class="icon icon-plus-symbol h3 mb-0"></i>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-12 table-responsive mb-3">
+      <lib-ui-data-table [Configuration]="MovementConfig">
+        <ng-template let-data>
+          <tr>
+            <td class="text-nowrap">
+              <div class="btn-more d-inline-block shadow btn-blue" (click)="OnOpenPopup(data.index, 'Edit')" data-tooltip="tooltip"
+                   data-placement="top" title="Edit Movement Reasons Details">
+                <i class="icon icon-edit h3 mb-0"></i>
+              </div>
+            </td>
+            <td class="text-nowrap">{{data.data.MovementReason}}</td>
+            <td class="text-nowrap">{{data.data.MovementField}}</td>
+            <!--<td class="text-nowrap">{{data.data.IsActive === true ? 'Yes' : 'No'}}</td>-->
+          </tr>
+        </ng-template>
+      </lib-ui-data-table>
+    </div>
+  </div>
+
+  <div class="modal fade modal-from top animate__animated animate__slideInDown" id="addReason" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content border-0">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalCenterTitle">{{popupHeading}}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="icon icon-wrong"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row form-fields align-items-center">
+            <div class="col-md-6 mb-3">
+              <label class="h6 mb-1">
+                Reason for Movement
+              </label>
+              <!--<input class="form-control" type="text" value="" placeholder="Enter Reason for Movement">-->
+              <lib-text-box [FormInput]="MovementForm.get('MovementReason')"
+                            [Configuration]="{PlaceHolder:'Enter Reason for Movement'}">
+              </lib-text-box>
+            </div>
+            <div class="col-md-6">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" [(ngModel)]="AllowManagerInitiate" id="initiate" class="custom-control-input"
+                       value="male" checked="">
+                <label class="custom-control-label h5 pl-2" for="initiate">Allow Manager to initiate movement</label>
+              </div>
+            </div>
+
+            <div class="col-md-12 mb-3">
+              <label class="h6 mb-1">
+                Allow enabling of Relocation Expense
+              </label>
+              <div class="form-row align-items-center mt-2">
+                <div class="col-4">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" id="manager" class="custom-control-input"
+                           value="male" checked="">
+                    <label class="custom-control-label h5 pl-2" for="manager">Manager</label>
+                  </div>
+                </div>
+                <div class="col-8">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" id="rholder" class="custom-control-input"
+                           value="male" checked="">
+                    <label class="custom-control-label h5 pl-2" for="rholder">Role holder</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row mt-4">
+            <div class="col-12">
+              <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+                <div class="col-11">
+                  <h4 class="mb-0">Editable Fields</h4>
+                </div>
+                <!-- <div class="col-1 text-right">
+                    <div class="btn-more ml-auto shadow btn-custom" data-toggle="collapse" href="#attributeFilter"
+                        role="button" aria-expanded="false" aria-controls="attributeFilter" data-tooltip="tooltip" title="Attribute Filter">
+                        <i class="icon icon-down h3 mb-0"></i>
+                    </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-row form-fields">
+                <div class="col-md-6 mb-3">
+                  <table class="table table-bordered">
+                    <tr>
+                      <td>Entity</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkentity" class="custom-control-input" id="d6">
+                          <label class="custom-control-label" for="d6"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Org Unit</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkorgunit" class="custom-control-input" id="d7">
+                          <label class="custom-control-label" for="d7"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Department</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkdepatment" class="custom-control-input" id="d8">
+                          <label class="custom-control-label" for="d8"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Primary Location</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkprimilocation" class="custom-control-input" id="d9">
+                          <label class="custom-control-label" for="d9"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Secondary Location</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkseclocation" class="custom-control-input" id="secd9">
+                          <label class="custom-control-label" for="secd9"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Designation</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkdesignation" class="custom-control-input" id="d10">
+                          <label class="custom-control-label" for="d10"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Position</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkposition" class="custom-control-input" id="d11">
+                          <label class="custom-control-label" for="d11"></label>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <table class="table table-bordered">
+                    <tr>
+                      <td>Grade</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkgrade" class="custom-control-input" id="d12">
+                          <label class="custom-control-label" for="d12"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Reporting Manager</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkrepmanager" class="custom-control-input" id="d13">
+                          <label class="custom-control-label" for="d13"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Primary Cost Centre</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkprimicostcentre" class="custom-control-input" id="d14">
+                          <label class="custom-control-label" for="d14"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Secondary Cost Centre</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkseccostcentre" class="custom-control-input" id="secd14">
+                          <label class="custom-control-label" for="secd14"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Functional Manager</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkfuncmanger" class="custom-control-input" id="d15">
+                          <label class="custom-control-label" for="d15"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Dotted Line Manager</td>
+                      <td>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" [(ngModel)]="chkdottedline" class="custom-control-input" id="d16">
+                          <label class="custom-control-label" for="d16"></label>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="d-inline-block mr-5">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" name="donotuse" id="pdnu" class="custom-control-input" value="false">
+              <label class="custom-control-label h5 pl-2" for="rednu">Do Not Use</label>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
+          <button type="button" (click)="OnMovementsOp();" class="btn btn-custom px-4 py-2">
+            {{isAddMode? 'Add' : 'Edit'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

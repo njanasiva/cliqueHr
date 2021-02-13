@@ -1,0 +1,14 @@
+<div class="tab-pane fade show active" *ngIf="visible" id="confirmation" role="tabpanel" aria-labelledby="confirmation-tab">
+    <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+        <h4>Form Rendering - Value submission</h4>
+        <div class="col-12">
+            <formio [form]="form" (submit)="onSubmit($event)"></formio>
+        </div>
+    </div>
+    <div class="form-row align-items-end mb-3 pb-3 border-bottom">
+        <h4>Form Rendering - Data Binding</h4>
+        <div class="col-12">
+            <formio [form]="form" [submission]="submission" (submit)="onSubmit($event)"></formio>
+        </div>
+    </div>
+</div>

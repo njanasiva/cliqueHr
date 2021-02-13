@@ -1,0 +1,8 @@
+::ng-deep .formio-form .formio-component.formio-component-submit {
+    visibility:hidden;
+}
+
+::ng-deep .body .modal-from.top .modal-dialog.view-dialog {
+    margin-right: 26%;
+    margin-top: 5px;
+}

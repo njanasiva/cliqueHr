@@ -1,0 +1,27 @@
+<div>
+    <label class="h6 mb-1">{{PlaceHolderText}}</label>
+    <div class="tree-dropdown-main tree-multiselect">
+        <div data-toggle="collapse" (click)="toggleDdl($event)">
+            <span class="form-control" type="text"> Entity Group - 1 </span>
+            <div class="tree-dropdown-arrow"><i class="icon icon-down mr-2"></i></div>
+        </div>
+        <ul class="tree-dropdown collapse" id="link" [ngStyle]="{'display': multiDdOpen ? 'block' : 'none'}">
+            <li class="mt-0">
+                <input class="form-control" type="text" placeholder="Search" [(ngModel)]="filter.Text">
+            </li>
+            <li *ngFor="let item of _dropdownContainter;  let oIndex = index; trackBy: trackByIndex">
+                <a data-toggle="collapse" href="#{{item.ControlId}}"
+                    style="text-decoration:none; cursor:pointer; color:black !important"><i
+                        class="icon icon-down mr-2"></i> {{item.OptionType}} </a>
+                <ul class="collapse" [id]="item.ControlId">
+                    <li *ngFor="let items of item.Data | uiFilter:filter">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" [(ngModel)]="items.isCheckBoxSelected" (ngModelChange)="modelChanged(items, item.OptionType)"  value="{{ items.Value }}" id="{{ item.ControlId + items.Value }}">
+                            <label class="custom-control-label" for="{{ item.ControlId + items.Value }}">{{ items.Text }}</label>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
