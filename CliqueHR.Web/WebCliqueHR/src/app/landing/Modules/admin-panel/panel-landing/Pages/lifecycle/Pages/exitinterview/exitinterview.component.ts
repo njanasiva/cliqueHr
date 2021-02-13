@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, AfterViewInit, ViewContainerRef, ChangeDetectorRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, AfterViewInit, ViewContainerRef, ChangeDetectorRef, ViewChildren, QueryList,EventEmitter,ElementRef } from '@angular/core';
 import { UiDataTableConfig, SortType, UiMultiselectData, UiMultiSelectOptions, UiMultiSelectOutPut } from 'projects/clique-hrui/src/lib/ui-models';
 import { UiDataTableComponent } from 'projects/clique-hrui/src/lib/ui-data-table/ui-data-table.component';
 import { CommonService } from 'src/app/landing/Modules/common.service';
@@ -12,6 +12,8 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UiSweetAlertService } from 'projects/clique-hrui/src/public-api';
 import { ValidationBuilder } from 'src/Application/Utilitis/ApplicationUtility';
+import { FormioRefreshValue } from '@formio/angular';
+import { FormsService } from 'src/app/landing/Modules/admin-panel/admin-panel-services/forms.service';
 
 
 @Component({
@@ -51,9 +53,13 @@ export class ExitinterviewComponent extends WebComponents.ApplicationComponent i
   public dropDown1 = new Array<UiMultiselectData>();
   public validationMassages = ValidationMessage.data;
   public popupHeading: string = '';
-
+  public formList: any;
+  formId: any;
+  public form: Object;
+  public refreshForm: EventEmitter<FormioRefreshValue> = new EventEmitter();
   public ExitInterviewForm: FormGroup;
   public isAddMode: boolean = true;
+  @ViewChild('json', {static: true}) jsonElement?: ElementRef;
 
   public ExtinterviewConfig: UiDataTableConfig = {
     Columns: [
@@ -76,6 +82,7 @@ export class ExitinterviewComponent extends WebComponents.ApplicationComponent i
     protected changeDetection: ChangeDetectorRef,
     protected viewContainerRef: ViewContainerRef,
     private fb: FormBuilder,
+    private formService: FormsService,
     private commonService: CommonService,
     private LifeCycleService: LifeCycleService,
     private uiSweetAlertService: UiSweetAlertService
@@ -88,7 +95,36 @@ export class ExitinterviewComponent extends WebComponents.ApplicationComponent i
 
   ngOnInit() {
     this.filter.Text = '';
+    this.getFormList();
     this.CreateExitInterviewDetail();
+  }
+  openFormView() {
+    if(typeof this.formId != 'undefined'){
+      const i = parseInt(this.formId);
+      this.form = JSON.parse(this.formList[i].Data);
+      this.OpenModelPopup("#formView");
+      console.log(this.form,"test");
+    }
+  }
+  getFormList() {
+    let paginationModel: any = {
+      UserId: 1,
+      StartRow: 1,
+      EndRow: 100,
+      SearchText: '',
+      ActionId: 3,
+      FormId: 0,
+      NoofData: 100
+    }
+    this.formService.FormDetails(paginationModel).subscribe(
+      (data: any) => {
+        this.formList = data.Data;
+        console.log('dsdsdss', this.formList)
+      });
+  }
+
+  openForm(value) {
+    this.formId = value;
   }
   keyPress(event){
     console.log(event, "click");
@@ -183,6 +219,7 @@ export class ExitinterviewComponent extends WebComponents.ApplicationComponent i
     }
     this.LifeCycleService.GetConfirmationMasterList(paginationModel).subscribe(
       (data: any) => {
+        
         if (data && data != undefined) {
           if (data.EmployeeGroup) {
             this.employeegroup = data.EmployeeGroup;
@@ -201,6 +238,7 @@ export class ExitinterviewComponent extends WebComponents.ApplicationComponent i
           }
           if (data.AssessmentForm) {
             this.assessmentForm = data.AssessmentForm;
+            console.log(this.assessmentForm,"this.assessmentForm")
           }
           if (data.SeparationType) {
             this.separationtypename = data.SeparationType
@@ -448,7 +486,14 @@ export class ExitinterviewComponent extends WebComponents.ApplicationComponent i
   public OnClosePopup(PopUpID: string) {
     this.CloseModelPopup(PopUpID);
   }
-
+  onChange(event) {
+    this.jsonElement.nativeElement.innerHTML = '';
+    this.jsonElement.nativeElement.appendChild(document.createTextNode(JSON.stringify(event.form, null, 4)));
+    this.refreshForm.emit({
+      property: 'form',
+      value: event.form
+    });
+  }
   public OnExitInterviewDetailsOp() {
     this.ShowLoader();
     try {

@@ -68,7 +68,7 @@
               <label class="h6 mb-1">
                 Approval Path Name
               </label>
-              <input class="form-control"  type="text" [formControl]="WorkFlowForm.get('ApprovalPathName')" placeholder="Enter Approval Path Name...">
+              <input class="form-control"  type="text" [formControl]="WorkFlowForm.get('ApprovalPathName')" (keypress)="keyPress($event)" placeholder="Enter Approval Path Name...">
             </div>
             <div class="col-md-3 mb-3">
               <label class="h6 mb-1">

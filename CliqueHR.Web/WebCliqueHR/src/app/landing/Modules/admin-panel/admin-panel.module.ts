@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PanelLandingComponent } from './panel-landing/panel-landing.component';
 import { AdminPanelRouteModule } from './admin-panel-route/admin-panel-route.module';
@@ -93,6 +93,7 @@ import { SurveyComponent } from './panel-landing/Pages/engagement/Pages/survey/s
     CommonService,
     LifeCycleService,
     EngagementService
-  ]
+  ], 
+  schemas:[NO_ERRORS_SCHEMA]
 })
 export class AdminPanelModule { }

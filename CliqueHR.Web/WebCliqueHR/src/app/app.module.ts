@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule, /* other http imports */ } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CliqueHRInterceptorService } from 'src/Application/Services/clique-hrinterceptor.service';
@@ -14,6 +14,7 @@ import { ɵb,ɵi,ɵf,ɵg,ɵa,ɵe,ɵd,ɵh,ɵc } from 'ng2-date-picker';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     DpDatePickerModule
   ],

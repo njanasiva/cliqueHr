@@ -327,7 +327,14 @@ export class WorkflowComponent extends WebComponents.ApplicationComponent implem
   public OnClosePopup(PopUpID: string) {
     this.CloseModelPopup(PopUpID);
   }
-
+  keyPress(event){
+    // console.log(event, "click");
+    const key = event.keyCode;
+    console.log(key);
+    if (key >= 15 && key <= 64) {
+      event.preventDefault();
+    }
+  }
   SaveWorkFlow() {
     let data = [];
     this.userDefinedData.forEach(element => {
@@ -363,6 +370,7 @@ export class WorkflowComponent extends WebComponents.ApplicationComponent implem
     }
     this.LifeCycleService.GetConfirmationMasterList(paginationModel).subscribe(
       (data: any) => {
+        console.log(data,"datass");
         if (data && data != undefined) {
           console.log(data,"data");
           if (data.SeparationType) {

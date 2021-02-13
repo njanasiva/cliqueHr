@@ -98,7 +98,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-12 mb-3">
+            <!-- <div class="col-md-12 mb-3">
               <label class="h6 mb-1">Select Form</label>
               <div class="form-row">
                 <div class="col-md-4">
@@ -109,6 +109,23 @@
                   </select>
                 </div>
                 <div class="col-md-1" data-toggle="modal" data-target="#formDemo">
+                  <i class="icon icon-visibility h4 mb-0 cursor-pointer"></i>
+                </div>
+              </div>
+            </div> -->
+            <div class="col-md-12 mb-3">
+              <label class="h6 mb-1">Select Form</label>
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <select class="form-control" onfocus='this.size=10;' onblur='this.size=1;' (change)="openForm($event.target.value)"
+                  onchange='this.size=1; this.blur();'>
+                    <option selected>Select...</option>
+                    <option [value]="i" *ngFor="let form of formList; index as i">
+                      {{ form.Form }}
+                    </option>
+                  </select>
+                </div>
+               <div class="col-md-1" (click)="openFormView()">
                   <i class="icon icon-visibility h4 mb-0 cursor-pointer"></i>
                 </div>
               </div>
@@ -198,17 +215,20 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="formDemo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
+<div class="modal fade modal-from top animate__animated animate__slideInDown" id="formView" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable view-dialog" role="document">
+    <div class="modal-content border-0">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalCenterTitle">Form Preview</h4>
+        <h4 class="modal-title" id="exampleModalCenterTitle">{{formId ? formList[formId].Form : ''}}</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <i class="icon icon-wrong"></i>
         </button>
       </div>
-      <div class="modal-body m-auto">
-        <img src="assets/images/form-demo.png">
+      <div class="modal-body">
+        <formio [form]="form"></formio>
+        <!-- <h4>{{[form]}}</h4> -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-custom px-4 py-2" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>

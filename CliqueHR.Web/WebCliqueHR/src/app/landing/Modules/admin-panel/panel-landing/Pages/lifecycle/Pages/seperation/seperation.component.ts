@@ -547,6 +547,8 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
           _orgData.push(_orgUnit);
           _orgData.push(_department);
           this.orgEntityDepartment = _orgData;
+        console.log(this.orgEntityDepartment,"logdata");
+          
         }
         console.log(data);
       },
@@ -569,6 +571,8 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
   onItemSelect1(item: Array<UiMultiSelectOptions>) {
     console.log(item);
     this.orgEntityDepartment = item;
+    console.log(this.orgEntityDepartment,"onItemSelect1");
+
   }
 
   onItemSelect(item: UiMultiSelectOutPut, data: string) {
@@ -834,7 +838,8 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
       this.setSelectedValues(orgData, 'Org Unit');
       this.setSelectedValues(departmentData, 'Department');
       this.selectedOrgEntityDepartment = this.orgEntityDepartment;
-
+      console.log(this.orgEntityDepartment,"this.orgEntityDepartment");
+      
       this.NoticePeriodDetailForm.patchValue(this.NoticePeriodDetailArrayList[index]);
 
     }
@@ -856,6 +861,7 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     return dropdownData;
   }
   private getSelectedValues(option: string) {
+    console.log(this.orgEntityDepartment,"getselected");
     let selectedOrgValues = this.orgEntityDepartment.filter(item => item.OptionType == option);
     let selectedArray = [];
     selectedOrgValues.forEach(items => {
@@ -870,6 +876,7 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
   private setSelectedValues(data: string, option: string) {
     if (data && data != '') {
       let arrayData = data.split(',');
+    console.log(this.orgEntityDepartment,"setselect");
       this.orgEntityDepartment.forEach(item => {
         if (item.OptionType == option) {
           item.Data.forEach(items => {
@@ -888,6 +895,7 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
     }
     else {
       this.orgEntityDepartment.forEach(item => {
+    console.log(this.orgEntityDepartment,"dropdown1");
         if (item.OptionType == option) {
           item.Data.forEach(items => {
             items.isCheckBoxSelected = false;
@@ -1029,6 +1037,7 @@ export class SeperationComponent extends WebComponents.ApplicationComponent impl
   }
 
   private clearNoticePeriodDetails() {
+    // console.log(this.orgEntityDepartment,"dropdown");
     this.orgEntityDepartment.forEach(item => {
       item.Data.forEach(items => {
         items.isCheckBoxSelected = false;
